@@ -1,3 +1,51 @@
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color:#F1F9FF;
+}
+
+
+@media (min-width: 1200px) {
+.container {
+    max-width: 1100px;
+}
+}
+
+.btn {
+  background-color:#CD2324;
+  color:white;
+  text-transform:uppercase;
+  font-size:0.7rem !important;
+  font-weight:bold;
+}
+
+.card-wrapper .card .card-inner {
+  border-top-width:0 !important;
+}
+
+.oeblredcard.card .card-inner {
+  color:white;
+  background-color:#CD2324;
+}
+
+.oeblredcard .btn {
+  background-color:white;
+  color:black;
+}
+
+.card-wrapper .card .card-inner .entry-content p {
+  color:black;
+  font-weight:bold;
+  font-size:0.8rem;
+}
+
+.card-wrapper .oeblredcard.card .card-inner .entry-content p {
+  color:white;
+}
+
+
 abbr[title] {
   text-decoration: none;
 }
@@ -55,13 +103,12 @@ abbr[title] {
   font-size: 18px;
 }
 nav.navbar {
-  background-color: #fff;
+  background-color: #CD2324;
+  padding:0.5rem;
+  border-bottom:none;
+  text-transform:uppercase;
 }
-.navbar-brand {
-  font-family: 'Work Sans', sans-serif;
-  font-size: 33px;
-  padding-top: 10px;
-}
+
 @media (max-width: 767px) {
   .navbar-brand {
     font-size: 26px;
@@ -72,19 +119,45 @@ nav.navbar {
     font-size: 20px;
   }
 }
-.navbar-brand .darkerBlue {
-  color: #004077;
-}
-.navbar-brand .lighterBlue {
-  color: #82BDD6;
-}
-.navbar-brand a {
-  border-bottom: 4px double lightblue;
-  text-decoration: none;
-}
+
 .navbar-nav.navbar-right:last-child {
   margin-right: 0;
 }
+
+.navbar-dark .navbar-nav .nav-link {
+  color:white;
+  font-size: 0.8rem;
+}
+
+.navbar .navbar-brand img {
+  height: 2rem;
+  max-height: unset;
+}
+
+#logo img {
+  width: 80%;
+}
+
+#wrapper-hero-content::after {
+  background:unset;
+}
+
+#wrapper-hero-inner h1, #wrapper-hero-inner p {
+  width:50%;
+}
+
+#wrapper-hero-inner h1 {
+  font-weight:600;
+  font-size:2rem;
+}
+
+#wrapper-hero-inner p {
+  font-weight:bold;
+  font-size:0.8rem;
+}
+
+
+
 .startPageSearch,
 .startPagePreviews {
   margin-top: 70px;
@@ -370,12 +443,6 @@ li.facet-item.active {
 #collapse-facet-f_rel {
   display: none;
 }
-#logo {
-  background-color: #fff;
-}
-#logo img {
-  margin-top: 11px;
-}
 .nav-pills li a {
   padding: 5px 7px;
   color: #999;
@@ -558,10 +625,8 @@ h4.subHeading {
   right: 0;
 }
 .wrapper {
-  min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -50px;
   /* the bottom margin is the negative value of the footer's height*/
 }
 .footer {

@@ -3,21 +3,32 @@
 
 {% block content %}
 
-<main>
-    <div id="staticImage" class="hidden-xs" style="background-image: url('https://www.oeaw.ac.at/fileadmin/publicrelations/image/2018/006large.jpg')">
 
-        <div class="bgImage">
-          <a class="copyright" href="https://www.oeaw.ac.at/" target="_blank">Ausschnitt der Fassade des Hauptgebäudes der Österreichischen Akademie der Wissenschaften in Wien © ÖAW</a>
-        </div>
-        <div class="text">
-          <h1>Österreichisches Biographisches Lexikon</h1>
-          <h2>1815–1950</h2>
-          <p>Das „Österreichische Biographische Lexikon 1815–1950“ erfasst bedeutende Persönlichkeiten, die im jeweiligen österreichischen Staatsverband bzw. in der österreichisch-ungarischen Monarchie geboren wurden, gelebt oder gewirkt haben und zwischen 1815 und 1950 verstorben sind.</p>
-        </div>
+<div class="wrapper" id="wrapper-hero">
+
+
+
+  <!-- ******************* The Hero Area ******************* -->
+  <div class="wrapper" id="wrapper-hero-content"
+    style="background-image:url({%static 'theme/img/project-title-img.jpg' %})">
+    <div class="container hero-light" id="wrapper-hero-inner" tabindex="-1">
+
+
+      <div>
+
+        <h1>Österreichisches Biographisches Lexikon</h1>
+        <p>Das „Österreichische Biographische Lexikon 1815–1950“ erfasst bedeutende Persönlichkeiten, die im jeweiligen
+          österreichischen Staatsverband bzw. in der österreichisch-ungarischen Monarchie geboren wurden, gelebt oder
+          gewirkt haben und zwischen 1815 und 1950 verstorben sind.</p>
       </div>
 
+    </div><!-- #wrapper-hero-content -->
+  </div>
 
-      <div class="container startPageSearch">
+
+
+
+  <!-- <div class="container startPageSearch">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="NOT WORKING YET" aria-label="NOT WORKING YET" aria-describedby="basic-addon2">
             <div class="input-group-append">
@@ -26,47 +37,62 @@
                 </button>
             </div>
         </div>
-      </div>
-
-
-      <div class="container startPagePreviews">
-        <div class="row">
-
-          <div class="col">
-            <div class="thumbnail previewMap">
-              <a href="#"><i data-feather="map" style="width:80px; height:80px"></i></a>
-              <div class="caption">
-                <h2>Kartensuche</h2>
-                <p>Finden Sie Personen über deren Wirkungs-, Geburts- oder Sterbeorte.</p>
-                <p><a href="#" class="btn btn-primary" role="button">Zur Kartensuche</a></p>
-              </div>
+      </div>-->
+  <div class="wrapper" id="index-wrapper">
+    <div class="container" id="content" tabindex="-1">
+      <div class="row">
+        <!-- Do the left sidebar check and opens the primary div -->
+        <div class="col-md-12 content-area" id="primary">
+          <main class="site-main" id="main">
+            <div class="card-wrapper">
+              <!-- #post-## -->
+              <article class="card col-md-6 flat-style">
+                <div class="card-inner card-vertical" style="min-height:420px;">
+                  <div class="entry-text-content">
+                    <header class="entry-header">
+                      <h4 class="entry-title">
+                        <img src="{%static 'theme/img/oebl_person_red.svg' %}" />
+                      </h4>
+                    </header>
+                    <!-- .entry-header -->
+                    <div class="entry-content">
+                      <p>Einstieg in das Tagebuch über das Personenregister mit über 8.500 nachgewiesenen Personen und
+                        ihrem
+                        Vorkommen.</p>
+                      <a class="btn btn-round mb-1" href="persons.html">Mehr lesen</a>
+                    </div>
+                    <!-- .entry-content -->
+                  </div>
+                  <!-- .entry-text-content -->
+                </div>
+                <!-- .card-inner -->
+              </article>
+              <!-- #post-## -->
+              <article class="card col-md-6 flat-style oeblredcard">
+                <div class="card-inner card-vertical" style="min-height:420px;">
+                  <div class="entry-text-content">
+                    <header class="entry-header">
+                      <h4 class="entry-title">
+                        <img src="{%static 'theme/img/oebl_person_white.svg' %}" />
+                      </h4>
+                    </header>
+                    <!-- .entry-header -->
+                    <div class="entry-content">
+                      <p>Zugang zum Tagebuch mittels 2.200 Orten, die auch über ihre Koordinaten erschlossen sind.</p>
+                      <a class="btn btn-round mb-1" href="places.html">Mehr lesen</a>
+                    </div>
+                    <!-- .entry-content -->
+                  </div>
+                  <!-- .entry-text-content -->
+                </div>
+                <!-- .card-inner -->
+              </article>
+              <!-- #post-## -->
             </div>
-          </div>
-
-          <div class="col">
-            <div class="thumbnail">
-              <a href="{% url 'theme:expert-search' %}"><i data-feather="search" style="width:80px; height:80px"></i></a>
-              <div class="caption">
-                <h2>Erweiterte Suche</h2>
-                <p>Nutzen Sie detaillierte Suchmöglichkeiten über die Einträge in der gesamten Datenbank sowie in den Volltexte des ÖBLs.</p>
-                <p><a href="{% url 'theme:expert-search' %}" class="btn btn-primary" role="button">Zur erweiterten Suche</a></p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="thumbnail">
-              <a href="{% url 'theme:about' %}"><i data-feather="info" style="width:80px; height:80px"></i></a>
-              <div class="caption">
-                <h2>Über das Projekt</h2>
-
-                <p>Erfahren Sie mehr über ÖBL.</p>
-                <p><a href="{% url 'theme:about' %}" class="btn btn-primary" role="button">Mehr erfahren</a>
-                </p>
-              </div>
-            </div>
-          </div>
-
+          </main>
         </div>
-    </main>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
