@@ -1,0 +1,72 @@
+{% extends "theme/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<main>
+    <div id="staticImage" class="hidden-xs" style="background-image: url('https://www.oeaw.ac.at/fileadmin/publicrelations/image/2018/006large.jpg')">
+
+        <div class="bgImage">
+          <a class="copyright" href="https://www.oeaw.ac.at/" target="_blank">Ausschnitt der Fassade des Hauptgebäudes der Österreichischen Akademie der Wissenschaften in Wien © ÖAW</a>
+        </div>
+        <div class="text">
+          <h1>Österreichisches Biographisches Lexikon</h1>
+          <h2>1815–1950</h2>
+          <p>Das „Österreichische Biographische Lexikon 1815–1950“ erfasst bedeutende Persönlichkeiten, die im jeweiligen österreichischen Staatsverband bzw. in der österreichisch-ungarischen Monarchie geboren wurden, gelebt oder gewirkt haben und zwischen 1815 und 1950 verstorben sind.</p>
+        </div>
+      </div>
+
+
+      <div class="container startPageSearch">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="NOT WORKING YET" aria-label="NOT WORKING YET" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">
+                    <i data-feather="search" style="width: 20px; height: 20px;"></i>
+                </button>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="container startPagePreviews">
+        <div class="row">
+
+          <div class="col">
+            <div class="thumbnail previewMap">
+              <a href="#"><i data-feather="map" style="width:80px; height:80px"></i></a>
+              <div class="caption">
+                <h2>Kartensuche</h2>
+                <p>Finden Sie Personen über deren Wirkungs-, Geburts- oder Sterbeorte.</p>
+                <p><a href="#" class="btn btn-primary" role="button">Zur Kartensuche</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="thumbnail">
+              <a href="{% url 'theme:expert-search' %}"><i data-feather="search" style="width:80px; height:80px"></i></a>
+              <div class="caption">
+                <h2>Erweiterte Suche</h2>
+                <p>Nutzen Sie detaillierte Suchmöglichkeiten über die Einträge in der gesamten Datenbank sowie in den Volltexte des ÖBLs.</p>
+                <p><a href="{% url 'theme:expert-search' %}" class="btn btn-primary" role="button">Zur erweiterten Suche</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="thumbnail">
+              <a href="{% url 'theme:about' %}"><i data-feather="info" style="width:80px; height:80px"></i></a>
+              <div class="caption">
+                <h2>Über das Projekt</h2>
+
+                <p>Erfahren Sie mehr über ÖBL.</p>
+                <p><a href="{% url 'theme:about' %}" class="btn btn-primary" role="button">Mehr erfahren</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </main>
+{% endblock %}
