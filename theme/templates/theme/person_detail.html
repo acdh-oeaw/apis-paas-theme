@@ -3,30 +3,44 @@
 {% load webpage_extras %}
 {% block title %}{{ object }}{% endblock %}
 {% block content %}
-<div id="contentDetails" class="container">
-    <div class="page-header">
-        <!-- Überschrift -->
-        <h1 id="headingIndex" class="possibleHeading hidden">{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h1>
-        <div id="headingNdb" class="possibleHeading">
-
-            <h1 class='persName'>
+<div id="contentDetails" class="container pt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                            <article class="card col-md-12 flat-style">
+           
+        <div class="entry-header pt-3">
+            <div class="row justify-content-between">
+                <div class="col">   
                 {% if prev.id %}
-                    <a href="{% url 'theme:person-detail' pk=prev.id %}" title="{{ prev }}">
+                    <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}" title="{{ prev }}">
                         <i data-feather="chevron-left" title="previous"></i>
                     </a>
-                {% endif %}
-                {{ object.name}}{%if object.first_name %}, <span class="italics">{{ object.first_name}}</span>{% endif %}
-                {% if next.id %}
-                <a href="{% url 'theme:person-detail' pk=next.id %}" style="float:right" title="{{ next }}">
-                    <i data-feather="chevron-right" title="next"></i>
-                </a>
-                {% endif %}
-            </h1>
-
-            <p>
-                {% for x in object.profession.all %} {{x.name }} {% endfor %}, <abbr title='geboren'>*</abbr> {{object.start_date_written }}, <abbr title='gestorben'>†</abbr>{{object.end_date_written }}</p>
-        </div>
-        <h1 id="headingAdb" class="possibleHeading hidden">Ladeuberg, Adalbert von</h1>
+                    {% endif %}
+                </div>
+                    
+                <div class="col">
+                        {% if next.id %}
+                    <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}" style="float:right" title="{{ next }}">
+                            <i data-feather="chevron-right" title="next"></i>
+                        </a>
+                        {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col pt-2">
+           
+               
+                <h2 class="pl-4">{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
+                <p class="pl-4"> {% for x in object.profession.all %} {{x.name }} {% endfor %}, <abbr title='geboren'>*</abbr> {{object.start_date_written }}, <abbr title='gestorben'>†</abbr>{{object.end_date_written }}</p></p>
+            </div>
+                </div>
+            </div>
+        <div class="card-body pt-2">
+               <p>{{ main_text }}</p>
+            </div>
+    </div>
+    <div class="page-header">
+        <!-- Überschrift -->
 
 
         <ul class="nav nav-pills" id="detail-tab">
@@ -58,12 +72,6 @@
     <div class="row">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Leben</h4>
-                </div>
-                <div class="card-body">
-                    {{ main_text }}
-                </div>
                 <div class="card-body">
                     <legend>
                         Orte
@@ -84,8 +92,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
+    </article>
+</div></div>
 </div>
 
 

@@ -3,14 +3,39 @@ html {
 }
 
 body {
-  background-color:#F1F9FF;
+  background-color:#f0f0f7;
 }
 
+p {
+  font-weight:bold;
+  font-size:0.8rem;
+  line-height:1.2rem;
+}
+
+h3 {
+  text-transform: uppercase;
+  font-size:1.2rem;
+  font-weight:bold;
+}
+
+h6 {
+  text-transform: uppercase;
+  font-size:0.8rem;
+  font-weight:bold;
+}
 
 @media (min-width: 1200px) {
 .container {
     max-width: 1100px;
 }
+}
+
+#index-wrapper-white {
+  background:white;
+}
+
+.sectionheader {
+  text-align:center;
 }
 
 .btn {
@@ -21,8 +46,14 @@ body {
   font-weight:bold;
 }
 
+
 .card-wrapper .card .card-inner {
-  border-top-width:0 !important;
+  border-top-color:#CCC !important;
+  border-top-width:1px !important;
+}
+
+.basecard.card .card-inner {
+  background:#f0f0f7;
 }
 
 .oeblredcard.card .card-inner {
@@ -33,6 +64,16 @@ body {
 .oeblredcard .btn {
   background-color:white;
   color:black;
+}
+
+.entry-header h5 {
+  font-weight:bold;
+  font-size:1.2rem;
+}
+
+.entry-header .profession,.entry-header .startend {
+  font-size:0.8rem;
+  font-weight:bold;
 }
 
 .card-wrapper .card .card-inner .entry-content p {
@@ -610,6 +651,28 @@ h4.subHeading {
   color: #999;
   cursor: default;
 }
+
+.footer {
+  background:#CD2324;
+  color:white;
+}
+
+.footermenu {
+  text-align:center;
+}
+
+footer .logocaption {
+  font-size:0.8rem;
+  line-height:0.9rem;
+}
+
+.footermenu ul{
+  list-style-type:none;
+  font-size:0.8rem;
+  text-transform:uppercase;
+  font-weight:bold;
+}
+
 .footer-list {
   background-color: #e6eef8;
   color: #001D5C !important;
@@ -670,6 +733,16 @@ h4.subHeading {
   float: right;
   display: inline;
 }
+
+#oeawfooter {
+  background:#333;
+}
+
+#oeawfooter p {
+  font-size:0.6rem;
+  font-weight:normal;
+}
+
 .dbhide {
   display: none;
 }
@@ -723,6 +796,27 @@ ul.dropdown-menu-form {
   margin-top: 0;
   margin-bottom: 0;
 }
+
+#contentDetails {
+  font-weight:bold;
+}
+
+#contentDetails .card-body {
+  -webkit-column-count: 3; /* Old Chrome, Safari and Opera */
+  -moz-column-count: 3; /* Old Firefox */
+  column-count: 3;
+  -webkit-column-gap: 3rem; /* Old Chrome, Safari and Opera */
+  -moz-column-gap: 3rem; /* Old Firefox */
+  column-gap: 3rem;
+  font-size: 0.8rem;
+}
+
+#contentDetails .preventity, #contentDetails .nextentity {
+ width:24px;
+}
+
+#contentDetails svg.feather {width:24px;height:24px;}
+
 #contentDetails > div > .panel-default {
   border: 1px solid #AEC8EA;
 }

@@ -42,57 +42,34 @@
     <div class="container" id="content" tabindex="-1">
       <div class="row">
         <!-- Do the left sidebar check and opens the primary div -->
-        <div class="col-md-12 content-area" id="primary">
-          <main class="site-main" id="main">
-            <div class="card-wrapper">
-              <!-- #post-## -->
-              <article class="card col-md-6 flat-style">
-                <div class="card-inner card-vertical" style="min-height:420px;">
-                  <div class="entry-text-content">
-                    <header class="entry-header">
-                      <h4 class="entry-title">
-                        <img src="{%static 'theme/img/oebl_person_red.svg' %}" />
-                      </h4>
-                    </header>
-                    <!-- .entry-header -->
-                    <div class="entry-content">
-                      <p>Einstieg in das Tagebuch über das Personenregister mit über 8.500 nachgewiesenen Personen und
-                        ihrem
-                        Vorkommen.</p>
-                      <a class="btn btn-round mb-1" href="persons.html">Mehr lesen</a>
-                    </div>
-                    <!-- .entry-content -->
-                  </div>
-                  <!-- .entry-text-content -->
-                </div>
-                <!-- .card-inner -->
-              </article>
-              <!-- #post-## -->
-              <article class="card col-md-6 flat-style oeblredcard">
-                <div class="card-inner card-vertical" style="min-height:420px;">
-                  <div class="entry-text-content">
-                    <header class="entry-header">
-                      <h4 class="entry-title">
-                        <img src="{%static 'theme/img/oebl_person_white.svg' %}" />
-                      </h4>
-                    </header>
-                    <!-- .entry-header -->
-                    <div class="entry-content">
-                      <p>Zugang zum Tagebuch mittels 2.200 Orten, die auch über ihre Koordinaten erschlossen sind.</p>
-                      <a class="btn btn-round mb-1" href="places.html">Mehr lesen</a>
-                    </div>
-                    <!-- .entry-content -->
-                  </div>
-                  <!-- .entry-text-content -->
-                </div>
-                <!-- .card-inner -->
-              </article>
-              <!-- #post-## -->
-            </div>
-          </main>
+        <div class="col-md-12 content-area" id="primary">   
+            {% include "theme/random_entries.html" %}     
+           {%if randombornthisday or randomdiedthisday%}
+            {% include "theme/thisday.html" %}         
+            {%endif%}
         </div>
       </div>
     </div>
   </div>
+  <div class="wrapper" id="index-wrapper-white">
+      <div class="container" id="content" tabindex="-1">
+        <div class="row">
+          <!-- Do the left sidebar check and opens the primary div -->
+          <div class="col-md-12 content-area" id="primary">       
+                {% include "theme/access.html" %} 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper" id="stats-wrapper">
+        <div class="container" id="content" tabindex="-1">
+          <div class="row">
+            <!-- Do the left sidebar check and opens the primary div -->
+            <div class="col-md-12 content-area" id="primary">
+                  {% include "theme/stats.html" %} 
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 {% endblock %}

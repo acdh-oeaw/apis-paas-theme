@@ -1,4 +1,7 @@
 import requests
+import datetime
+import random
+import copy
 
 from django.views.generic import TemplateView
 
@@ -31,8 +34,28 @@ class ImprintView(TemplateView):
 
 
 class IndexView(TemplateView):
+    model = Person
     template_name = 'theme/index.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        peoplebornthisday = self.model.objects.filter(start_date__day = datetime.datetime.now().day,start_date__month = datetime.datetime.now().month)
+        peoplediedthisday = self.model.objects.filter(end_date__day = datetime.datetime.now().day,end_date__month = datetime.datetime.now().month)
+        randompersonbornthisday = random.choice(peoplebornthisday)
+        randompersondiedthisday = random.choice(peoplediedthisday)
+        setattr(randompersonbornthisday,'desc',randompersonbornthisday.text.all()[0].text)
+        setattr(randompersondiedthisday,'desc',randompersondiedthisday.text.all()[0].text)
+        randomentries = random.sample(list(self.model.objects.all()),2)
 
+        for randomentry in randomentries:
+            setattr( randomentry,'desc', randomentry.text.all()[0].text)
+
+        context['randomentries'] = randomentries
+        context['randombornthisday'] = randompersonbornthisday
+        context['randomdiedthisday'] = randompersondiedthisday
+        context['randombornthisday_desc'] = context['randombornthisday'].text.all()[0].text
+        context['randomdiedthisday_desc'] = context['randomdiedthisday'].text.all()[0].text
+
+        return context
 
 class AboutView(TemplateView):
     template_name = 'theme/about.html'
@@ -71,3 +94,5 @@ class PersonDetailView(DetailView):
         context['main_text'] = main_text
 
         return context
+
+
