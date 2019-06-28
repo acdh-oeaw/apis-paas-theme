@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name="start"),
     url(r'^imprint/$', views.ImprintView.as_view(), name='imprint'),
     url(r'^about/$', views.AboutView.as_view(), name='about'),
+    url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^expert-search/$', views.PersonListView.as_view(), name='expert-search'),
     url(
         r'^person/(?P<pk>[0-9]+)$',

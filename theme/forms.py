@@ -4,6 +4,14 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,  Layout, Fieldset, Div, MultiField, HTML
 from crispy_forms.bootstrap import Accordion, AccordionGroup
 
+from apis_core.apis_entities.models import Person
+
+
+class PersonSearchForm(forms.Form):
+    search_field = forms.ChoiceField(widget=autocomplete.Select2ListView(
+        url='theme:obel-person-autocomplete')
+    )
+
 
 class PersonFilterFormHelper(FormHelper):
     def __init__(self, *args, **kwargs):
