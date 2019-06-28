@@ -21,4 +21,8 @@ urlpatterns = [
         r'^ac/obel-person/$', dal_views.OeblPersons.as_view(),
         name='obel-person-autocomplete',
     ),
+    url(
+        r'^ac/obel-professions/$', dal_views.ProfessionAC.as_view(),
+        name='obel-professions-autocomplete',
+    ),
 ]

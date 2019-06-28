@@ -23,26 +23,24 @@ class PersonFilterFormHelper(FormHelper):
         self.add_input(Submit('Filter', 'Search'))
         self.layout = Layout(
             Fieldset(
-                'Basic search options',
+                '',
+                'id',
                 'name',
-                'forename',
-                'written_name',
+                'first_name',
                 css_id="basic_search_fields"
                 ),
             Accordion(
                 AccordionGroup(
-                    'Biographisches',
+                    'Lebensdaten',
+                    'start_date',
+                    'end_date',
+                    css_id="lebensdaten"
+                    ),
+                AccordionGroup(
+                    'Beruf und Geschlecht',
                     'profession',
                     'gender',
                     css_id="more"
-                    ),
-                AccordionGroup(
-                    'Rolle',
-                    'first_name',
-                    'is_related',
-                    'is_adm',
-                    'is_other',
-                    css_id="rolle"
                     ),
                 AccordionGroup(
                     'Anmerkungen',

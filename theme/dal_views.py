@@ -4,8 +4,25 @@ from dal import autocomplete
 from django.db.models import Q
 
 from apis_core.apis_labels.models import Label
+from apis_core.apis_vocabularies.models import ProfessionType
 
 from . utils import oebl_persons
+
+
+class ProfessionAC(autocomplete.Select2QuerySetView):
+
+    def get_result_label(self, item):
+        return f"{item.name}"
+
+    def get_queryset(self):
+        if self.q:
+            query = self.q
+            match = ProfessionType.objects.filter(
+                name__icontains=query
+            )
+            return match
+        else:
+            return []
 
 
 class OeblPersons(autocomplete.Select2QuerySetView):
