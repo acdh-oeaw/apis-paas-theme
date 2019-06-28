@@ -12,7 +12,7 @@
                     <h6 class="pb-2">An diesem Tag geboren</h6>
                   <div class="row align-items-end">
                       <div class="col-lg-2 col-md-2 col-12 pr-0">
-                          <img src="{%static 'theme/img/oebl_person_red.svg' %}" />
+                          <img src="{% static 'theme/img/oebl_person_red.svg' %}" />
                         </div>
                         <div class="col-lg-10 col-md-10 col-12">
                             {% if person_born %}
@@ -36,7 +36,7 @@
                   <p>{{randombornthisday.desc | truncatechars:500}}</p>
                 </div>
                 <footer class="entry-footer">
-                    <a class="btn btn-round  mb-1" href="/person/{{randombornthisday.id}}">Mehr lesen</a>
+                    
                 </footer>
             </div>
             <!-- .card-inner -->

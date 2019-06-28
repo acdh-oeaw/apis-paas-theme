@@ -27,7 +27,7 @@
                     {% endfor %}
                 </div>
                 <footer class="entry-footer">
-                    <a class="btn btn-round  mb-1" href="/person/{{x.id}}">Mehr lesen</a>
+                    <a class="btn btn-round  mb-1" href="{% url 'theme:person-detail' pk=x.id %}">Mehr lesen</a>
                 </footer>
             </div>
             <!-- .card-inner -->
