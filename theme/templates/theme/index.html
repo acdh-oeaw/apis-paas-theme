@@ -2,8 +2,6 @@
 {% load staticfiles %}
 
 {% block content %}
-
-
 <div class="wrapper" id="wrapper-hero">
 
 
@@ -29,15 +27,14 @@
 
 
   <div class="container startPageSearch">
+
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="NOT WORKING YET" aria-label="NOT WORKING YET" aria-describedby="basic-addon2">
+            <select class="form-control js-data-example-ajax"></select>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
+                <button class="btn btn-outline-secondary" type="button" >
                     <i data-feather="search" style="width: 20px; height: 20px;"></i>
                 </button>
             </div>
-            <hr  />
-            {{ form }}
         </div>
       </div>
   <div class="wrapper" id="index-wrapper">
@@ -73,3 +70,20 @@
       </div>
 </div>
 {% endblock %}
+
+{% block scripts2 %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $('.js-data-example-ajax').select2({
+        placeholder: "Anfangen zu tippen um Vorschläge zu erhalten.",
+        language: "de",
+        ajax: {
+            url: "{% url 'theme:obel-person-autocomplete' %}",
+            dataType: 'json'
+        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+      }
+    });
+</script>
+{% endblock scripts2 %}

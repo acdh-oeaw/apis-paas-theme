@@ -2,8 +2,15 @@ from datetime import date, timedelta
 from django.db.models import Q
 
 from apis_core.apis_entities.models import Person
+from apis_core.apis_relations.models import PersonPlace
 
 oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
+person_place_born = PersonPlace.objects.filter(
+    Q(relation_type__name__icontains='birth') | Q(relation_type__name__icontains='geboren')
+)
+person_place_death = PersonPlace.objects.filter(
+    Q(relation_type__name__icontains='death') | Q(relation_type__name__icontains='gestorben')
+)
 
 current_date = date.today()
 current_date = current_date - timedelta(days=1)

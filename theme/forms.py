@@ -5,12 +5,7 @@ from crispy_forms.layout import Submit,  Layout, Fieldset, Div, MultiField, HTML
 from crispy_forms.bootstrap import Accordion, AccordionGroup
 
 from apis_core.apis_entities.models import Person
-
-
-class PersonSearchForm(forms.Form):
-    search_field = forms.ChoiceField(widget=autocomplete.Select2ListView(
-        url='theme:obel-person-autocomplete')
-    )
+from . utils import oebl_persons
 
 
 class PersonFilterFormHelper(FormHelper):
@@ -35,6 +30,12 @@ class PersonFilterFormHelper(FormHelper):
                     'start_date',
                     'end_date',
                     css_id="lebensdaten"
+                    ),
+                AccordionGroup(
+                    'Geburts- und Sterbeort',
+                    'place_of_birth',
+                    'place_of_death',
+                    css_id="geburtsort"
                     ),
                 AccordionGroup(
                     'Beruf und Geschlecht',

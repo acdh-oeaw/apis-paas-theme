@@ -5,12 +5,25 @@ from apis_core.apis_entities.models import Person
 from apis_core.apis_vocabularies.models import ProfessionType
 
 from . utils import oebl_persons
+from . filter_utils import born_in_filter, died_in_filter
 
 
 class PersonListFilter(django_filters.FilterSet):
+    place_of_birth = django_filters.CharFilter(
+        lookup_expr='icontains',
+        field_name='related_place__name',
+        method=born_in_filter,
+        label="Geburtsort",
+        help_text="Zeichenkette die Namen des Geburtsortes enthalten sein sollte"
+    )
+    place_of_death = django_filters.CharFilter(
+        lookup_expr='icontains',
+        field_name='related_place__name',
+        method=died_in_filter,
+        label="Sterbeort",
+        help_text="Zeichenkette die Namen des Sterbeortes enthalten sein sollte"
+    )
     id = django_filters.NumberFilter(
-        label="Autocomplete-Suche",
-        help_text="Autocomplete-Suche",
         widget=autocomplete.ListSelect2(
             url='theme:obel-person-autocomplete',
             attrs={

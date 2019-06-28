@@ -12,7 +12,7 @@ from apis_core.apis_entities.models import Person
 
 from webpage.views import get_imprint_url
 from . filters import PersonListFilter
-from . forms import PersonFilterFormHelper, PersonSearchForm
+from . forms import PersonFilterFormHelper
 from . tables import PersonTable
 from . utils import oebl_persons, get_daily_entries
 
@@ -43,7 +43,6 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         enriched_context = get_daily_entries(context, oebl_persons)
         enriched_context['random_entries'] = random.sample(list(oebl_persons), 2)
-        # enriched_context['form'] = PersonSearchForm
         return enriched_context
 
 
