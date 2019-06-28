@@ -2,17 +2,19 @@ import requests
 import datetime
 import random
 import copy
+from django.db.models import Q
 
 from django.views.generic import TemplateView
-
 from django.views.generic.detail import DetailView
-from browsing.browsing_utils import GenericListView
 
+from browsing.browsing_utils import GenericListView
 from apis_core.apis_entities.models import Person
+
 from webpage.views import get_imprint_url
 from . filters import PersonListFilter
 from . forms import PersonFilterFormHelper
 from . tables import PersonTable
+from . utils import oebl_persons, get_daily_entries
 
 
 class ImprintView(TemplateView):
@@ -36,26 +38,13 @@ class ImprintView(TemplateView):
 class IndexView(TemplateView):
     model = Person
     template_name = 'theme/index.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        peoplebornthisday = self.model.objects.filter(start_date__day = datetime.datetime.now().day,start_date__month = datetime.datetime.now().month)
-        peoplediedthisday = self.model.objects.filter(end_date__day = datetime.datetime.now().day,end_date__month = datetime.datetime.now().month)
-        randompersonbornthisday = random.choice(peoplebornthisday)
-        randompersondiedthisday = random.choice(peoplediedthisday)
-        setattr(randompersonbornthisday,'desc',randompersonbornthisday.text.all()[0].text)
-        setattr(randompersondiedthisday,'desc',randompersondiedthisday.text.all()[0].text)
-        randomentries = random.sample(list(self.model.objects.all()),2)
+        enriched_context = get_daily_entries(context, oebl_persons)
+        enriched_context['random_entries'] = random.sample(list(oebl_persons), 2)
+        return enriched_context
 
-        for randomentry in randomentries:
-            setattr( randomentry,'desc', randomentry.text.all()[0].text)
-
-        context['randomentries'] = randomentries
-        context['randombornthisday'] = randompersonbornthisday
-        context['randomdiedthisday'] = randompersondiedthisday
-        context['randombornthisday_desc'] = context['randombornthisday'].text.all()[0].text
-        context['randomdiedthisday_desc'] = context['randomdiedthisday'].text.all()[0].text
-
-        return context
 
 class AboutView(TemplateView):
     template_name = 'theme/about.html'
@@ -72,6 +61,11 @@ class PersonListView(GenericListView):
         'first_name',
     ]
 
+    def get_queryset(self, **kwargs):
+        self.filter = self.filter_class(self.request.GET, queryset=oebl_persons)
+        self.filter.form.helper = self.formhelper_class()
+        return self.filter.qs
+
 
 class PersonDetailView(DetailView):
     model = Person
@@ -81,18 +75,16 @@ class PersonDetailView(DetailView):
         context = super().get_context_data(**kwargs)
 
         try:
-            context['prev'] = self.model.objects.filter(
+            context['prev'] = oebl_persons.filter(
                 id__lt=self.object.id
             ).order_by("-id").first()
         except AttributeError:
             context['prev'] = None
         try:
-            context['next'] = self.model.objects.filter(id__gt=self.object.id).first()
+            context['next'] = oebl_persons.filter(id__gt=self.object.id).first()
         except AttributeError:
             context['next'] = None
         main_text = self.object.text.all()[0].text
         context['main_text'] = main_text
 
         return context
-
-

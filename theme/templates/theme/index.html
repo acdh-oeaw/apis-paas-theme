@@ -28,7 +28,7 @@
 
 
 
-  <!-- <div class="container startPageSearch">
+  <div class="container startPageSearch">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="NOT WORKING YET" aria-label="NOT WORKING YET" aria-describedby="basic-addon2">
             <div class="input-group-append">
@@ -37,16 +37,14 @@
                 </button>
             </div>
         </div>
-      </div>-->
+      </div>
   <div class="wrapper" id="index-wrapper">
     <div class="container" id="content" tabindex="-1">
       <div class="row">
         <!-- Do the left sidebar check and opens the primary div -->
-        <div class="col-md-12 content-area" id="primary">   
-            {% include "theme/random_entries.html" %}     
-           {%if randombornthisday or randomdiedthisday%}
-            {% include "theme/thisday.html" %}         
-            {%endif%}
+        <div class="col-md-12 content-area" id="primary">
+            {% include "theme/random_entries.html" %}
+            {% include "theme/thisday.html" %}
         </div>
       </div>
     </div>
@@ -55,8 +53,8 @@
       <div class="container" id="content" tabindex="-1">
         <div class="row">
           <!-- Do the left sidebar check and opens the primary div -->
-          <div class="col-md-12 content-area" id="primary">       
-                {% include "theme/access.html" %} 
+          <div class="col-md-12 content-area" id="primary">
+                {% include "theme/access.html" %}
           </div>
         </div>
       </div>
@@ -66,7 +64,7 @@
           <div class="row">
             <!-- Do the left sidebar check and opens the primary div -->
             <div class="col-md-12 content-area" id="primary">
-                  {% include "theme/stats.html" %} 
+                  {% include "theme/stats.html" %}
             </div>
           </div>
         </div>

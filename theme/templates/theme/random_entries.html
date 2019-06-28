@@ -4,7 +4,7 @@
         <h6>Aus dem Lexikon</h6>
       </div>
         <div class="card-wrapper">
-          {% for randomentry in randomentries %}
+          {% for x in random_entries %}
           <article class="card col-md-6 flat-style">
             <div class="card-inner card-vertical  d-flex flex-column" style="min-height:420px;">
                 <header class="entry-header mb-3">
@@ -14,16 +14,20 @@
                           <img src="{%static 'theme/img/oebl_person_red.svg' %}" />
                         </div>
                         <div class="col-lg-10 col-md-10 col-12">
-                                <h5 class="mb-1">{%if randomentry.first_name %} {{ randomentry.first_name}} {% endif %}{{ randomentry.name}}</h5>
-                            <p class="profession m-0 p-0">{% for x in randomentry.profession.all %} {{x.name }} {% endfor %}</p>
-                            <p class="startend  mt-1 mb-0 p-0">{{randomentry.start_date_written }} - {{randomentry.end_date_written }}</p>
+                                <h5 class="mb-1">{%if x.first_name %} {{ x.first_name}} {% endif %}{{ x.name}}</h5>
+                            <p class="profession m-0 p-0">{% for x in x.profession.all %} {{x.name }} {% endfor %}</p>
+                            <p class="startend  mt-1 mb-0 p-0">{{x.start_date_written }} - {{x.end_date_written }}</p>
                   </div>
                 </header>
                 <div class="card-body">
-                  <p>{{randomentry.desc | truncatechars:500}}</p>
+                    {% for y in x.text.all %}
+                        {% if forloop.first %}
+                            <p>{{y.text | truncatechars:500}}</p>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <footer class="entry-footer">
-                    <a class="btn btn-round  mb-1" href="/person/{{randomentry.id}}">Mehr lesen</a>
+                    <a class="btn btn-round  mb-1" href="/person/{{x.id}}">Mehr lesen</a>
                 </footer>
             </div>
             <!-- .card-inner -->

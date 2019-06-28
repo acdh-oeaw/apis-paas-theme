@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
 from . import views
+from . import dal_views
 
 app_name = 'theme'
 
@@ -14,5 +15,9 @@ urlpatterns = [
         r'^person/(?P<pk>[0-9]+)$',
         views.PersonDetailView.as_view(),
         name='person-detail'
+    ),
+    url(
+        r'^ac/obel-person/$', dal_views.OeblPersons.as_view(),
+        name='obel-person-autocomplete',
     ),
 ]
