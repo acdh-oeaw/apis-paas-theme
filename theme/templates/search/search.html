@@ -1,4 +1,5 @@
 {% extends "theme/base.html" %}
+{% load highlight %}
 {% block title %}
     {% if 'q' in request.GET %}
         results for "{{ request.GET.q }}"
@@ -21,7 +22,7 @@
                     <tr>
                         <th>Score</th>
                         <th>Person</th>
-                        <th>Text</th>
+                        <th>{{result.summary}}</th>
                     </tr>
                     {% for result in page.object_list %}
                         <tr>
@@ -36,7 +37,7 @@
                                 {% endfor %}</a>
                             </td>
                             <td>
-                                {{ result.object.text }}
+                                {% highlight result.text with request.GET.q  max_length 60 %}
                             </td>
                         </tr>
                     {% endfor %}

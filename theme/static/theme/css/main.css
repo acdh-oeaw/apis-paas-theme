@@ -86,6 +86,10 @@ h6 {
   color:white;
 }
 
+.highlighted {
+    background-color: lightsalmon;
+}
+
 
 abbr[title] {
   text-decoration: none;
