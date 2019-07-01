@@ -30,7 +30,7 @@
 
         <div class="input-group mb-3">
             <select class="form-control js-data-example-ajax"></select>
-            <div class="input-group-append">
+            <div class="input-group-append" onclick="goToPage(event)">
                 <button class="btn btn-outline-secondary" type="button" >
                     <i data-feather="search" style="width: 20px; height: 20px;"></i>
                 </button>
@@ -85,5 +85,14 @@
         // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
       }
     });
+    function goToPage(){
+        var optionElements = document.querySelectorAll('option');
+        var option = optionElements[optionElements.length-1]
+        if (option && option.value) {
+            window.location = `/person/${option.value}`;
+        }
+
+    }
+
 </script>
 {% endblock scripts2 %}
