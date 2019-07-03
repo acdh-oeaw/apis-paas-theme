@@ -22,77 +22,105 @@
 
     </div><!-- #wrapper-hero-content -->
   </div>
-
-
-
-
+  <div class="container pt-3">
+    {% include "theme/stats.html" %}
+  </div>
   <div class="container startPageSearch">
 
-        <div class="input-group mb-3">
-            <select class="form-control js-data-example-ajax"></select>
-            <div class="input-group-append" onclick="goToPage(event)">
-                <button class="btn btn-outline-secondary" type="button" >
-                    <i data-feather="search" style="width: 20px; height: 20px;"></i>
-                </button>
-            </div>
-        </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <select id="searchindex" class="form-control">
+          <option selected value="personsearch">Personen</option>
+          <option value="fulltextsearch">Volltext</option>
+        </select>
       </div>
+        <select id="personsearch" class="custom-select js-data-example-ajax"></select>
+        <input id="fulltextsearch" style="display:none;" class="form-control navbar-search" id="s" type="text" placeholder="Volltextsuche" value=""
+          autocomplete="off">
+      <div class="input-group-append" id="submitcontainer" onclick="goToPage(event)">
+        <button class="btn btn-outline-secondary" type="button">
+          <i data-feather="search" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="wrapper" id="index-wrapper">
     <div class="container" id="content" tabindex="-1">
       <div class="row">
         <!-- Do the left sidebar check and opens the primary div -->
         <div class="col-md-12 content-area" id="primary">
-            {% include "theme/random_entries.html" %}
-            {% include "theme/thisday.html" %}
+
+          {% include "theme/random_entries.html" %}
         </div>
       </div>
     </div>
   </div>
   <div class="wrapper" id="index-wrapper-white">
-      <div class="container" id="content" tabindex="-1">
-        <div class="row">
-          <!-- Do the left sidebar check and opens the primary div -->
-          <div class="col-md-12 content-area" id="primary">
-                {% include "theme/access.html" %}
-          </div>
+    <div class="container" id="content" tabindex="-1">
+      <div class="row">
+        <!-- Do the left sidebar check and opens the primary div -->
+        <div class="col-md-12 content-area" id="primary">
+          {% include "theme/access.html" %}
         </div>
       </div>
     </div>
-    <div class="wrapper" id="stats-wrapper">
-        <div class="container" id="content" tabindex="-1">
-          <div class="row">
-            <!-- Do the left sidebar check and opens the primary div -->
-            <div class="col-md-12 content-area" id="primary">
-                  {% include "theme/stats.html" %}
-            </div>
-          </div>
+  </div>
+  <div class="wrapper" id="partners-wrapper">
+    <div class="container" id="content" tabindex="-1">
+      <div class="row">
+        <!-- Do the left sidebar check and opens the primary div -->
+        <div class="col-md-12 content-area" id="primary">
+          {% include "theme/partners.html" %}
         </div>
       </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block scripts2 %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+<link href="{%static 'theme/vendor/select2-bootstrap4/select2-bootstrap4.min.css' %}" rel="stylesheet" />
 
 <script type="text/javascript">
-    $('.js-data-example-ajax').select2({
-        placeholder: "Anfangen zu tippen um Vorschläge zu erhalten.",
-        language: "de",
-        ajax: {
-            url: "{% url 'theme:obel-person-autocomplete' %}",
-            dataType: 'json'
-        // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
-      }
-    });
-    function goToPage(){
-        var optionElements = document.querySelectorAll('option');
-        var option = optionElements[optionElements.length-1]
-        if (option && option.value) {
-            window.location = `/person/${option.value}`;
-        }
-
+$('#searchindex').val("personsearch");
+  $('.js-data-example-ajax').select2({
+    placeholder: "Anfangen zu tippen um Vorschläge zu erhalten.",
+    language: "de",
+    ajax: {
+      url: "{% url 'theme:obel-person-autocomplete' %}",
+      dataType: 'json'
+      // Additional AJAX parameters go here; see the end of this chapter for the full code of this example
+    },
+    theme: 'bootstrap4'
+  });
+  $('#searchindex').change(function () {
+    var selval = $(this).children("option:selected").val();
+    if (selval === 'personsearch') {
+      $("#fulltextsearch").hide();
+      $(".select2*").show();
+      $("#submitcontainer").attr("onclick","goToPageEvent(event)");
+    } else {
+      $(".select2*").hide();
+      $("#fulltextsearch").show();
+      $("#submitcontainer").attr("onclick","doFullTextSearch()");
     }
 
+
+  });
+
+  function goToPage() {
+    var optionElements = document.querySelectorAll('option');
+    var option = optionElements[optionElements.length - 1]
+    if (option && option.value) {
+      window.location = `/person/${option.value}`;
+    }
+
+  }
+
+  function doFullTextSearch() {
+           window.location.href = "/search?q="+$("#fulltextsearch").val();
+  }
 </script>
 {% endblock scripts2 %}

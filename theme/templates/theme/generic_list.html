@@ -27,18 +27,20 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h3 style="margin-bottom:15px;">
+                       <!-- <h3 style="margin-bottom:15px;">
                             Expertensuche
-                        </h3>
+                        </h3>-->
                         <!--Search mask-->
                         {% load django_tables2 crispy_forms_tags %}
                         <form action="." class="uniForm" method="get">
+                            
+                            
+                            {% crispy filter.form filter.form.helper %}
                             {% if togglable_colums %}
-                                <legend>Select additional columns</legend>
+                                <label>Select additional columns</label>
                                 {% column_selector  %}
                             {% endif %}
                             <br/>
-                            {% crispy filter.form filter.form.helper %}
                         </form>
                         {% block reset_button %}
                             <a class ="btn btn-outline-secondary"  href=".">Reset search</a>
@@ -85,24 +87,33 @@
             </div>
             <div class="col-md-8" id="results">
                 <div class="card">
-                    <div class="card-body">
-                        {% with table.paginator.count as total %}
-                        <legend>Result: {{ total }} items</legend>
-                            {% if conf_items %}
-                                <div class="dropdown">
-                                    <button class="btn btn-default dropdown-toggle dropdown-custom" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="fas fa-download"></i>
-                                        Download
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <li><a class="dropdown-item" href="{% querystring %}&sep=comma">"," separated</a></li>
-                                        <li><a class="dropdown-item" href="{% querystring %}&sep=semicolon">";" separated</a></li>
-                                        <li><a class="dropdown-item" href="{% querystring %}&sep=tab">"tab" separated</a></li>
-                                    </ul>
-                                </div>
-                            {% endif %}
-                        {% endwith %}
+                    <div class="card-header" style="background:white;">
+                        <div class="row">
+                            <div class="col-6">
+                            {% with table.paginator.count as total %}
+                            <legend>Result: {{ total }} items</legend>
+                            </div>
+                            <div class="col-6" style="text-align:right">
+                                {% if conf_items %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle dropdown-custom" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <i class="fas fa-download"></i>
+                                            Download
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a class="dropdown-item" href="{% querystring %}&sep=comma">"," separated</a></li>
+                                            <li><a class="dropdown-item" href="{% querystring %}&sep=semicolon">";" separated</a></li>
+                                            <li><a class="dropdown-item" href="{% querystring %}&sep=tab">"tab" separated</a></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-body pt-0">
+                      
                         {% block table %}
     {% if enable_merge and user.is_authenticated %}
         <form action="{% url 'apis_core:apis_entities:merge_objects' %}" method="POST">

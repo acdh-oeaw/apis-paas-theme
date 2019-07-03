@@ -5,6 +5,7 @@ from apis_core.apis_entities.models import Person
 from apis_core.apis_relations.models import PersonPlace
 
 oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
+
 person_place_born = PersonPlace.objects.filter(
     Q(relation_type__name__icontains='birth') | Q(relation_type__name__icontains='geboren')
 )

@@ -24,10 +24,11 @@ class PersonListFilter(django_filters.FilterSet):
         help_text="Zeichenkette die Namen des Sterbeortes enthalten sein sollte"
     )
     id = django_filters.NumberFilter(
+        label="Name",
         widget=autocomplete.ListSelect2(
             url='theme:obel-person-autocomplete',
             attrs={
-                'data-placeholder': 'Subak...',
+                'data-placeholder': 'Suche...',
                 'data-minimum-input-length': 3,
             },
         ),

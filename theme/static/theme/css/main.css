@@ -12,6 +12,13 @@ p {
   line-height:1.2rem;
 }
 
+ul li {
+  font-weight:bold;
+  font-size:0.8rem;
+  line-height:1.6rem;
+  padding-left:2rem;
+}
+
 h3 {
   text-transform: uppercase;
   font-size:1.2rem;
@@ -24,18 +31,34 @@ h6 {
   font-weight:bold;
 }
 
+
 @media (min-width: 1200px) {
 .container {
     max-width: 1100px;
 }
 }
 
-#index-wrapper-white {
+#index-wrapper-white, #partners-wrapper {
   background:white;
 }
 
 .sectionheader {
   text-align:center;
+}
+
+.avatar-icon {
+  border: 1px solid #333;
+  border-radius: 50%;
+  height:50px;
+  width:50px;
+  text-align:center;
+}
+
+.avatar-icon svg {
+  padding-top:10px;
+  width:36px;
+  height:36px;
+  stroke:#CD2324;
 }
 
 .btn {
@@ -46,6 +69,18 @@ h6 {
   font-weight:bold;
 }
 
+.panel-heading h4 {
+  font-size:1rem;
+}
+
+.select2-selection {
+background:white;
+}
+
+
+.card-wrapper .card .partnercard.card-inner{
+  border:none;
+}
 
 .card-wrapper .card .card-inner {
   border-top-color:#CCC !important;
@@ -715,6 +750,18 @@ footer .logocaption {
   right: 25px;
   z-index: 100;
 }
+
+.partnercard {
+  text-align:center;
+}
+
+
+
+.partnercard img {
+  height:50px;
+  margin-bottom:20px;
+}
+
 #footer {
   height: 170px;
   text-align: center;
@@ -805,7 +852,7 @@ ul.dropdown-menu-form {
   font-weight:bold;
 }
 
-#contentDetails .card-body {
+#contentDetails .bio {
   -webkit-column-count: 3; /* Old Chrome, Safari and Opera */
   -moz-column-count: 3; /* Old Firefox */
   column-count: 3;
@@ -989,4 +1036,9 @@ a[href^="http"]:after {
   width: 90%;
   display: inline-block;
   white-space: nowrap;
+}
+
+ul.relentities  {
+  list-style-type:none;
+  padding-left:0;
 }

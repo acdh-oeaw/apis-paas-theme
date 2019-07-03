@@ -20,8 +20,8 @@ class PersonFilterFormHelper(FormHelper):
             Fieldset(
                 '',
                 'id',
-                'name',
-                'first_name',
+                 'name',
+                 'first_name',
                 css_id="basic_search_fields"
                 ),
             Accordion(

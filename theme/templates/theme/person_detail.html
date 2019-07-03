@@ -4,96 +4,93 @@
 {% block title %}{{ object }}{% endblock %}
 {% block content %}
 <div id="contentDetails" class="container pt-5">
-                <div class="row">
-                    <div class="col-md-12">
-                            <article class="card col-md-12 flat-style">
-           
-        <div class="entry-header pt-3">
-            <div class="row justify-content-between">
-                <div class="col">   
-                {% if prev.id %}
-                    <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}" title="{{ prev }}">
-                        <i data-feather="chevron-left" title="previous"></i>
-                    </a>
-                    {% endif %}
-                </div>
-                    
-                <div class="col">
+    <div class="row">
+        <article class="card col-md-12 flat-style">
+            <div class="entry-header pt-3">
+                <div class="row justify-content-between">
+                    <div class="col">
+                        {% if prev.id %}
+                        <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}"
+                            title="{{ prev }}">
+                            <i data-feather="chevron-left" title="previous"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="col">
                         {% if next.id %}
-                    <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}" style="float:right" title="{{ next }}">
+                        <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}"
+                            style="float:right" title="{{ next }}">
                             <i data-feather="chevron-right" title="next"></i>
                         </a>
                         {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col pt-2">
+
+
+                        <h2 class="pl-4">{{ object.name}}{%if object.first_name %},
+                            {{ object.first_name}}{% endif %}</h2>
+                        <p class="pl-4"> {% for x in object.profession.all %} {{x.name }} {% endfor %}, <abbr
+                                title='geboren'>*</abbr> {{object.start_date_written }}, <abbr
+                                title='gestorben'>†</abbr>{{object.end_date_written }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col pt-2">
-           
-               
-                <h2 class="pl-4">{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
-                <p class="pl-4"> {% for x in object.profession.all %} {{x.name }} {% endfor %}, <abbr title='geboren'>*</abbr> {{object.start_date_written }}, <abbr title='gestorben'>†</abbr>{{object.end_date_written }}</p></p>
+            <div class="card-body pt-2">
+                <p class="bio">{{ main_text }}</p>
             </div>
+        </article>
+    </div>
+    <div class="row pt-5">
+        <div class="card-wrapper">
+            <article class="card col-md-4 flat-style">
+                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
+                    <div class="entry-header">
+                        Personen
+                    </div>
+                    <div class="entry-content"></div>
                 </div>
-            </div>
-        <div class="card-body pt-2">
-               <p>{{ main_text }}</p>
-            </div>
-    </div>
-    <div class="page-header">
-        <!-- Überschrift -->
-
-
-        <ul class="nav nav-pills" id="detail-tab">
-
-            <!-- index -->
-            <li>
-                <a href="#indexcontent" data-toggle="pill">Übersicht</a>
-            </li>
-
-            <!-- ndb -->
-            <li class="active">
-                <a href="#ndbcontent" data-toggle="pill" title="Neue Deutsche Biographie, Band 13 Jahrgang 1982">
-                    <span class="abbr">NDB</span>&nbsp;
-                    <span>13 (1982)</span></a>
-            </li>
-
-            <!-- adb -->
-            <li>
-                <a href="#adbcontent" data-toggle="pill" title="Allgemeine Deutsche Biographie, Band 17 Jahrgang 1883">
-                    <span class="abbr">ADB</span>&nbsp;
-                    <span>17 (1883)</span></a>
-            </li>
-            <!-- adb2 -->
-
-
-
-        </ul>
-    </div>
-    <div class="row">
-        <div class="col-md-10">
-            <div class="card">
-                <div class="card-body">
-                    <legend>
+            </article>
+            <article class="card col-md-4 flat-style">
+                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
+                    <div class="entry-header">
                         Orte
-                    </legend>
-                    {% for x in object.personplace_set.all %}
-                    <li>
-                        {{ x.relation_type }} <strong>{{x.related_place }}</strong> {{ x.start_date_written }} - {{x.end_date_written}}
-                    </li>
-                    {% endfor %}
-                    <legend>
-                        Institutionen
-                    </legend>
-                    {% for x in object.personinstitution_set.all %}
-                    <li>
-                        {{ x.relation_type }} <strong>{{x.related_institution }}</strong> {{ x.start_date_written }} - {{x.end_date_written}}
-                    </li>
-                    {% endfor %}
+                    </div>
+                    <div class="entry-content">
+                        <ul class="relentities">
+                            {% for x in object.personplace_set.all %}
+                            <li>
+                                {{ x.relation_type }} <strong>{{x.related_place }}</strong> {{ x.start_date_written }} -
+                                {{x.end_date_written}}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </article>
+            <article class="card col-md-4 flat-style">
+                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
+                    <div class="entry-header">
+                        Institutionen
+                    </div>
+                    <div class="entry-content">
+                        <ul class="relentities">
+                            {% for x in object.personinstitution_set.all %}
+                            <li>
+                                {{ x.relation_type }} <strong>{{x.related_institution }}</strong>
+                                {{ x.start_date_written }}
+                                -
+                                {{x.end_date_written}}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </article>
         </div>
-    </article>
-</div></div>
+    </div>
 </div>
 
 
