@@ -61,8 +61,8 @@ class PersonListFilter(django_filters.FilterSet):
     start_date = django_filters.DateFromToRangeFilter(
         label="Geburtsdatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "start": "1799-01-01",
-            "end": "1850-01-01"
+            "date_min": "1799-01-01",
+            "date_max": "1850-01-01"
         }),
     )
 
@@ -70,8 +70,8 @@ class PersonListFilter(django_filters.FilterSet):
     end_date = django_filters.DateFromToRangeFilter(
         label="Sterbedatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "start":"1815-01-01",
-            "end":"1950-01-01"
+            "date_min":"1815-01-01",
+            "date_max":"1950-01-01"
         }),
         
     )
