@@ -40,11 +40,14 @@
             </div>
             <div class="card-body pt-2">
                 <p class="bio">{{ main_text }}</p>
+                <ul class="uris pl-0">{% for uri in object.uri_set.all %}
+                    <li class="pl-0"><a target="_blank" rel="noopener noreferrer" href="{{uri}}">{{uri}}</a></li>
+                    {% endfor %}
+                </ul>
             </div>
         </article>
     </div>
     <div class="row pt-5">
-        <div class="card-wrapper">
             <article class="card col-md-4 flat-style">
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
                     <div class="entry-header">
@@ -61,9 +64,22 @@
                     <div class="entry-content">
                         <ul class="relentities">
                             {% for x in object.personplace_set.all %}
-                            <li>
-                                {{ x.relation_type }} <strong>{{x.related_place }}</strong> {{ x.start_date_written }} -
-                                {{x.end_date_written}}
+                            <li class="pl-0">
+                                
+                                {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
+                                {% if x.start_date_written or x.end_date_written %}
+                                (
+                                {% endif %}
+                                {% if x.start_date_written is not None %}
+                                {{x.start_date_written}}
+                                {% endif %}
+                                {% if x.end_date_written%} - {% endif %}
+                                {% if x.end_date_written is not None %}
+                                {{ x.end_date_written }}
+                                {% endif %}
+                                {% if x.start_date_written or x.end_date_written %}
+                                )
+                                {% endif %}
                             </li>
                             {% endfor %}
                         </ul>
@@ -78,18 +94,27 @@
                     <div class="entry-content">
                         <ul class="relentities">
                             {% for x in object.personinstitution_set.all %}
-                            <li>
+                            <li class="pl-0">
                                 {{ x.relation_type }} <strong>{{x.related_institution }}</strong>
-                                {{ x.start_date_written }}
-                                -
+                                {% if x.start_date_written or x.end_date_written %}
+                                (
+                                {% endif %}
+                                {% if x.start_date_written is not None %}
+                                {{x.start_date_written}}
+                                {%endif%} 
+                                {% if x.end_date_written %} - {% endif %}
+                                {% if x.end_date_written is not None %}
                                 {{x.end_date_written}}
+                                {%endif%}
+                                {% if x.start_date_written or x.end_date_written %}
+                                )
+                                {% endif %} 
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
             </article>
-        </div>
     </div>
 </div>
 

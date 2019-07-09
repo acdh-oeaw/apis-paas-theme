@@ -103,8 +103,6 @@ h6 {
 }
 
 
-
-
 .card-wrapper .card .partnercard.card-inner{
   border:none;
 }
@@ -1073,4 +1071,12 @@ ul.relentities  {
 
 #basic_search_fields .select2-selection__rendered {
   margin:-7px;
+}
+
+.uris a {
+  color:#CD2324;
+}
+
+.uris {
+  list-style-type:none;
 }
