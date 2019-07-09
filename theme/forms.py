@@ -4,6 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit,  Layout, Fieldset, Div, MultiField, HTML
 from crispy_forms.bootstrap import Accordion, AccordionGroup
 
+
 from apis_core.apis_entities.models import Person
 from . utils import oebl_persons
 
@@ -51,3 +52,4 @@ class PersonFilterFormHelper(FormHelper):
                     ),
                 )
             )
+

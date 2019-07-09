@@ -12,6 +12,10 @@ p {
   line-height:1.2rem;
 }
 
+p a {
+  color:#CD2324;
+}
+
 ul li {
   font-weight:bold;
   font-size:0.8rem;
@@ -19,17 +23,35 @@ ul li {
   padding-left:2rem;
 }
 
-h3 {
-  text-transform: uppercase;
-  font-size:1.2rem;
+h1, h2, h3, h4, h5, h6 {
   font-weight:bold;
 }
 
-h6 {
-  text-transform: uppercase;
-  font-size:0.8rem;
-  font-weight:bold;
+h1 {
+  font-size:1.6rem;
 }
+
+h2 {
+  font-size:1.4rem;
+}
+
+h3 {
+  font-size:1.2rem;
+}
+
+h4 {
+  font-size:1.0rem;
+  
+}
+
+h5 {
+  font-size:0.8rem;
+}
+
+h6 {
+  font-size:0.6rem;
+}
+
 
 
 @media (min-width: 1200px) {
@@ -37,6 +59,8 @@ h6 {
     max-width: 1100px;
 }
 }
+
+.sectiontitle {  text-transform: uppercase;}
 
 #index-wrapper-white, #partners-wrapper {
   background:white;
@@ -73,9 +97,11 @@ h6 {
   font-size:1rem;
 }
 
-.select2-selection {
+.select2-selection,.bootstrap-select .btn {
 background:white;
 }
+
+
 
 
 .card-wrapper .card .partnercard.card-inner{
@@ -100,6 +126,8 @@ background:white;
   background-color:white;
   color:black;
 }
+
+
 
 .entry-header h5 {
   font-weight:bold;
@@ -751,16 +779,6 @@ footer .logocaption {
   z-index: 100;
 }
 
-.partnercard {
-  text-align:center;
-}
-
-
-
-.partnercard img {
-  height:50px;
-  margin-bottom:20px;
-}
 
 #footer {
   height: 170px;
@@ -915,11 +933,7 @@ ul.dropdown-menu-form {
   font-weight: 600;
   margin-left: 150px !important;
 }
-a[href^="http"]:after {
-  content: "\f08e";
-  font-family: FontAwesome;
-  padding-left: 3px;
-}
+
 .start-map,
 .detail-map,
 .search-map {
@@ -1041,4 +1055,21 @@ a[href^="http"]:after {
 ul.relentities  {
   list-style-type:none;
   padding-left:0;
+}
+
+.partnercard {
+  text-align:center;
+}
+
+.partnercard img {
+  height:60px;
+  margin-bottom:20px;
+}
+
+.partnercard .row .col-12:first-child  {
+  height:100px;
+}
+
+#basic_search_fields .select2-selection__rendered {
+  margin:-7px;
 }

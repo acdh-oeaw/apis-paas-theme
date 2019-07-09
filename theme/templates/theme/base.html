@@ -21,6 +21,7 @@
    <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap" rel="stylesheet">
 
+
     <!-- Custom styles for this template -->
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="{%static 'theme/css/main.css' %}" />
@@ -94,7 +95,7 @@
                     </ul>
                   </div>
                   <div class="col-lg-3 col-md-3 col-12" style="text-align:right">
-                      <i data-feather="arrow-up"></i>
+                      <i onclick="scrollToTop()" data-feather="arrow-up"></i>
                   </div>
                   </div>
                 </footer>
@@ -117,6 +118,13 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <script>
         feather.replace()
+    </script>
+    <script>
+    function scrollToTop() {
+      $('body,html').animate({
+        scrollTop : 0
+    }, 500);
+    }
     </script>
     {% block scripts %}{% endblock %}
     {% block scripts2 %}

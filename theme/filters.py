@@ -6,6 +6,8 @@ from apis_core.apis_vocabularies.models import ProfessionType
 
 from . utils import oebl_persons
 from . filter_utils import born_in_filter, died_in_filter
+from . widgets import NoUISliderInput
+
 
 
 class PersonListFilter(django_filters.FilterSet):
@@ -55,14 +57,33 @@ class PersonListFilter(django_filters.FilterSet):
         label="Vorname",
         help_text="Zeichenkette die im Vornamen enthalten sein muss",
     )
+
     start_date = django_filters.DateFromToRangeFilter(
         label="Geburtsdatum (Zeitraum)",
-        help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
+        widget=NoUISliderInput(attrs={
+            "start": "1799-01-01",
+            "end": "1850-01-01"
+        }),
     )
+
+
     end_date = django_filters.DateFromToRangeFilter(
         label="Sterbedatum (Zeitraum)",
-        help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
+        widget=NoUISliderInput(attrs={
+            "start":"1815-01-01",
+            "end":"1950-01-01"
+        }),
+        
     )
+
+    # start_date = django_filters.DateFromToRangeFilter(
+    #     label="Geburtsdatum (Zeitraum)",
+    #     help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
+    # )
+    # end_date = django_filters.DateFromToRangeFilter(
+    #     label="Sterbedatum (Zeitraum)",
+    #     help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
+    # )
 
     class Meta:
         model = Person

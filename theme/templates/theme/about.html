@@ -2,36 +2,105 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="container">
-    <h1>Über das Projekt</h1>
-    <div>
-        Die Entstehungsgeschichte des „Österreichischen Biographischen Lexikons 1815-1950“ und die Kriterien dieses Werks sind auf der Homepage des Instituts Österreichisches Biographisches Lexikon und biographische Dokumentation bzw. in den Vorworten der bisher erschienenen Bände ausführlich dokumentiert.
-
-Die vorliegende Online-Edition wurde sowohl aus den Einträgen der redaktionsinternen Datenbank „ÖBLDOC“ als auch aus den bisher publizierten Bänden des Lexikons generiert. Die Datenbank enthält neben den Eckdaten aller bisher gedruckten Biographien derzeit über 50.000 weitere Personeneinträge (darunter auch eine erhebliche Anzahl von Personen, die nach 1950 verstorben sind)  und bildet gemeinsam mit der biographischen Kartei, die ca. 80.000 Namen umfaßt (und sukzessive in die Datenbank eingearbeitet wird), die Grundlage für eine umfangreiche biographische Dokumentation. Die Alphabetisierung der Online-Edition erfolgt weitgehend nach den gleichen Kriterien wie im gedruckten Werk (also ohne Berücksichtigung von Sonderzeichen und Umlauten); einige „Sonderregelungen“, z. B. die vereinheitlichte Sortierung bestimmter Namensformen, die häufig unterschiedlich geschrieben werden (z.B. Maier = Mayer = Meier) blieben jedoch unberücksichtigt, daher kann die Reihenfolge der Personen in der Online-Edition von der Druckfassung geringfügig abweichen.
-
-Bei der Erfassung der Eckdaten der gedruckten Biographien für das Online-Register wurden die Angaben tlw. modifiziert und ergänzt: So wurden beispielsweise die Berufsbezeichnungen vielfach normiert und fehlende Berufsangaben hinzugefügt; in etlichen Fällen wurden auch zusätzliche Namensvarianten (z. B. Pseudonyme, Künstlernamen) bzw. abweichende Schreibweisen, die in der gedruckten Biographie nicht in der „Titelzeile“ aufscheinen, ergänzt. Daher können die Einträge im Register von den Angaben im gedruckten Werk (und damit auch von den digitalisierten Biographien) durchaus etwas abweichen. Auch die enthaltenen Verweise differieren tlw. von den gedruckten und sind im Umfang keinesfalls als vollständig zu erachten. Die vorliegende Online-Edition ist als „work in progress“ zu verstehen und wird künftig immer wieder ergänzt beziehungsweise modifiziert werden. Der jeweils aktuelle Stand der Online-Edition (Zeitpunkt der letzten Aktualisierung, die Anzahl der Registereinträge sowie die der verfügbaren Biographien) werden durch entsprechende Angaben am Titelblatt (= Startseite) ausgewiesen.
-
-Im Personenregister kann entweder über die Auswahl eines Anfangsbuchstabens – der aufgrund der Anzahl der Einträge im Regelfall zu weiteren Unterteilungen innerhalb dieses Anfangsbuchstabens führt – oder über das Suchformular nach folgenden Kriterien gesucht werden:
-
-Nachname inkl. Namensvarianten, Pseudonymen usw.
-
-Vorname mit Varianten, abweichenden Schreibweisen usw.
-
-Geschlecht
-
-Geburts- und Sterbejahr (exakt bzw. durch Auswahl eines Selektors)
-
-Berufsklassifikation
-
-Weitere Hinweise zur Suche enthält eine Hilfedatei, die über das geöffnete Suchformular (= "Suche im Lexikon") aufgerufen werden kann.
-
-Die Ergebnisse der Abfrage werden in einer Liste wiedergegeben. Durch das Anklicken eines Eintrags wird im ursprünglichen Fenster (Hauptfenster) der vollständige Registereintrag mit den genauen Publikationsangaben der Biographie (Band, Lieferung, Seite) angezeigt. Falls es sich um eine Person handelt, die im Rahmen einer „Hauptbiographie“ miterwähnt ist ("Subbiographie"), wird dieser Umstand bei den Publikationsangaben ebenfalls ausgewiesen. Sollte die entsprechende Biographie online verfügbar sein, so wird dies durch einen entsprechenden Link unterhalb des Registereintrags "[Biographie (PDF)...]" ausgewiesen; um diesen Artikel einsehen zu können, ist jedoch eine Registrierung (Benutzername und Paßwort bzw. registrierte IP-Adresse) zwingend erforderlich!
-
-Es wird nochmals nachdrücklich darauf hingewiesen, daß eine Zusendung der gedruckten (bzw. gescannten) Biographie zum jeweiligen Registereintrag seitens der Redaktion nicht vorgesehen ist. Das frei verfügbare Online-Register ist grundsätzlich als Orientierungshilfe und Instrument zur gezielten Auffindung von der im Lexikon aufgenommenen Einzelpersonen bzw. Personengruppen gedacht; ein kostenloser Zugriff auf die vollständige Biographie ist jedoch nicht vorgesehen. Einzelne „Probeartikel“ können jedoch immer wieder gebührenfrei angeboten werden. Anregungen und Verbesserungsvorschläge werden von der Redaktion des Österreichischen Biographischen Lexikons gerne entgegengenommen.
-
-Besonderer Dank gebührt der philosophisch-historischen Klasse der Österreichischen Akademie der Wissenschaften, die dieses Projekt finanziell unterstützt und die Realisierung der Online-Edition ermöglicht hat. Für die Datenerfassung, Überarbeitung und Kontrolle ist Frau Mag. Eva Offenthaler und Frau Mag. Dr. Waltraud Zuleger zu danken.
-
-Wien, im April 2007
-    </div>
+<div class="container pt-3">
+    <article class="card col-md-12 flat-style pt-2">
+        <div class="card-inner card-vertical  d-flex flex-column justify-content-between">
+            <div class="entry-header">
+                <h1>Über das Projekt</h1>
+            </div>
+            <div class="entry-content">
+                <p>Die
+                    Entstehungsgeschichte des „Österreichischen Biographischen Lexikons 1815-1950“
+                    und die Kriterien dieses Werks sind auf der Homepage des Instituts <a target="_blank"
+                        href="http://www.oeaw.ac.at/oebl">Österreichisches Biographisches Lexikon und
+                        biographische Dokumentation</a> bzw. in den Vorworten der
+                    bisher erschienenen Bände ausführlich dokumentiert.</p>
+                <p>Die vorliegende Online-Edition wurde sowohl aus den
+                    Einträgen der redaktionsinternen Datenbank „ÖBLDOC“ als auch aus den bisher
+                    publizierten Bänden des Lexikons generiert. Die
+                    Datenbank enthält neben den Eckdaten aller bisher gedruckten Biographien derzeit über
+                    50.000 weitere Personeneinträge (darunter auch eine erhebliche Anzahl von
+                    Personen, die nach 1950 verstorben sind)&nbsp; und bildet gemeinsam mit der biographischen
+                    Kartei, die ca. 80.000 Namen umfaßt (und sukzessive in die Datenbank
+                    eingearbeitet wird), die Grundlage für eine umfangreiche
+                    biographische Dokumentation. Die Alphabetisierung der Online-Edition erfolgt
+                    weitgehend nach den gleichen Kriterien wie im gedruckten Werk (also ohne
+                    Berücksichtigung von Sonderzeichen und Umlauten); einige „Sonderregelungen“, z.
+                    B. die vereinheitlichte Sortierung bestimmter Namensformen, die häufig
+                    unterschiedlich geschrieben werden (z.B. Maier = Mayer = Meier) blieben jedoch
+                    unberücksichtigt, daher kann die Reihenfolge der Personen in der Online-Edition von der Druckfassung
+                    geringfügig abweichen.</p>
+                <p>Bei der Erfassung der Eckdaten der gedruckten
+                    Biographien für das Online-Register wurden die Angaben tlw. modifiziert und
+                    ergänzt: So wurden beispielsweise die Berufsbezeichnungen vielfach normiert und
+                    fehlende Berufsangaben hinzugefügt; in etlichen Fällen wurden auch zusätzliche
+                    Namensvarianten (z. B. Pseudonyme, Künstlernamen) bzw. abweichende
+                    Schreibweisen, die in der gedruckten Biographie nicht in der „Titelzeile“
+                    aufscheinen, ergänzt. Daher können die Einträge im Register von den Angaben im
+                    gedruckten Werk (und damit auch von den digitalisierten Biographien) durchaus etwas abweichen.
+                    Auch die enthaltenen Verweise
+                    differieren tlw. von den gedruckten und sind im Umfang keinesfalls als
+                    vollständig zu erachten. Die vorliegende Online-Edition ist als „work in
+                    progress“ zu verstehen und wird künftig immer wieder ergänzt beziehungsweise
+                    modifiziert werden. Der jeweils aktuelle Stand der Online-Edition (Zeitpunkt der
+                    letzten Aktualisierung, die Anzahl der Registereinträge sowie die der
+                    verfügbaren Biographien) werden durch entsprechende Angaben am Titelblatt (= Startseite)
+                    ausgewiesen.</p>
+                <p>Im
+                    Personenregister kann entweder über die Auswahl eines Anfangsbuchstabens – der aufgrund
+                    der Anzahl der Einträge im Regelfall zu weiteren Unterteilungen innerhalb dieses
+                    Anfangsbuchstabens führt – oder über das Suchformular nach folgenden
+                    Kriterien gesucht werden:</p>
+                <ul>
+                    <li>
+                       Nachname inkl. Namensvarianten, Pseudonymen usw.
+                    </li>
+                    <li>
+                    Vorname mit Varianten, abweichenden Schreibweisen usw.
+                    </li>
+                    <li>
+                        Geschlecht
+                    </li>
+                    <li>
+                        Geburts- und Sterbejahr (exakt bzw. durch Auswahl eines Selektors)
+                    </li>
+                    <li>
+                        <p>Berufsklassifikation</p>
+                    </li>
+                </ul>
+                <p>Weitere Hinweise zur Suche enthält
+                    eine Hilfedatei, die über das geöffnete Suchformular (= "Suche im Lexikon") aufgerufen werden
+                    kann.</p>
+                <p> Die Ergebnisse der Abfrage werden in
+                    einer Liste wiedergegeben. Durch das Anklicken eines Eintrags
+                    wird im ursprünglichen Fenster (Hauptfenster) der vollständige Registereintrag mit
+                    den genauen Publikationsangaben der Biographie (Band, Lieferung, Seite) angezeigt.
+                    Falls es sich um eine Person
+                    handelt, die im Rahmen einer „Hauptbiographie“ miterwähnt ist ("Subbiographie"),
+                    wird dieser Umstand bei den Publikationsangaben ebenfalls ausgewiesen. Sollte
+                    die entsprechende Biographie online verfügbar sein, so wird dies durch einen entsprechenden Link
+                    unterhalb des Registereintrags "[Biographie
+                    (PDF)...]" ausgewiesen; um diesen Artikel einsehen zu können, ist jedoch eine
+                    Registrierung (Benutzername und Paßwort bzw. registrierte IP-Adresse) zwingend
+                    erforderlich!</p>
+                <p>Es wird nochmals nachdrücklich darauf hingewiesen, daß
+                    eine Zusendung der gedruckten (bzw. gescannten) Biographie zum jeweiligen Registereintrag seitens
+                    der Redaktion <b>nicht</b> vorgesehen ist. Das frei verfügbare Online-Register ist grundsätzlich
+                    als Orientierungshilfe und Instrument zur gezielten Auffindung von der im
+                    Lexikon aufgenommenen Einzelpersonen bzw. Personengruppen gedacht; ein kostenloser Zugriff auf
+                    die vollständige Biographie ist jedoch nicht vorgesehen. Einzelne „Probeartikel“ können jedoch immer
+                    wieder
+                    gebührenfrei angeboten werden. Anregungen und Verbesserungsvorschläge werden von
+                    der Redaktion des Österreichischen Biographischen Lexikons gerne
+                    entgegengenommen.</p>
+                <p>Besonderer Dank gebührt der philosophisch-historischen Klasse
+                    der Österreichischen Akademie der Wissenschaften, die dieses Projekt finanziell
+                    unterstützt und die Realisierung der Online-Edition ermöglicht hat. Für die
+                    Datenerfassung, Überarbeitung und Kontrolle ist Frau Mag. Eva Offenthaler und
+                    Frau Mag. Dr. Waltraud Zuleger zu danken.</p>
+                <p>Wien, im April 2007</p>
+            </div>
+        </div>
+    </article>
 </div>
 {% endblock content %}
