@@ -4,10 +4,12 @@ from dal import autocomplete
 from apis_core.apis_entities.models import Person
 from apis_core.apis_vocabularies.models import ProfessionType
 
-from . utils import oebl_persons
+from . utils import oebl_persons, get_born_range, get_died_range
 from . filter_utils import born_in_filter, died_in_filter
 from . widgets import NoUISliderInput
 
+born_range = get_born_range()
+died_range = get_died_range()
 
 
 class PersonListFilter(django_filters.FilterSet):
@@ -61,29 +63,18 @@ class PersonListFilter(django_filters.FilterSet):
     start_date = django_filters.DateFromToRangeFilter(
         label="Geburtsdatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "date_min": "1799-01-01",
-            "date_max": "1850-01-01"
+            "date_min": born_range[0],
+            "date_max": born_range[1]
         }),
     )
-
 
     end_date = django_filters.DateFromToRangeFilter(
         label="Sterbedatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "date_min":"1815-01-01",
-            "date_max":"1950-01-01"
+            "date_min": died_range[0],
+            "date_max": died_range[1]
         }),
-        
     )
-
-    # start_date = django_filters.DateFromToRangeFilter(
-    #     label="Geburtsdatum (Zeitraum)",
-    #     help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
-    # )
-    # end_date = django_filters.DateFromToRangeFilter(
-    #     label="Sterbedatum (Zeitraum)",
-    #     help_text="Eingabe eines Zeitraumes YYYY-MM-DD - YYYY-MM-DD",
-    # )
 
     class Meta:
         model = Person

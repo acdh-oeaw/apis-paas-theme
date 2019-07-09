@@ -98,7 +98,8 @@ h6 {
 }
 
 .select2-selection,.bootstrap-select .btn {
-background:white;
+  background:white;
+  color:#333
 }
 
 

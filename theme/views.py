@@ -66,7 +66,8 @@ class PersonListView(GenericListView):
     ]
 
     def get_queryset(self, **kwargs):
-        self.filter = self.filter_class(self.request.GET, queryset=oebl_persons)
+        self.filter = self.filter_class(self.request.GET,
+                                        queryset=oebl_persons)
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
 

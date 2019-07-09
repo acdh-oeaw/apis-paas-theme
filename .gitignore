@@ -1,2 +1,3 @@
 /theme/__pycache__/*.pyc
 /theme/migrations/__pycache__/__init__.cpython-36.pyc
+*cpython-36.pyc
