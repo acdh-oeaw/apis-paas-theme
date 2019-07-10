@@ -11,7 +11,6 @@ from . widgets import NoUISliderInput
 born_range = get_born_range()
 died_range = get_died_range()
 
-
 class PersonListFilter(django_filters.FilterSet):
     place_of_birth = django_filters.CharFilter(
         lookup_expr='icontains',
@@ -63,16 +62,16 @@ class PersonListFilter(django_filters.FilterSet):
     start_date = django_filters.DateFromToRangeFilter(
         label="Geburtsdatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "date_min": born_range[0],
-            "date_max": born_range[1]
+            "date_min": born_range[0].strftime('%Y-%m-%d'),
+            "date_max": born_range[1].strftime('%Y-%m-%d')
         }),
     )
 
     end_date = django_filters.DateFromToRangeFilter(
         label="Sterbedatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
-            "date_min": died_range[0],
-            "date_max": died_range[1]
+            "date_min": died_range[0].strftime('%Y-%m-%d'),
+            "date_max": born_range[1].strftime('%Y-%m-%d')
         }),
     )
 
