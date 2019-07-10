@@ -71,7 +71,7 @@ class PersonListFilter(django_filters.FilterSet):
         label="Sterbedatum (Zeitraum)",
         widget=NoUISliderInput(attrs={
             "date_min": died_range[0].strftime('%Y-%m-%d'),
-            "date_max": born_range[1].strftime('%Y-%m-%d')
+            "date_max": died_range[1].strftime('%Y-%m-%d')
         }),
     )
 
