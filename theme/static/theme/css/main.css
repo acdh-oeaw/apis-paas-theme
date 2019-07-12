@@ -869,16 +869,6 @@ ul.dropdown-menu-form {
   font-weight:bold;
 }
 
-#contentDetails .bio {
-  -webkit-column-count: 3; /* Old Chrome, Safari and Opera */
-  -moz-column-count: 3; /* Old Firefox */
-  column-count: 3;
-  -webkit-column-gap: 3rem; /* Old Chrome, Safari and Opera */
-  -moz-column-gap: 3rem; /* Old Firefox */
-  column-gap: 3rem;
-  font-size: 0.8rem;
-}
-
 #contentDetails .preventity, #contentDetails .nextentity {
  width:24px;
 }
@@ -1079,4 +1069,14 @@ ul.relentities  {
 
 .uris {
   list-style-type:none;
+}
+
+.professioncats {
+  text-align:right;
+}
+
+.professioncat.badge {
+  background:#CD2324;
+  font-weight:normal;
+  font-size:0.6rem;
 }

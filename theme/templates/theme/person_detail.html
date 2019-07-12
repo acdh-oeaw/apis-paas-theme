@@ -1,11 +1,13 @@
 {% extends "theme/base.html" %}
 {% load staticfiles %}
 {% load webpage_extras %}
+{% load custom_tags %}
 {% block title %}{{ object }}{% endblock %}
 {% block content %}
 <div id="contentDetails" class="container pt-5">
     <div class="row">
-        <article class="card col-md-12 flat-style">
+        <div class="col-md-6">
+        <article class="card flat-style">
             <div class="entry-header pt-3">
                 <div class="row justify-content-between">
                     <div class="col">
@@ -32,89 +34,65 @@
 
                         <h2 class="pl-4">{{ object.name}}{%if object.first_name %},
                             {{ object.first_name}}{% endif %}</h2>
-                        <p class="pl-4"> {% for x in object.profession.all %} {{x.name }} {% endfor %}, <abbr
-                                title='geboren'>*</abbr> {{object.start_date_written }}, <abbr
-                                title='gestorben'>†</abbr>{{object.end_date_written }}</p>
+                        <p class="pl-4"> {{ profession }}, <abbr
+                                title='geboren'>geb.</abbr> {{object.start_date_written }}, <abbr
+                                title='gestorben'>gest.</abbr> {{object.end_date_written }}</p>
                     </div>
                 </div>
             </div>
             <div class="card-body pt-2">
                 <p class="bio">{{ main_text }}</p>
-                <ul class="uris pl-0">{% for uri in object.uri_set.all %}
-                    <li class="pl-0"><a target="_blank" rel="noopener noreferrer" href="{{uri}}">{{uri}}</a></li>
-                    {% endfor %}
-                </ul>
             </div>
         </article>
     </div>
-    <div class="row pt-5">
-            <article class="card col-md-4 flat-style">
+    <div class="col-md-6">
+            <article class="card flat-style">
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
-                    <div class="entry-header">
-                        Personen
+                    <div class="entry-header professioncats p-3">
+                        {% if profession_categories is not None %}
+                        {% for profession in profession_categories %}
+                       <span class="professioncat badge badge-pill badge-primary">{{ profession.name }}</span>
+                        {% endfor %}
+                        {% endif %}
                     </div>
-                    <div class="entry-content"></div>
-                </div>
-            </article>
-            <article class="card col-md-4 flat-style">
-                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
-                    <div class="entry-header">
-                        Orte
-                    </div>
-                    <div class="entry-content">
+                    <div class="entry-content pl-3">
+                        <h4>Links</h4>
+                        <ul class="uris pl-0">{% for uri in object.uri_set.all %}
+                            <li class="pl-0"><a target="_blank" rel="noopener noreferrer" href="{{uri}}">{{uri}}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <h4>Personen</h4>
                         <ul class="relentities">
-                            {% for x in object.personplace_set.all %}
+                            {% for x in related_persons %}
                             <li class="pl-0">
                                 
                                 {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
-                                {% if x.start_date_written or x.end_date_written %}
-                                (
-                                {% endif %}
-                                {% if x.start_date_written is not None %}
-                                {{x.start_date_written}}
-                                {% endif %}
-                                {% if x.end_date_written%} - {% endif %}
-                                {% if x.end_date_written is not None %}
-                                {{ x.end_date_written }}
-                                {% endif %}
-                                {% if x.start_date_written or x.end_date_written %}
-                                )
-                                {% endif %}
+                                {% formated_daterange x.start_date_written x.end_date_written %} 
                             </li>
                             {% endfor %}
                         </ul>
-                    </div>
-                </div>
-            </article>
-            <article class="card col-md-4 flat-style">
-                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
-                    <div class="entry-header">
-                        Institutionen
-                    </div>
-                    <div class="entry-content">
+                        <h4>Orte</h4>
                         <ul class="relentities">
-                            {% for x in object.personinstitution_set.all %}
+                            {% for x in related_places %}
+                            <li class="pl-0">
+                                {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
+                                 {% formated_daterange x.start_date_written x.end_date_written %} 
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <h4>Institutionen</h4>
+                        <ul class="relentities">
+                            {% for x in related_institutions %}
                             <li class="pl-0">
                                 {{ x.relation_type }} <strong>{{x.related_institution }}</strong>
-                                {% if x.start_date_written or x.end_date_written %}
-                                (
-                                {% endif %}
-                                {% if x.start_date_written is not None %}
-                                {{x.start_date_written}}
-                                {%endif%} 
-                                {% if x.end_date_written %} - {% endif %}
-                                {% if x.end_date_written is not None %}
-                                {{x.end_date_written}}
-                                {%endif%}
-                                {% if x.start_date_written or x.end_date_written %}
-                                )
-                                {% endif %} 
+                                {% formated_daterange x.start_date_written x.end_date_written %} 
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
                 </div>
             </article>
+        </div>
     </div>
 </div>
 
