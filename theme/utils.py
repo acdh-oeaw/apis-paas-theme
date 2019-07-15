@@ -12,6 +12,10 @@ try:
 except AttributeError:
     FEATURED_COLLECTION_NAME = None
 
+try:
+    BIRTH_REL_NAME = settings.BIRTH_REL_NAME
+except AttributeError:
+    BIRTH_REL_NAME = None
 
 try:
     MAIN_TEXT = settings.MAIN_TEXT_NAME
@@ -27,6 +31,7 @@ def get_main_text(MAIN_TEXT):
 
 
 def enrich_person_context(person_object, context):
+    place_of_birth = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).fist()
     try:
         context['profession'] = person_object.profession.all().last().name
     except AttributeError:
