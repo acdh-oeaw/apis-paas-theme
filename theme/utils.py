@@ -36,15 +36,20 @@ def get_main_text(MAIN_TEXT):
 
 
 def enrich_person_context(person_object, context):
-
-    try:
-        context['place_of_birth'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).first().related_place
-    except AttributeError:
-        context['place_of_birth'] = None
-    try:
-        context['place_of_death'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=DEATH_REL_NAME).first().related_place
-    except AttributeError:
-        context['place_of_death'] = None
+    if BIRTH_REL_NAME is not None:
+        try:
+            context['place_of_birth'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).first().related_place
+        except AttributeError:
+            context['place_of_birth'] = None
+    else:
+        context['place_of_birth'] = 'Please define place of birth variable'
+    if DEATH_REL_NAME is not None:
+        try:
+            context['place_of_death'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=DEATH_REL_NAME).first().related_place
+        except AttributeError:
+            context['place_of_death'] = None
+    else:
+        context['place_of_death'] = 'Please define place of death variable'
     try:
         context['profession'] = person_object.profession.all().last().name
     except AttributeError:

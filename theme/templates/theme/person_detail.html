@@ -35,8 +35,8 @@
                         <h2 class="pl-4">{{ object.name}}{%if object.first_name %},
                             {{ object.first_name}}{% endif %}</h2>
                         <p class="pl-4"> {{ profession }}, <abbr
-                                title='geboren'>geb.</abbr> {{object.start_date_written }} in {{place_of_birth}}, <abbr
-                                title='gestorben'>gest.</abbr> {{object.end_date_written }} in {{place_of_death}}</p>
+                                title='geboren'>geb.</abbr> {{object.start_date_written }}{% if place_of_birth is not None %} in {{place_of_birth}}{% endif %}, <abbr
+                                title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}</p>
                     </div>
                 </div>
             </div>
