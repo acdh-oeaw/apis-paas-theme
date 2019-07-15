@@ -9,7 +9,6 @@
         <div class="col-md-6">
         <article class="card flat-style">
             <div class="entry-header pt-3">
-                <h2>{{ maint_text }}</h2>
                 <div class="row justify-content-between">
                     <div class="col">
                         {% if prev.id %}
@@ -36,8 +35,8 @@
                         <h2 class="pl-4">{{ object.name}}{%if object.first_name %},
                             {{ object.first_name}}{% endif %}</h2>
                         <p class="pl-4"> {{ profession }}, <abbr
-                                title='geboren'>geb.</abbr> {{object.start_date_written }}, <abbr
-                                title='gestorben'>gest.</abbr> {{object.end_date_written }}</p>
+                                title='geboren'>geb.</abbr> {{object.start_date_written }} in {{place_of_birth}}, <abbr
+                                title='gestorben'>gest.</abbr> {{object.end_date_written }} in {{place_of_death}}</p>
                     </div>
                 </div>
             </div>

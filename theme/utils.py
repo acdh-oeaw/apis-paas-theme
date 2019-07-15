@@ -18,6 +18,11 @@ except AttributeError:
     BIRTH_REL_NAME = None
 
 try:
+    DEATH_REL_NAME = settings.DEATH_REL_NAME
+except AttributeError:
+    DEATH_REL_NAME = None
+
+try:
     MAIN_TEXT = settings.MAIN_TEXT_NAME
 except AttributeError:
     MAIN_TEXT = None
@@ -31,7 +36,15 @@ def get_main_text(MAIN_TEXT):
 
 
 def enrich_person_context(person_object, context):
-    place_of_birth = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).fist()
+
+    try:
+        context['place_of_birth'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).first().related_place
+    except AttributeError:
+        context['place_of_birth'] = None
+    try:
+        context['place_of_death'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=DEATH_REL_NAME).first().related_place
+    except AttributeError:
+        context['place_of_death'] = None
     try:
         context['profession'] = person_object.profession.all().last().name
     except AttributeError:
