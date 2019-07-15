@@ -5,11 +5,25 @@ from django.db.models import Q
 
 from apis_core.apis_entities.models import Person
 from apis_core.apis_relations.models import PersonPlace
+from apis_core.apis_metainfo.models import Text
 
 try:
     FEATURED_COLLECTION_NAME = settings.FEATURED_COLLECTION_NAME
 except AttributeError:
     FEATURED_COLLECTION_NAME = None
+
+
+try:
+    MAIN_TEXT = settings.MAIN_TEXT_NAME
+except AttributeError:
+    MAIN_TEXT = None
+
+
+def get_main_text(MAIN_TEXT):
+    if MAIN_TEXT is not None:
+        return MAIN_TEXT
+    else:
+        return None
 
 
 def enrich_person_context(person_object, context):
@@ -34,6 +48,12 @@ def enrich_person_context(person_object, context):
         context['related_institutions'] = person_object.personinstitution_set.all
     except AttributeError:
         context['related_institutions'] = None
+    if get_main_text(MAIN_TEXT) is not None:
+        context['main_text'] = person_object.text.filter(
+            kind__name__icontains=MAIN_TEXT
+        ).first().text
+    else:
+        context['maint_text'] = None
     return context
 
 

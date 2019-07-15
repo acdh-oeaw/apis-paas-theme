@@ -92,7 +92,6 @@ class PersonDetailView(DetailView):
         except AttributeError:
             context['next'] = None
         main_text = self.object.text.all()[0].text
-        context['main_text'] = main_text
         enriched_context = enrich_person_context(self.object, context)
 
         return enriched_context

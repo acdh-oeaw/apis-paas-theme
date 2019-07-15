@@ -9,6 +9,7 @@
         <div class="col-md-6">
         <article class="card flat-style">
             <div class="entry-header pt-3">
+                <h2>{{ maint_text }}</h2>
                 <div class="row justify-content-between">
                     <div class="col">
                         {% if prev.id %}
@@ -65,9 +66,9 @@
                         <ul class="relentities">
                             {% for x in related_persons %}
                             <li class="pl-0">
-                                
+
                                 {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
-                                {% formated_daterange x.start_date_written x.end_date_written %} 
+                                {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
                         </ul>
@@ -76,7 +77,7 @@
                             {% for x in related_places %}
                             <li class="pl-0">
                                 {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
-                                 {% formated_daterange x.start_date_written x.end_date_written %} 
+                                 {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
                         </ul>
@@ -85,7 +86,7 @@
                             {% for x in related_institutions %}
                             <li class="pl-0">
                                 {{ x.relation_type }} <strong>{{x.related_institution }}</strong>
-                                {% formated_daterange x.start_date_written x.end_date_written %} 
+                                {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
                         </ul>

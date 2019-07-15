@@ -10,5 +10,8 @@ you also have to ovveride your custom-apis-settings-file e.g. `{myapisprocet}/ap
 
 for the FEATURED COLLECTION feature, add the constant to your custom settings-file:
 `FEATURED_COLLECTION_NAME = "FEATURED"`
-
 and add a Person to this collection
+
+
+Provide a string matching the `text.kind` you'd like to display as 'main_text' in your custom settings-file:
+`MAIN_TEXT_NAME = "ÖBL Haupttext"`
