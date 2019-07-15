@@ -12,6 +12,31 @@ except AttributeError:
     FEATURED_COLLECTION_NAME = None
 
 
+def enrich_person_context(person_object, context):
+    try:
+        context['profession'] = person_object.profession.all().last().name
+    except AttributeError:
+        context['profession'] = None
+    try:
+        if person_object.profession.all().count() > 1:
+            context['profession_categories'] = person_object.profession.all()[:person_object.profession.all().count()-1]
+    except AttributeError:
+        context['profession_categories'] = None
+    try:
+        context['related_places'] = person_object.personplace_set.all
+    except AttributeError:
+        context['related_places'] = None
+    try:
+        context['related_persons'] = person_object.personperson_set.all
+    except AttributeError:
+        context['related_persons'] = None
+    try:
+        context['related_institutions'] = person_object.personinstitution_set.all
+    except AttributeError:
+        context['related_institutions'] = None
+    return context
+
+
 def get_featured_person():
     if FEATURED_COLLECTION_NAME is not None:
         return Person.objects.filter(collection__name=FEATURED_COLLECTION_NAME).first()

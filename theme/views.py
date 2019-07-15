@@ -14,7 +14,7 @@ from webpage.views import get_imprint_url
 from . filters import PersonListFilter
 from . forms import PersonFilterFormHelper
 from . tables import PersonTable
-from . utils import oebl_persons, get_daily_entries, get_featured_person
+from . utils import oebl_persons, get_daily_entries, get_featured_person, enrich_person_context
 
 
 class ImprintView(TemplateView):
@@ -91,28 +91,8 @@ class PersonDetailView(DetailView):
             context['next'] = oebl_persons.filter(id__gt=self.object.id).first()
         except AttributeError:
             context['next'] = None
-        try:
-            context['profession'] = self.object.profession.all().last().name
-        except AttributeError:
-            context['profession'] = None
-        try:
-            if self.object.profession.all().count() > 1:
-                context['profession_categories'] = self.object.profession.all()[:self.object.profession.all().count()-1]
-        except AttributeError:
-            context['profession_categories'] = None
-        try:
-            context['related_places'] = self.object.personplace_set.all
-        except AttributeError:
-            context['related_places'] = None
-        try:
-            context['related_persons'] = self.object.personperson_set.all
-        except AttributeError:
-            context['related_persons'] = None
-        try:
-            context['related_institutions'] = self.object.personinstitution_set.all
-        except AttributeError:
-            context['related_institutions'] = None
         main_text = self.object.text.all()[0].text
         context['main_text'] = main_text
+        enriched_context = enrich_person_context(self.object, context)
 
-        return context
+        return enriched_context
