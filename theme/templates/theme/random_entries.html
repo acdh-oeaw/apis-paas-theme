@@ -2,6 +2,12 @@
 {% load staticfiles %}
 <div class="sectionheader">
         <h5 class="sectiontitle">Aus dem Lexikon</h5>
+        {% if featured_pers %}
+            <h3>FEATURED</h3>
+            <h4>{{ featured_pers }}</h4>
+        {% else %}
+            <h3>No Person related to collection "FEATURED", go do so!</h3>
+        {% endif %}
       </div>
         <div class="card-wrapper">
           {% for x in random_entries %}

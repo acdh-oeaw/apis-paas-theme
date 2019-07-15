@@ -14,7 +14,7 @@ from webpage.views import get_imprint_url
 from . filters import PersonListFilter
 from . forms import PersonFilterFormHelper
 from . tables import PersonTable
-from . utils import oebl_persons, get_daily_entries
+from . utils import oebl_persons, get_daily_entries, get_featured_person
 
 
 class ImprintView(TemplateView):
@@ -30,7 +30,8 @@ class ImprintView(TemplateView):
         else:
             context['imprint_body'] = """
             On of our services is currently not available. Please try it later or write an email to
-            acdh@oeaw.ac.at; if you are service provide, make sure that you provided ACDH_IMPRINT_URL and REDMINE_ID
+            acdh@oeaw.ac.at; if you are service provide, make sure that you provided
+            ACDH_IMPRINT_URL and REDMINE_ID
             """
         return context
 
@@ -41,6 +42,7 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['featured_pers'] = get_featured_person()
         enriched_context = get_daily_entries(context, oebl_persons)
         enriched_context['random_entries'] = random.sample(list(oebl_persons), 2)
         return enriched_context

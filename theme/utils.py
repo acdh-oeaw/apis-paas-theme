@@ -1,8 +1,23 @@
 from datetime import date, timedelta
+
+from django.conf import settings
 from django.db.models import Q
 
 from apis_core.apis_entities.models import Person
 from apis_core.apis_relations.models import PersonPlace
+
+try:
+    FEATURED_COLLECTION_NAME = settings.FEATURED_COLLECTION_NAME
+except AttributeError:
+    FEATURED_COLLECTION_NAME = None
+
+
+def get_featured_person():
+    if FEATURED_COLLECTION_NAME is not None:
+        return Person.objects.filter(collection__name=FEATURED_COLLECTION_NAME).first()
+    else:
+        return None
+
 
 oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
 

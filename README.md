@@ -6,3 +6,9 @@ on windows e.g.
 
 you also have to ovveride your custom-apis-settings-file e.g. `{myapisprocet}/apis/settings/server.py` by adding this line:
 `INSTALLED_APPS = INSTALLED_APPS + ['theme']`
+
+
+for the FEATURED COLLECTION feature, add the constant to your custom settings-file:
+`FEATURED_COLLECTION_NAME = "FEATURED"`
+
+and add a Person to this collection
