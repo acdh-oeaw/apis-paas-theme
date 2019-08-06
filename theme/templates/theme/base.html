@@ -17,7 +17,7 @@
     <!-- Fundament -->
     <link href="https://shared.acdh.oeaw.ac.at/fundament/dist/fundament/css/fundament.min.css" rel="stylesheet">
 
-    
+
    <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap" rel="stylesheet">
 
@@ -25,6 +25,24 @@
     <!-- Custom styles for this template -->
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="{%static 'theme/css/main.css' %}" />
+
+    <!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="{% projects_metadata 'matomo_url' %}";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', '{% projects_metadata "matomo_id" %}']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code -->
+
+
     {% block scriptHeader %}
     {% endblock %}
 </head>
