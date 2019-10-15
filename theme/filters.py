@@ -77,4 +77,4 @@ class PersonListFilter(django_filters.FilterSet):
 
     class Meta:
         model = Person
-        fields = "__all__"
+        exclude = ['annotation_set_relation']
