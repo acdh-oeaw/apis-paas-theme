@@ -25,7 +25,9 @@
                         </a>
                         {% endif %}
                     </div>
-
+                    <div class="col">
+                    <a href="/apis/api2/entity/{{ object.pk }}/?format=json"><i data-feather="download"></i> </a>
+                    </div>
                     <div class="col">
                         {% if next.id %}
                         <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}"
@@ -58,9 +60,15 @@
                     <h4>Networks</h4>
                     <div id="visualization" style="position: relative; background: #fafafa;"></div>
                     <form onsubmit="event.preventDefault();">
+                        {% if related_places %}
                     <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personplace', 'Place')">Person-Place</button>
-                    <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personinstitution', 'Institution')">Person-Institution</button>
-                    <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personperson', 'Person')">Person-Person</button>
+                    {% endif %}
+                    {% if related_institutions %}
+                        <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personinstitution', 'Institution')">Person-Institution</button>
+                    {% endif %}
+                    {% if related_persons %}
+                        <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personperson', 'Person')">Person-Person</button>
+                    {% endif %}
                     </form>
                 </div>
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
@@ -82,7 +90,7 @@
                             {% for x in related_persons %}
                             <li class="pl-0">
 
-                                {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
+                                {{ x.relation_type }} <i style="color: darkred">></i> <strong>{{ x.related_place }}</strong>
                                 {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
@@ -91,7 +99,7 @@
                         <ul class="relentities">
                             {% for x in related_places %}
                             <li class="pl-0">
-                                {{ x.relation_type }} <strong>{{ x.related_place }}</strong>
+                                {{ x.relation_type }} <i style="color: darkred">></i> <strong>{{ x.related_place }}</strong>
                                  {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
@@ -100,7 +108,7 @@
                         <ul class="relentities">
                             {% for x in related_institutions %}
                             <li class="pl-0">
-                                {{ x.relation_type }} <strong>{{x.related_institution }}</strong>
+                                {{ x.relation_type }} <i style="color: darkred">></i> <strong>{{x.related_institution }}</strong>
                                 {% formated_daterange x.start_date_written x.end_date_written %}
                             </li>
                             {% endfor %}
