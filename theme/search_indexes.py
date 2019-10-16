@@ -13,6 +13,6 @@ class TextIndex(indexes.SearchIndex, indexes.Indexable):
         return Text
 
     def index_queryset(self, using=None):
-        oebl_texts = [x.text.all()[0].id for x in oebl_persons]
+        #oebl_texts = [x.text.all()[0].id for x in oebl_persons]
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.filter(id__in=oebl_texts)
+        return self.get_model().objects.filter(tempentityclass__in=oebl_persons)

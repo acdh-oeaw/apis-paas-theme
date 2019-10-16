@@ -91,7 +91,6 @@ class PersonDetailView(DetailView):
             context['next'] = oebl_persons.filter(id__gt=self.object.id).first()
         except AttributeError:
             context['next'] = None
-        main_text = self.object.text.all()[0].text
         enriched_context = enrich_person_context(self.object, context)
 
         return enriched_context

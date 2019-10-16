@@ -72,11 +72,14 @@ def enrich_person_context(person_object, context):
     except AttributeError:
         context['related_institutions'] = None
     if get_main_text(MAIN_TEXT) is not None:
-        context['main_text'] = person_object.text.filter(
-            kind__name__icontains=MAIN_TEXT
-        ).first().text
+         txt = person_object.text.filter(
+            kind__name__icontains=MAIN_TEXT)
+         if txt.count() > 0:
+             context['main_text'] = txt.first().text
+         else:
+             context['main_text'] = 'Not specified'
     else:
-        context['maint_text'] = None
+        context['main_text'] = None
     return context
 
 
