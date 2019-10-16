@@ -9,12 +9,7 @@ register = template.Library()
 
 @register.simple_tag
 def people_count():
-    col = getattr(settings, 'APIS_OEBL_BIO_COLLECTION', 'ÖBL Biographie')
-    col1 = Collection.objects.filter(name=col)
-    if col1.count() == 1:
-        return Person.objects.filter(collection=col1[0]).count()
-    else:
-        return Person.objects.all().count()
+    return oebl_persons.count()
 
 
 @register.simple_tag

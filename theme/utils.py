@@ -5,7 +5,7 @@ from django.db.models import Q
 
 from apis_core.apis_entities.models import Person
 from apis_core.apis_relations.models import PersonPlace
-from apis_core.apis_metainfo.models import Text
+from apis_core.apis_metainfo.models import Text, Collection
 
 try:
     FEATURED_COLLECTION_NAME = settings.FEATURED_COLLECTION_NAME
@@ -87,7 +87,14 @@ def get_featured_person():
         return None
 
 
-oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
+col_oebl = getattr(settings, 'APIS_OEBL_BIO_COLLECTION', 'ÖBL Biographie')
+col_oebl = Collection.objects.filter(name=col_oebl)
+if col_oebl.count() == 1:
+    oebl_persons = Person.objects.filter(collection=col_oebl[0])
+else:
+    oebl_persons = Person.objects.all()
+
+#oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
 
 oebl_persons_with_date = oebl_persons.exclude(Q(start_date=None) |
                                               Q(end_date=None))
