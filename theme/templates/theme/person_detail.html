@@ -60,6 +60,7 @@
     <div class="col-md-6">
             <article class="card flat-style">
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
+                    {% leaflet_map "main" %}
                     <h4>Networks</h4>
                     <div id="visualization" style="position: relative; background: #fafafa;"></div>
                     <form onsubmit="event.preventDefault();">
@@ -73,7 +74,6 @@
                         <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personperson', 'Person')">Person-Person</button>
                     {% endif %}
                     </form>
-                {% leaflet_map "main" %}
                 </div>
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
                     <div class="entry-header professioncats p-3">
