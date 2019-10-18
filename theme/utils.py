@@ -102,11 +102,9 @@ else:
 oebl_persons_with_date = oebl_persons.exclude(Q(start_date=None) |
                                               Q(end_date=None))
 
-person_place_born = PersonPlace.objects.filter(
-    Q(relation_type__name__icontains='birth') | Q(relation_type__name__icontains='geboren')
+person_place_born = PersonPlace.objects.filter(relation_type__name__icontains=getattr(settings, "BIRTh_REL_NAME", "birth")
 )
-person_place_death = PersonPlace.objects.filter(
-    Q(relation_type__name__icontains='death') | Q(relation_type__name__icontains='gestorben')
+person_place_death = PersonPlace.objects.filter(relation_type__name__icontains=getattr(settings, 'DEATH_REL_NAME', 'death')
 )
 
 current_date = date.today()
