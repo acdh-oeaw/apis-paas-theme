@@ -38,14 +38,18 @@ def get_main_text(MAIN_TEXT):
 def enrich_person_context(person_object, context):
     if BIRTH_REL_NAME is not None:
         try:
-            context['place_of_birth'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=BIRTH_REL_NAME).first().related_place
+            context['place_of_birth'] = PersonPlace.objects.filter(
+                related_person=person_object
+            ).filter(relation_type__name__icontains=BIRTH_REL_NAME).first().related_place
         except AttributeError:
             context['place_of_birth'] = None
     else:
         context['place_of_birth'] = 'Please define place of birth variable'
     if DEATH_REL_NAME is not None:
         try:
-            context['place_of_death'] = PersonPlace.objects.filter(related_person=person_object).filter(relation_type__name__icontains=DEATH_REL_NAME).first().related_place
+            context['place_of_death'] = PersonPlace.objects.filter(
+                related_person=person_object
+            ).filter(relation_type__name__icontains=DEATH_REL_NAME).first().related_place
         except AttributeError:
             context['place_of_death'] = None
     else:
@@ -72,12 +76,12 @@ def enrich_person_context(person_object, context):
     except AttributeError:
         context['related_institutions'] = None
     if get_main_text(MAIN_TEXT) is not None:
-         txt = person_object.text.filter(
+        txt = person_object.text.filter(
             kind__name__icontains=MAIN_TEXT)
-         if txt.count() > 0:
-             context['main_text'] = txt.first().text
-         else:
-             context['main_text'] = 'Not specified'
+        if txt.count() > 0:
+            context['main_text'] = txt.first().text
+        else:
+            context['main_text'] = 'Not specified'
     else:
         context['main_text'] = None
     return context
@@ -97,14 +101,20 @@ if col_oebl.count() == 1:
 else:
     oebl_persons = Person.objects.all()
 
-#oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
+ #oebl_persons = Person.objects.exclude(Q(text=None) | Q(text__text=""))
 
 oebl_persons_with_date = oebl_persons.exclude(Q(start_date=None) |
                                               Q(end_date=None))
 
-person_place_born = PersonPlace.objects.filter(relation_type__name__icontains=getattr(settings, "BIRTh_REL_NAME", "birth")
+person_place_born = PersonPlace.objects.filter(
+    relation_type__name__icontains=getattr(
+        settings, "BIRTH_REL_NAME", "birth"
+    )
 )
-person_place_death = PersonPlace.objects.filter(relation_type__name__icontains=getattr(settings, 'DEATH_REL_NAME', 'death')
+person_place_death = PersonPlace.objects.filter(
+    relation_type__name__icontains=getattr(
+        settings, 'DEATH_REL_NAME', 'death'
+    )
 )
 
 current_date = date.today()

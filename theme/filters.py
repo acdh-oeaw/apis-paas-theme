@@ -11,6 +11,7 @@ from . widgets import NoUISliderInput
 born_range = get_born_range()
 died_range = get_died_range()
 
+
 class PersonListFilter(django_filters.FilterSet):
     place_of_birth = django_filters.CharFilter(
         lookup_expr='icontains',
