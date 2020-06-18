@@ -20,7 +20,7 @@
         <article class="card flat-style">
             <div class="entry-header pt-3">
                 <div class="row justify-content-between">
-                    <div class="col">
+                    <div class="col-md-auto">
                         {% if prev.id %}
                         <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}"
                             title="{{ prev }}">
@@ -29,9 +29,9 @@
                         {% endif %}
                     </div>
                     <div class="col">
-                    <a href="/apis/api2/entity/{{ object.pk }}/?format=json"><i data-feather="download"></i> </a>
+                        <h2 style="text-align:center">{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
                     </div>
-                    <div class="col">
+                    <div class="col-md-auto">
                         {% if next.id %}
                         <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}"
                             style="float:right" title="{{ next }}">
@@ -42,17 +42,13 @@
                 </div>
                 <div class="row">
                     <div class="col pt-2">
-
-
-                        <h2 class="pl-4">{{ object.name}}{%if object.first_name %},
-                            {{ object.first_name}}{% endif %}</h2>
-                        <p class="pl-4"> {{ profession }}, <abbr
+                        <p class="pl-4 pr-4 pt-2 pb-0"><i>{{ profession }}, <abbr
                                 title='geboren'>geb.</abbr> {{object.start_date_written }}{% if place_of_birth is not None %} in {{place_of_birth}}{% endif %}, <abbr
-                                title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}</p>
+                                title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}</i></p>
                     </div>
                 </div>
             </div>
-            <div class="card-body pt-2">
+            <div class="card-body pt-1">
                 <p class="bio">{{ main_text }}</p>
             </div>
         </article>
@@ -61,34 +57,15 @@
             <article class="card flat-style">
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
                     {% leaflet_map "main" %}
-                    <h4>Networks</h4>
-                    <div id="visualization" style="position: relative; background: #fafafa;"></div>
-                    <form onsubmit="event.preventDefault();">
-                        {% if related_places %}
-                    <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personplace', 'Place')">Person-Place</button>
-                    {% endif %}
-                    {% if related_institutions %}
-                        <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personinstitution', 'Institution')">Person-Institution</button>
-                    {% endif %}
-                    {% if related_persons %}
-                        <button class="btn btn-primary" name="add_pp" value="add_pp" onclick="getNetworkViz({{ object.pk }}, 'personperson', 'Person')">Person-Person</button>
-                    {% endif %}
-                    </form>
                 </div>
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
-                    <div class="entry-header professioncats p-3">
-                        {% if profession_categories is not None %}
-                        {% for profession in profession_categories %}
-                       <span class="professioncat badge badge-pill badge-primary">{{ profession.name }}</span>
-                        {% endfor %}
-                        {% endif %}
-                    </div>
-                    <div class="entry-content pl-3">
+                    <div class="entry-content pl-3 pt-3">
                         <h4>Links</h4>
                         <ul class="uris pl-0">{% for uri in object.uri_set.all %}
                             <li class="pl-0"><a target="_blank" rel="noopener noreferrer" href="{{uri}}">{{uri}}</a></li>
                             {% endfor %}
                         </ul>
+                        {% if related_persons %}
                         <h4>Personen</h4>
                         <ul class="relentities">
                             {% for x in related_persons %}
@@ -99,6 +76,8 @@
                             </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
+                        {% if related_places %}
                         <h4>Orte</h4>
                         <ul class="relentities">
                             {% for x in related_places %}
@@ -108,6 +87,8 @@
                             </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
+                        {% if related_institutions %}
                         <h4>Institutionen</h4>
                         <ul class="relentities">
                             {% for x in related_institutions %}
@@ -117,6 +98,7 @@
                             </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
                     </div>
                 </div>
             </article>
@@ -217,13 +199,21 @@
             return resp.json();
           })
           .then(function(data) {
-            L.geoJson(data, {
+            var jsonLayer = L.geoJson(data, {
               onEachFeature: function onEachFeature(feature, layer) {
                   console.log(feature)
                   var props = feature.properties;
                 var content = `<div><h3><a href=${props.url}>${props.name}</a></h3><p>${props.kind}<br/>${props.relation_kind}</p></div>`;
                 layer.bindPopup(content);
-            }}).addTo(map);
+            }});
+            jsonLayer.addTo(map);
+            var bounds =  jsonLayer.getBounds();
+            if (JSON.stringify(bounds['_northEast']) === JSON.stringify(bounds['_southWest'])) {
+                map.setView(bounds['_northEast'], 12);
+            } else {
+                map.fitBounds(jsonLayer.getBounds());
+            }
+            
           });
       });
     </script>

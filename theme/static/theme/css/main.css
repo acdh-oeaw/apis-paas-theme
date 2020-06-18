@@ -723,6 +723,10 @@ h4.subHeading {
   color:white;
 }
 
+.footer a {
+  color:white;
+}
+
 .footermenu {
   text-align:center;
 }
@@ -768,6 +772,7 @@ footer .logocaption {
   height: 40px;
   margin: 5px;
 }
+
 #links {
   position: relative;
 }
@@ -873,7 +878,6 @@ ul.dropdown-menu-form {
  width:24px;
 }
 
-#contentDetails svg.feather {width:24px;height:24px;}
 
 #contentDetails > div > .panel-default {
   border: 1px solid #AEC8EA;
@@ -954,6 +958,11 @@ ul.dropdown-menu-form {
 .leaflet-right {
   left: 50px;
 }
+
+.leaflet-container {
+  z-index:98;
+}
+
 .geoVerteilung .leaflet-top .geo {
   display: none;
 }
@@ -1079,4 +1088,20 @@ ul.relentities  {
   background:#CD2324;
   font-weight:normal;
   font-size:0.6rem;
+}
+
+.feather-16 {
+  width:16px;height:16px;
+}
+
+.dwnlds {
+  list-style-type: none;
+}
+
+.dwnlds li {
+  display:inline;
+}
+
+.dwnld-btn {
+  padding:0.3rem;
 }

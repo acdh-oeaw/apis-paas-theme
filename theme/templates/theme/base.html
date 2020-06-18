@@ -25,7 +25,17 @@
     <!-- Custom styles for this template -->
     <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="{%static 'theme/css/main.css' %}" />
-
+<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+<script type="text/javascript">
+  window.cookieconsent_options = {
+      "message":"This website uses cookies to ensure you get the best experience on our website",
+      "dismiss":"Got it!",
+      "learnMore":"More info",
+      "link":"{% projects_metadata 'imprint' %}",
+      "theme":"dark-bottom"};
+</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+<!-- End Cookie Consent plugin -->
     <!-- Matomo -->
 <script type="text/javascript">
   var _paq = window._paq || [];
@@ -76,7 +86,6 @@
                 </li>-->
                 <li class="nav-item"><a title="Suche" href="{% url 'theme:expert-search' %}" class="nav-link">Suche</a></li>
                 <li class="nav-item"><a title="UeberOEBL" href="{% url 'theme:about' %}" class="nav-link">Über das ÖBL</a></li>
-                  <li class="nav-item"><a title="APIS" href="{% url 'webpage:start' %}" class="nav-link">APIS</a></li>
                 <li class="nav-item"><a title="Kontakt" href="{% url 'theme:contact' %}" class="nav-link">Kontakt</a></li>
               </ul>
               <form class="form-inline my-2 my-lg-0 navbar-search-form" method="get" action="/search" role="search">
@@ -100,20 +109,18 @@
             <div class="container">
                 <footer>
                   <div class="row pt-3 pb-3 align-items-center">
-                    <div class="col-lg-3 col-md-3 col-12">
+                    <div class="col-sm-4 col-md-4 col-lg-4 col-12">
                       <img src="{%static 'theme/img/logo.svg' %}" class="img-fluid" alt="Oebl Logo" itemprop="logo" /><br/>
                       <p class="m-0 mt-1 logocaption"><small>Österreichisches<br/>
                       Biographisches<br/>
                       Lexikon</small></p>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-12 footermenu">
-                    <ul class="mb-0">
-                      <li class="pb-1">Menu Item</li>
-                      <li class="pb-1">Menu Item</li>
-                      <li class="pb-1">Menu Item</li>
+                    <div class="col-sm-4 col-md-4 col-lg-4 col-12 footermenu">
+                    <ul class="mb-0 pl-0">
+                      <li class="pb-1 pl-0"><a title="Impressum" href="{% url 'theme:imprint' %}" class="nav-link">Impressum</a></li>
                     </ul>
                   </div>
-                  <div class="col-lg-3 col-md-3 col-12" style="text-align:right">
+                  <div class="col-sm-4 col-md-4 col-lg-4 col-12" style="text-align:right">
                       <i onclick="scrollToTop()" data-feather="arrow-up"></i>
                   </div>
                   </div>
