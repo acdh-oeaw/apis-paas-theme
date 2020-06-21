@@ -1,9 +1,8 @@
 from django import template
-from django.conf import settings
 
+from apis_core.apis_entities.models import Institution, Place
 from theme.utils import oebl_persons
-from apis_core.apis_entities.models import Institution, Place, Person
-from apis_core.apis_metainfo.models import Collection
+
 register = template.Library()
 
 

@@ -1,7 +1,7 @@
 from django.conf.urls import url
-from django.views.generic.base import RedirectView
-from . import views
+
 from . import dal_views
+from . import views
 
 app_name = 'theme'
 
@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^about/$', views.AboutView.as_view(), name='about'),
     url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^expert-search/$', views.PersonListView.as_view(), name='expert-search'),
+    url(r'search2/?$', views.PersonSearchView.as_view(), name="search2"),
     url(
         r'^person/(?P<pk>[0-9]+)$',
         views.PersonDetailView.as_view(),

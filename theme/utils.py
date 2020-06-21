@@ -4,8 +4,8 @@ from django.conf import settings
 from django.db.models import Q
 
 from apis_core.apis_entities.models import Person
+from apis_core.apis_metainfo.models import Collection
 from apis_core.apis_relations.models import PersonPlace
-from apis_core.apis_metainfo.models import Text, Collection
 
 try:
     FEATURED_COLLECTION_NAME = settings.FEATURED_COLLECTION_NAME

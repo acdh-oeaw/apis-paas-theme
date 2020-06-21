@@ -1,0 +1,205 @@
+{% extends 'theme/base.html' %}
+{% block header %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-3TkfZEmzYvBVd+1vHr6ifxJIIW5U9rPTUq4ulalZmhHHehekhKN+V06eGYVniMRL" crossorigin="anonymous">
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+    <h2>Search</h2>
+
+<form action="" class="form-inline" method="get">
+    <div class="form-suche form-group">
+        <label class="sr-only" for="suche">Suche</label>
+        <input type="text" name="q" class="form-suche-input" id="suche" placeholder="Suche">
+    </div>
+    <button type="submit" class="btn btn-primary" value="Search">Suche</button>
+    <br/>
+</form>
+        {% if query %}
+    <!-- Begin faceting. -->
+<section class="facet">
+    <div class="facet-header">
+        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetPlaceOfDeath" aria-expanded="true" aria-controls="collapseExample">
+            <strong class="facet-title">Geburtsort</strong>
+        </button>
+    </div>
+    <div class="facet-body collapse show" id="facetPlaceOfBirth">
+        <ul class="facet-group">
+            {% for pb in facets.fields.place_of_birth|slice:":5" %}
+            <li class="facet-group-item">
+                <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_birth_exact:{{ pb.0|urlencode }}" class="facet-group-link">{{ pb.0 }}</a> ({{ pb.1 }})
+            </li>
+            {% endfor %}
+            <div class="collapse" id="facetPlaceOfBirthCollapseItem">
+                <ul class="facet-group">
+                    {% for pb in facets.fields.place_of_birth|slice:"5:" %}
+                    <li class="facet-group-item">
+                        <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_birth_exact:{{ pb.0|urlencode }}" class="facet-group-link">{{ pb.0 }}</a> ({{ pb.1 }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetPlaceOfBirthCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
+    </div>
+</section>
+<section class="facet">
+    <div class="facet-header">
+        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetPlaceOfDeath" aria-expanded="true" aria-controls="collapseExample">
+            <strong class="facet-title">Sterbeort</strong>
+        </button>
+    </div>
+    <div class="facet-body collapse show" id="facetPlaceOfDeath">
+        <ul class="facet-group">
+            {% for pd in facets.fields.place_of_death|slice:":5" %}
+            <li class="facet-group-item">
+                <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_death_exact:{{ pd.0|urlencode }}" class="facet-group-link">{{ pd.0 }}</a> ({{ pd.1 }})
+            </li>
+            {% endfor %}
+            <div class="collapse" id="facetPlaceOfDeathCollapseItem">
+                <ul class="facet-group">
+                    {% for pd in facets.fields.place_of_death|slice:"5:" %}
+                    <li class="facet-group-item">
+                        <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_death_exact:{{ pd.0|urlencode }}" class="facet-group-link">{{ pd.0 }}</a> ({{ pd.1 }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetPlaceOfDeathCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
+    </div>
+</section>
+<section class="facet">
+    <div class="facet-header">
+        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetProfession" aria-expanded="true" aria-controls="collapseExample">
+            <strong class="facet-title">Beruf</strong>
+        </button>
+    </div>
+    <div class="facet-body collapse show" id="facetProfession">
+        <ul class="facet-group">
+            {% for profession in facets.fields.profession|slice:":5" %}
+            <li class="facet-group-item">
+                <a href="{{ request.get_full_path }}&amp;selected_facets=profession_exact:{{ profession.0|urlencode }}" class="facet-group-link">{{ profession.0 }}</a> ({{ profession.1 }})
+            </li>
+            {% endfor %}
+            <div class="collapse" id="facetProfessionCollapseItem">
+                <ul class="facet-group">
+                    {% for profession in facets.fields.profession|slice:"5:" %}
+                    <li class="facet-group-item">
+                        <a href="{{ request.get_full_path }}&amp;selected_facets=profession_exact:{{ profession.0|urlencode }}" class="facet-group-link">{{ profession.0 }}</a> ({{ profession.1 }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetProfessionCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
+    </div>
+</section>
+<section class="facet">
+    <div class="facet-header">
+        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetEducation" aria-expanded="true" aria-controls="collapseExample">
+            <strong class="facet-title">Ausbildung</strong>
+        </button>
+    </div>
+    <div class="facet-body collapse show" id="facetEducation">
+        <ul class="facet-group">
+            {% for education in facets.fields.education|slice:":5" %}
+            <li class="facet-group-item">
+                <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
+            </li>
+            {% endfor %}
+            <div class="collapse" id="facetEducationCollapseItem">
+                <ul class="facet-group">
+                    {% for education in facets.fields.education|slice:"5:" %}
+                    <li class="facet-group-item">
+                        <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetEducationCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
+    </div>
+</section>
+<section class="facet">
+  <div class="facet-header">
+    <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetCareer" aria-expanded="true" aria-controls="collapseExample">
+      <strong class="facet-title">Karriere</strong>
+    </button>
+  </div>
+  <div class="facet-body collapse show" id="facetCareer">
+    <ul class="facet-group">
+        {% for career in facets.fields.career|slice:":5" %}
+      <li class="facet-group-item">
+          <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
+      </li>
+        {% endfor %}
+    <div class="collapse" id="facetCareerCollapseItem">
+      <ul class="facet-group">
+          {% for career in facets.fields.career|slice:"5:" %}
+        <li class="facet-group-item">
+            <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
+        </li>
+          {% endfor %}
+      </ul>
+    </div>
+    <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetCareerCollapseItem" aria-expanded="false" aria-controls="collapseExample">Show more</a>
+  </div>
+</section>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9" id="results">
+            <div class="card">
+                <div class="card-body">
+
+    <!-- End faceting -->
+            <h2>{{paginator.count}} Ergebnisse für Suche '{{query}}'</h2>
+           <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">geboren</th>
+      <th scope="col">gestorben</th>
+        <th scope="col">Beruf</th>
+        <th scope="col">Ausbildung</th>
+        <th scope="col">Karriere</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for result in page_obj.object_list %}
+                <tr>
+                    <th scope="row">{{ result.pk }}</th>
+                    <td><a href="/person/{{ result.pk }}">{{ result.name }}</a></td>
+                    <td>{{ result.birth_date_show|default_if_none:"-" }} / {{ result.place_of_birth|default_if_none:"-" }}</td>
+                    <td>{{ result.death_date_show|default_if_none:"-" }} / {{ result.place_of_death|default_if_none:"-" }}</td>
+                    <td>{{ result.profession|join:", "|default_if_none:"-" }}</td>
+                    <td>{{ result.education|join:", "|default_if_none:"-" }}</td>
+                    <td>{{ result.career|join:", "|default_if_none:"-" }}</td>
+                </tr>
+  {% empty %}
+  <p>No results found.</p>
+  {% endfor %}
+  </tbody>
+           </table>
+
+            {% if is_paginated %}
+                <div>
+                    {% if page_obj.has_previous %}<a href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}">{% endif %}&laquo; Previous{% if page_obj.has_previous %}</a>{% endif %}
+                    |
+                    {% if page_obj.has_next %}<a href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}">{% endif %}Next &raquo;{% if page_obj.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+            {% endblock %}
+

@@ -1,12 +1,11 @@
 import itertools
-from dal import autocomplete
 
+from dal import autocomplete
 from django.db.models import Q
 
 from apis_core.apis_labels.models import Label
 from apis_core.apis_vocabularies.models import ProfessionType
-
-from . utils import oebl_persons
+from .utils import oebl_persons
 
 
 class ProfessionAC(autocomplete.Select2QuerySetView):

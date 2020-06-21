@@ -1,5 +1,4 @@
 import django_filters
-from django.template import loader
 from django import forms
 
 

@@ -3,10 +3,9 @@ from dal import autocomplete
 
 from apis_core.apis_entities.models import Person
 from apis_core.apis_vocabularies.models import ProfessionType
-
-from . utils import oebl_persons, get_born_range, get_died_range
-from . filter_utils import born_in_filter, died_in_filter
-from . widgets import NoUISliderInput
+from .filter_utils import born_in_filter, died_in_filter
+from .utils import get_born_range, get_died_range
+from .widgets import NoUISliderInput
 
 born_range = get_born_range()
 died_range = get_died_range()

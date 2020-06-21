@@ -1,20 +1,19 @@
-import requests
-import datetime
 import random
-import copy
-from django.db.models import Q
 
+import requests
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 
-from browsing.browsing_utils import GenericListView
 from apis_core.apis_entities.models import Person
-
+from browsing.browsing_utils import GenericListView
 from webpage.views import get_imprint_url
-from . filters import PersonListFilter
-from . forms import PersonFilterFormHelper
-from . tables import PersonTable
-from . utils import oebl_persons, get_daily_entries, get_featured_person, enrich_person_context
+from .filters import PersonListFilter
+from .forms import PersonFilterFormHelper
+from .tables import PersonTable
+from .utils import oebl_persons, get_daily_entries, get_featured_person, enrich_person_context
+from haystack.generic_views import FacetedSearchView
+from haystack.forms import FacetedSearchForm
+from haystack.query import SearchQuerySet
 
 
 class ImprintView(TemplateView):
@@ -73,6 +72,18 @@ class PersonListView(GenericListView):
         self.filter.form.helper = self.formhelper_class()
         return self.filter.qs
 
+
+class PersonSearchView(FacetedSearchView):
+    template_name = 'theme/person_search.html'
+    queryset = SearchQuerySet()
+    form_class = FacetedSearchForm
+    facet_fields = ['place_of_birth', 'place_of_death', 'profession', 'education', 'career']
+    
+    def get(self, request, *args, **kwargs):
+        r = super(PersonSearchView, self).get(self, request, *args, **kwargs)
+        print('get')
+        print(r)
+        return r
 
 class PersonDetailView(DetailView):
     model = Person
