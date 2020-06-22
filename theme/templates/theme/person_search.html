@@ -1,6 +1,5 @@
 {% extends 'theme/base.html' %}
 {% block header %}
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-3TkfZEmzYvBVd+1vHr6ifxJIIW5U9rPTUq4ulalZmhHHehekhKN+V06eGYVniMRL" crossorigin="anonymous">
 {% endblock %}
 {% block content %}
 
@@ -11,12 +10,23 @@
                 <div class="card-body">
     <h2>Search</h2>
 
-<form action="" class="form-inline" method="get">
+<form action="" method="get">
     <div class="form-suche form-group">
         <label class="sr-only" for="suche">Suche</label>
-        <input type="text" name="q" class="form-suche-input" id="suche" placeholder="Suche">
+        <input type="text" name="q" class="form-suche-input" id="suche" placeholder="Suche" {% if query %}value="{{form.cleaned_data.q}}"{% endif %}>
     </div>
-    <button type="submit" class="btn btn-primary" value="Search">Suche</button>
+        <h4>Lebensdaten</h4>
+    <div class="form-group">
+    <label for="start_date_form">von</label>
+        <input type="range" oninput="start_date_form_out.value=start_date_form.value" name="start_date_form" id="start_date_form" value={% if query %}"{{form.cleaned_data.start_date_form|default:1740}}"{% else %}1740{% endif %} min="1700" max="1990">
+        <output for="start_date_form" id="start_date_form_out">{% if query %}{{form.cleaned_data.start_date_form|default:1740}}{% else %}1740{% endif %}</output>
+    </div>
+    <div class="form-group">
+        <label for="end_date_form">bis</label>
+        <input type="range" oninput="end_date_form_out.value=end_date_form.value" class="multi-range" name="end_date_form" id="end_date_form"  value={% if query %}"{{form.cleaned_data.end_date_form|default:1955}}"{% else %}1955{% endif %} min="1700" max="1990">
+        <output for="end_date_form" id="end_date_form_out">{% if query %}{{form.cleaned_data.end_date_form|default:1955}}{% else %}1955{% endif %}</output>
+    </div>
+        <button type="submit" class="btn btn-primary" value="Search">Suche</button>
     <br/>
 </form>
         {% if query %}

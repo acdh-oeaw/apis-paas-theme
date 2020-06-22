@@ -1,6 +1,25 @@
 from crispy_forms.bootstrap import Accordion, AccordionGroup
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Fieldset
+from django import forms
+from haystack.forms import FacetedSearchForm, SearchForm
+from apis_core.helper_functions.DateParser import parse_date
+
+
+class PersonFacetedSearchForm(FacetedSearchForm):
+    start_date_form = forms.CharField(required=False)
+    end_date_form = forms.CharField(required=False)
+
+    def search(self):
+        sqs = super(PersonFacetedSearchForm, self).search()
+        if not self.is_valid():
+            return self.no_query_found()
+        if self.cleaned_data['start_date_form']:
+            sqs = sqs.filter(death_date__gte=parse_date(self.cleaned_data['start_date_form'])[0])
+        if self.cleaned_data['end_date_form']:
+            sqs = sqs.filter(birth_date__lte=parse_date(self.cleaned_data['end_date_form'])[0])
+        return sqs
+
 
 
 class PersonFilterFormHelper(FormHelper):

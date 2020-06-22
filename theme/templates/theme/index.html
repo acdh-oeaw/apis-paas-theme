@@ -26,23 +26,15 @@
     {% include "theme/stats.html" %}
   </div>
   <div class="container startPageSearch">
-
+<form action="/search?" method="get">
     <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <select id="searchindex" class="form-control">
-          <option selected value="personsearch">Personen</option>
-          <option value="fulltextsearch">Volltext</option>
-        </select>
-      </div>
-        <select id="personsearch" class="custom-select js-data-example-ajax"></select>
-        <input id="fulltextsearch" style="display:none;" class="form-control navbar-search" id="s" type="text" placeholder="Volltextsuche" value=""
+        <input id="fulltextsearch" class="form-control navbar-search" name="q" id="s" type="text" placeholder="Suche" value=""
           autocomplete="off">
-      <div class="input-group-append" id="submitcontainer" onclick="goToPage(event)">
         <button class="btn btn-outline-secondary" type="button">
           <i data-feather="search" style="width: 20px; height: 20px;"></i>
         </button>
-      </div>
     </div>
+</form>
   </div>
   <div class="wrapper" id="index-wrapper">
     <div class="container" id="content" tabindex="-1">

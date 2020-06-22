@@ -4,6 +4,7 @@ from django.conf import settings
 from apis_core.apis_metainfo.models import Text
 from apis_core.apis_vocabularies.models import LabelType
 from apis_core.apis_labels.models import Label
+from apis_highlighter.models import AnnotationProject
 from .utils import oebl_persons
 from apis_core.apis_entities.models import Person
 
@@ -21,7 +22,9 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     profession = indexes.MultiValueField(null=True, faceted=True)
     education = indexes.MultiValueField(null=True, faceted=True)
     career = indexes.MultiValueField(null=True, faceted=True)
-     
+    education_show = indexes.MultiValueField(null=True)
+    career_show = indexes.MultiValueField(null=True)
+
     def get_model(self):
         return Person
     
@@ -38,7 +41,29 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         for txt in object.text.filter(kind__name__in=txt_types):
             res['texts'].append(txt.text)
         return res
-    
+   
+    def extract_relations(self, object, relation, rel_types, show=True):
+        res = []
+        rel_obj = relation.replace("person", "")
+        set_ann_proj = getattr(settings, "APIS_SEARCH_ANNOTATION_PROJECTS", [])
+        if show:
+            set_ann_proj_ids = list(AnnotationProject.objects.filter(published=True).values_list('pk', flat=True))
+        else:
+            set_ann_proj_ids = list(AnnotationProject.objects.filter(name__in=set_ann_proj).values_list('pk', flat=True))
+        for r1 in getattr(object, f"{relation}_set").all():
+            lst_lbls = [y.strip() for y in r1.relation_type.label.split('>>')]
+            if hasattr(r1, "annotation_set"):
+                ann = r1.annotation_set.all()
+                if ann.count() == 1:
+                    if ann[0].annotation_project_id not in set_ann_proj_ids:
+                        continue
+            for l in lst_lbls:
+                if l in rel_types:
+                    rel_obj_name = getattr(r1, f"related_{rel_obj}").name
+                    if rel_obj_name not in res:
+                        res.append(rel_obj_name)
+        return res
+
     def prepare_profession(self, object):
         return [x.label for x in object.profession.all()]
     
@@ -58,36 +83,26 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     
     def prepare_education(self, object):
         lst_edu = getattr(settings, "APIS_SEARCH_EDUCATION", [])
-        res = []
-        for x in object.personinstitution_set.all():
-            lst_lbls = [y.strip() for y in x.relation_type.label.split('>>')]
-            for l in lst_lbls:
-                if l in lst_edu:
-                    if x.related_institution.name not in res:
-                        res.append(x.related_institution.name)
-        for x in object.personplace_set.all():
-            lst_lbls = [y.strip() for y in x.relation_type.label.split('>>')]
-            for l in lst_lbls:
-                if l in lst_edu:
-                    if x.related_place.name not in res:
-                        res.append(x.related_place.name)
+        res = self.extract_relations(object, 'personinstitution', lst_edu, show=False)
+        res.extend(self.extract_relations(object, 'personplace', lst_edu, show=False))
+        return res
+    
+    def prepare_education_show(self, object):
+        lst_edu = getattr(settings, "APIS_SEARCH_EDUCATION", [])
+        res = self.extract_relations(object, 'personinstitution', lst_edu, show=True)
+        res.extend(self.extract_relations(object, 'personplace', lst_edu, show=True))
         return res
 
     def prepare_career(self, object):
-        lst_edu = getattr(settings, "APIS_SEARCH_CAREER", [])
-        res = []
-        for x in object.personinstitution_set.all():
-            lst_lbls = [y.strip() for y in x.relation_type.label.split('>>')]
-            for l in lst_lbls:
-                if l in lst_edu:
-                    if x.related_institution.name not in res:
-                        res.append(x.related_institution.name)
-        for x in object.personplace_set.all():
-            lst_lbls = [y.strip() for y in x.relation_type.label.split('>>')]
-            for l in lst_lbls:
-                if l in lst_edu:
-                    if x.related_place.name not in res:
-                        res.append(x.related_place.name)
+        lst_career = getattr(settings, "APIS_SEARCH_CAREER", [])
+        res = self.extract_relations(object, 'personinstitution', lst_career, show=False)
+        res.extend(self.extract_relations(object, 'personplace', lst_career, show=False))
+        return res
+
+    def prepare_career_show(self, object):
+        lst_career = getattr(settings, "APIS_SEARCH_CAREER", [])
+        res = self.extract_relations(object, 'personinstitution', lst_career, show=True)
+        res.extend(self.extract_relations(object, 'personplace', lst_career, show=True))
         return res
 
     def index_queryset(self, using=None):

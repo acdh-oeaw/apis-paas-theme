@@ -8,7 +8,7 @@ from apis_core.apis_entities.models import Person
 from browsing.browsing_utils import GenericListView
 from webpage.views import get_imprint_url
 from .filters import PersonListFilter
-from .forms import PersonFilterFormHelper
+from .forms import PersonFilterFormHelper, PersonFacetedSearchForm
 from .tables import PersonTable
 from .utils import oebl_persons, get_daily_entries, get_featured_person, enrich_person_context
 from haystack.generic_views import FacetedSearchView
@@ -76,7 +76,7 @@ class PersonListView(GenericListView):
 class PersonSearchView(FacetedSearchView):
     template_name = 'theme/person_search.html'
     queryset = SearchQuerySet()
-    form_class = FacetedSearchForm
+    form_class = PersonFacetedSearchForm
     facet_fields = ['place_of_birth', 'place_of_death', 'profession', 'education', 'career']
     
     def get(self, request, *args, **kwargs):

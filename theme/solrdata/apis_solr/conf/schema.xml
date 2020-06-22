@@ -121,6 +121,10 @@
     
     <field name="career_exact" type="string" indexed="true" stored="true" multiValued="true" />
     
+    <field name="education_show" type="text_de" indexed="true" stored="true" multiValued="true" />
+    
+    <field name="career_show" type="text_de" indexed="true" stored="true" multiValued="true" />
+    
     <uniqueKey>id</uniqueKey>
 
     <!--
