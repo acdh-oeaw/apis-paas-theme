@@ -64,15 +64,15 @@ def enrich_person_context(person_object, context):
     except AttributeError:
         context['profession_categories'] = None
     try:
-        context['related_places'] = person_object.personplace_set.all
+        context['related_places'] = person_object.personplace_set.all().filter_for_user()
     except AttributeError:
         context['related_places'] = None
     try:
-        context['related_persons'] = person_object.personperson_set.all
+        context['related_persons'] = person_object.personperson_set.all().filter_for_user()
     except AttributeError:
         context['related_persons'] = None
     try:
-        context['related_institutions'] = person_object.personinstitution_set.all
+        context['related_institutions'] = person_object.personinstitution_set.all().filter_for_user()
     except AttributeError:
         context['related_institutions'] = None
     if get_main_text(MAIN_TEXT) is not None:
@@ -84,6 +84,7 @@ def enrich_person_context(person_object, context):
             context['main_text'] = 'Not specified'
     else:
         context['main_text'] = None
+        print(context)
     return context
 
 
