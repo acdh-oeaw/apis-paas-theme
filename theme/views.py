@@ -83,6 +83,7 @@ class PersonSearchView(FacetedSearchView):
         r = super(PersonSearchView, self).get(self, request, *args, **kwargs)
         print('get')
         print(r)
+        #print(r['context_data']['form']['data']['selected_facets'])
         return r
 
 class PersonDetailView(DetailView):

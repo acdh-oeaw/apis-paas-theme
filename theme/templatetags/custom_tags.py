@@ -1,4 +1,6 @@
+import re
 from django import template
+import urllib.parse
 
 from apis_core.apis_entities.models import Institution, Place
 from theme.utils import oebl_persons
@@ -33,4 +35,25 @@ def formated_daterange(startdate, enddate):
         rangestring += ')'
     return rangestring
 
-    
+
+@register.simple_tag
+def normalize_facet(facet, kind, url=None):
+    norm_kind = {
+        'place_of_birth': 'Geburtsort',
+        'place_of_death': 'Sterbeort',
+        'career': 'Karriere',
+        'education': 'Ausbildung',
+        'profession': 'Beruf'
+    }
+    fac = facet.split(':')
+    fac[0] = fac[0].replace('_exact', '')
+    if kind == "name":
+        return f"{norm_kind[fac[0].lower()]}: '{fac[1]}'"
+    elif kind == "filter":
+        return url.replace(f"&selected_facets={fac[0]}_exact:{urllib.parse.quote(fac[1])}", '')
+
+
+@register.simple_tag
+def remove_facets(url):
+    url = re.subn('&selected_facets\=[^&]+', '', url)
+    return url[0]

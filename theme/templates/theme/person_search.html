@@ -1,4 +1,6 @@
 {% extends 'theme/base.html' %}
+{% load apis_templatetags %}
+{% load custom_tags %}
 {% block header %}
 {% endblock %}
 {% block content %}
@@ -31,6 +33,27 @@
 </form>
         {% if query %}
     <!-- Begin faceting. -->
+                    {% if form.data.selected_facets|length > 0 %}
+                    <section class="facet facet-highlighted">
+                        <div class="facet-header">
+                            <p class="facet-title"><strong>Deine Auswahl</strong></p>
+                            <a href="{% remove_facets request.get_full_path %}" type="button" class="btn btn-link btn-sm btn-right">Alle löschen <span class="icon-remove"></span></a>
+                        </div>
+                        <div class="facet-body">
+                            <ul class="facet-group">
+                                {% for fac in form.selected_facets %}
+                                <li class="facet-group-item">
+                                    <div class="facet-selected">
+                                        <a href="{% normalize_facet fac 'filter' request.get_full_path %}" type="button" class="btn btn-primary btn-facet">
+                                            {% normalize_facet fac 'name' %}
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </section>
+                    {% endif %}
 <section class="facet">
     <div class="facet-header">
         <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetPlaceOfDeath" aria-expanded="true" aria-controls="collapseExample">
@@ -115,16 +138,20 @@
     <div class="facet-body collapse show" id="facetEducation">
         <ul class="facet-group">
             {% for education in facets.fields.education|slice:":5" %}
+            {% if not '(Dummy)' in education.0 %}
             <li class="facet-group-item">
                 <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
             </li>
+            {% endif %}
             {% endfor %}
             <div class="collapse" id="facetEducationCollapseItem">
                 <ul class="facet-group">
                     {% for education in facets.fields.education|slice:"5:" %}
+                    {% if not '(Dummy)' in education.0 %}
                     <li class="facet-group-item">
                         <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
                     </li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -140,16 +167,20 @@
   <div class="facet-body collapse show" id="facetCareer">
     <ul class="facet-group">
         {% for career in facets.fields.career|slice:":5" %}
+        {% if not '(Dummy)' in career.0 %}
       <li class="facet-group-item">
           <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
       </li>
+        {% endif %}
         {% endfor %}
     <div class="collapse" id="facetCareerCollapseItem">
       <ul class="facet-group">
           {% for career in facets.fields.career|slice:"5:" %}
+          {% if not '(Dummy)' in career.0 %}
         <li class="facet-group-item">
             <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
         </li>
+          {% endif %}
           {% endfor %}
       </ul>
     </div>
@@ -186,8 +217,8 @@
                     <td>{{ result.birth_date_show|default_if_none:"-" }} / {{ result.place_of_birth|default_if_none:"-" }}</td>
                     <td>{{ result.death_date_show|default_if_none:"-" }} / {{ result.place_of_death|default_if_none:"-" }}</td>
                     <td>{{ result.profession|join:", "|default_if_none:"-" }}</td>
-                    <td>{{ result.education|join:", "|default_if_none:"-" }}</td>
-                    <td>{{ result.career|join:", "|default_if_none:"-" }}</td>
+                    <td>{{ result.education_show|join:", "|default_if_none:"-" }}</td>
+                    <td>{{ result.career_show|join:", "|default_if_none:"-" }}</td>
                 </tr>
   {% empty %}
   <p>No results found.</p>
@@ -197,9 +228,9 @@
 
             {% if is_paginated %}
                 <div>
-                    {% if page_obj.has_previous %}<a href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}">{% endif %}&laquo; Previous{% if page_obj.has_previous %}</a>{% endif %}
-                    |
-                    {% if page_obj.has_next %}<a href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}">{% endif %}Next &raquo;{% if page_obj.has_next %}</a>{% endif %}
+                    {% if page_obj.has_previous %}<a href="?{% url_replace request 'page' page_obj.previous_page_number %}">{% endif %}&laquo; vorherige Seite{% if page_obj.has_previous %}</a>{% endif %}
+                    | Seite {{ page_obj.number }} von {{ paginator.num_pages }} |
+                    {% if page_obj.has_next %}<a href="?{% url_replace request 'page' page_obj.next_page_number %}">{% endif %}nächste Seite &raquo;{% if page_obj.has_next %}</a>{% endif %}
                 </div>
             {% endif %}
         {% else %}

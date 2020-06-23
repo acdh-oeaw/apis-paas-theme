@@ -46,11 +46,19 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
         res = []
         rel_obj = relation.replace("person", "")
         set_ann_proj = getattr(settings, "APIS_SEARCH_ANNOTATION_PROJECTS", [])
+        exclude_names = getattr(settings, "APIS_SEARCH_EXCLUDE_NAMES", [])
         if show:
             set_ann_proj_ids = list(AnnotationProject.objects.filter(published=True).values_list('pk', flat=True))
         else:
             set_ann_proj_ids = list(AnnotationProject.objects.filter(name__in=set_ann_proj).values_list('pk', flat=True))
         for r1 in getattr(object, f"{relation}_set").all():
+            rel_obj_name = getattr(r1, f"related_{rel_obj}").name
+            test_name = True
+            for excld in exclude_names:
+                if excld in rel_obj_name:
+                    test_name = False
+            if not test_name:
+                continue
             lst_lbls = [y.strip() for y in r1.relation_type.label.split('>>')]
             if hasattr(r1, "annotation_set"):
                 ann = r1.annotation_set.all()
@@ -59,7 +67,6 @@ class PersonIndex(indexes.SearchIndex, indexes.Indexable):
                         continue
             for l in lst_lbls:
                 if l in rel_types:
-                    rel_obj_name = getattr(r1, f"related_{rel_obj}").name
                     if rel_obj_name not in res:
                         res.append(rel_obj_name)
         return res
