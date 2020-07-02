@@ -6,7 +6,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -21,11 +20,12 @@
    <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&amp;display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <!-- Custom styles for this template -->
     <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
     <link rel="stylesheet" href="{%static 'theme/css/main.css' %}" />
+
+
 <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
 <script type="text/javascript">
   window.cookieconsent_options = {
@@ -58,14 +58,14 @@
     {% endblock %}
 </head>
 
-<body id="body" data-searchtype="erw">
+<body id="body" data-searchtype="erw" class="oebl-background-grey">
 <div class="hfeed site" id="page">
     <!-- NAVBAR
 ================================================== -->
     <!-- ******************* The Navbar Area ******************* -->
       <div class="wrapper-fluid wrapper-navbar sticky-navbar" id="wrapper-navbar" itemscope itemtype="http://schema.org/WebSite">
         <a class="skip-link screen-reader-text sr-only" href="#content">Skip to content</a>
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark oebl-inverted">
           <div class="container" >
             <a href="/" class="navbar-brand custom-logo-link" rel="home" itemprop="url"><img src="{%static 'theme/img/logo.svg' %}" class="img-fluid" alt="Oebl Logo" itemprop="logo" /></a><!-- end custom logo -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,7 +105,7 @@
       <!-- .wrapper-navbar end -->
     {% block content %}{% endblock %}
 
-    <div class="footer">
+    <div class="footer oebl-inverted">
         <div>
             <div class="container">
                 <footer>
