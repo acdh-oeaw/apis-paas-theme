@@ -47,13 +47,28 @@ def normalize_facet(facet, kind, url=None):
     }
     fac = facet.split(':')
     fac[0] = fac[0].replace('_exact', '')
+    if kind == "simple":
+        return f"{norm_kind[facet]}"
     if kind == "name":
         return f"{norm_kind[fac[0].lower()]}: '{fac[1]}'"
     elif kind == "filter":
-        return url.replace(f"&selected_facets={fac[0]}_exact:{urllib.parse.quote(fac[1])}", '')
+        return re.sub(f"(\&selected_facets={fac[0]}_exact)(:|%3A)({urllib.parse.quote(fac[1])})", '',url)
 
 
 @register.simple_tag
 def remove_facets(url):
     url = re.subn('&selected_facets\=[^&]+', '', url)
     return url[0]
+
+@register.simple_tag
+def filter_facetfields(fields,fieldname):
+    return fields[fieldname]
+
+@register.simple_tag
+def check_facet_selection(key,val,selectedfacets):
+    selectedfacet = f"{key}_exact:{val}" 
+    return selectedfacet in selectedfacets
+
+@register.simple_tag
+def filter_params(request,param):
+    return request.GET.getlist(param)
