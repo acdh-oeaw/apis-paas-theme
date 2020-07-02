@@ -9,11 +9,18 @@ from browsing.browsing_utils import GenericListView
 from webpage.views import get_imprint_url
 from .filters import PersonListFilter
 from .forms import PersonFilterFormHelper, PersonFacetedSearchForm
-from .tables import PersonTable
+from .tables import PersonTable, SearchResultTable
 from .utils import oebl_persons, get_daily_entries, get_featured_person, enrich_person_context
 from haystack.generic_views import FacetedSearchView
 from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
+from haystack.query import RelatedSearchQuerySet
+from haystack.models import SearchResult
+
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+
+from django_tables2.config import RequestConfig
 
 
 class ImprintView(TemplateView):
@@ -74,7 +81,6 @@ class PersonListView(GenericListView):
 
 
 class PersonSearchView(FacetedSearchView):
-    template_name = 'theme/person_search.html'
     queryset = SearchQuerySet()
     form_class = PersonFacetedSearchForm
     facet_fields = ['place_of_birth', 'place_of_death', 'profession', 'education', 'career']
@@ -82,9 +88,19 @@ class PersonSearchView(FacetedSearchView):
     def get(self, request, *args, **kwargs):
         r = super(PersonSearchView, self).get(self, request, *args, **kwargs)
         print('get')
-        print(r)
         #print(r['context_data']['form']['data']['selected_facets'])
         return r
+
+class SearchView(SingleTableMixin,PersonSearchView): 
+    table_class = SearchResultTable
+    template_name = 'theme/person_search.html'
+
+    def get_table_data(self):
+        #result = SearchResult()
+        return [result for result in self.queryset.all()]
+    
+
+
 
 class PersonDetailView(DetailView):
     model = Person
