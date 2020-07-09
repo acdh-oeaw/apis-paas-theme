@@ -55,9 +55,32 @@ table.oebl-table th a svg.feather
 
 
 p {
-  font-weight:bold;
-  font-size:0.8rem;
-  line-height:1.2rem;
+  font-size: 1em;
+  line-height: 1.7em;
+}
+
+.bio-outer{
+  background: white;
+}
+
+.bio {
+
+}
+
+.inline-map{
+  overflow: hidden;
+  border-radius: 14px;
+  position: relative;
+  transform: translateZ(0); /* damn you safari */
+}
+
+.bio .profession-date-of-birth{
+  color: #444;
+}
+
+.bio p{
+  text-align: justify;
+  color: #626262;
 }
 
 p a {
@@ -80,7 +103,7 @@ h1 {
 }
 
 h2 {
-  font-size:1.4rem;
+  font-size: 2em;
 }
 
 h3 {
@@ -423,15 +446,7 @@ li.facet-item.active {
 .specificPaddingBody {
   padding: 15px 15px 0 15px;
 }
-.bioartikel {
-  /*h4 {
-    margin-top: 20px;
-    margin-bottom: 5px;
-  }*/
-}
-.bioartikel p {
-  line-height: 23px;
-}
+
 .treffer-liste-elem {
   margin-top: 0;
   padding: 10px;
@@ -472,6 +487,7 @@ li.facet-item.active {
   font-size: 14px;
   line-height: 1.428571429;
   color: #888;
+  /* FIXME: vertical align doesn’t work with "display: block". */
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #AEC8EA;
@@ -488,6 +504,7 @@ li.facet-item.active {
   font-size: 14px;
   line-height: 1.428571429;
   /*color: #999;*/
+  /* FIXME: see above */
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #AEC8EA;
@@ -683,9 +700,11 @@ h4.subHeading {
 .tab-content {
   padding: 10px;
 }
-.subHeading,
-h4 {
+.subHeading, h4 {
   color: #333;
+  letter-spacing: 0.25em;
+  font-size: .9em;
+  text-transform: uppercase;
 }
 h4.subHeading {
   font-size: 20px;
@@ -720,6 +739,7 @@ h4.subHeading {
 .smaller {
   font-size: 90%;
 }
+/* FIXME: #F1 is not a color */
 .pb {
   color: #F1;
 }
@@ -846,11 +866,15 @@ footer .logocaption {
   list-style: none;
 }
 .footer_links {
+  /* FIXME:
+    "width" and "float" props have no effect on inline elements
+  */
   width: 49%;
   float: left;
   display: inline;
 }
 .footer_rechts {
+  /* FIXME: see above */
   width: 49%;
   float: right;
   display: inline;
@@ -926,6 +950,8 @@ ul.dropdown-menu-form {
 
 #contentDetails .preventity, #contentDetails .nextentity {
  width:24px;
+ font-size: .9em;
+ opacity: .7;
 }
 
 
