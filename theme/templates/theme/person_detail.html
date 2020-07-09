@@ -15,51 +15,51 @@
 {% block title %}{{ object }}{% endblock %}
 {% block content %}
 <div id="contentDetails" class="container pt-5">
-    <div class="row">
-        <div class="col-md-6">
-        <article class="card flat-style">
-            <div class="entry-header pt-3">
-                <div class="row justify-content-between">
-                    <div class="col-md-auto">
-                        {% if prev.id %}
-                        <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}"
-                            title="{{ prev }}">
-                            <i data-feather="chevron-left" title="previous"></i>
-                        </a>
-                        {% endif %}
-                    </div>
-                    <div class="col">
-                        <h2 style="text-align:center">{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
-                    </div>
-                    <div class="col-md-auto">
-                        {% if next.id %}
-                        <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}"
-                            style="float:right" title="{{ next }}">
-                            <i data-feather="chevron-right" title="next"></i>
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col pt-2">
-                        <p class="pl-4 pr-4 pt-2 pb-0"><i>{{ profession }}, <abbr
-                                title='geboren'>geb.</abbr> {{object.start_date_written }}{% if place_of_birth is not None %} in {{place_of_birth}}{% endif %}, <abbr
-                                title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}</i></p>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body pt-1">
-                <p class="bio">{{ main_text }}</p>
-            </div>
-        </article>
-    </div>
-    <div class="col-md-6">
-            <article class="card flat-style">
-                <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
+    <div class="row bio-outer p-5">
+      <div class="col-md-12 pb-4">
+        <div class="row justify-content-between">
+          <div class="col-md-auto">
+              {% if prev.id %}
+              <a class="card-link preventity" href="{% url 'theme:person-detail' pk=prev.id %}" title="{{ prev }}">
+                  &larr; {{ prev }}
+              </a>
+              {% endif %}
+          </div>
+          <div class="col"></div>
+          <div class="col-md-auto">
+              {% if next.id %}
+              <a class="card-link nextentity" href="{% url 'theme:person-detail' pk=next.id %}" title="{{ next }}">
+                  {{ next }} &rarr;
+              </a>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+        <div class="col-md-8 pr-5">
+            <article class="bio">
+              <div class="entry-header">
+                  <div class="row">
+                      <div class="col">
+                          <h2>{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
+                          <p class="profession-date-of-birth">{{ profession }}, <abbr
+                            title='geboren'>geb.</abbr> {{object.start_date_written }}{% if place_of_birth is not None %} in {{place_of_birth}}{% endif %}, <abbr
+                            title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}
+                          </p>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body p-0 pt-3">
+                  <p class="p-0">{{ main_text }}</p>
+              </div>
+          </article>
+        </div>
+        <div class="col-md-4">
+            <article>
+                <div class="inline-map card-inner relentitiescard card-vertical d-flex flex-column justify-content-between">
                     {% leaflet_map "main" %}
                 </div>
                 <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
-                    <div class="entry-content pl-3 pt-3">
+                    <div class="entry-content pl-2 pt-4">
                         <h4>Links</h4>
                         <ul class="uris pl-0">{% for uri in object.uri_set.all %}
                             <li class="pl-0"><a target="_blank" rel="noopener noreferrer" href="{{uri}}">{{uri}}</a></li>
