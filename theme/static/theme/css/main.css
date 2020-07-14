@@ -1,15 +1,86 @@
-html {
-  font-family: 'Montserrat', sans-serif;
+* {
+  font-family: 'Montserrat', sans-serif !important;
 }
 
-body {
+.oebl-background-grey {
   background-color:#f0f0f7;
 }
 
-p {
-  font-weight:bold;
+.oebl-font-red {
+  color: #CD2324;
+}
+
+.oebl-inverted {
+  background:#CD2324;
+  color:white;
+}
+
+.oebl-inverted a {
+  color:white;
+}
+
+.oebl-inverted {
+  background:#CD2324;
+  color:white;
+}
+
+.oebl-inverted-lighter {
+  background:#de3b3b;
+  color:white;
+}
+
+table.oebl-table td,table.oebl-table th {
   font-size:0.8rem;
-  line-height:1.2rem;
+  padding:0.25rem;
+  text-decoration:none;
+}
+
+.collapsebtn svg {
+  float:right;
+}
+
+/*** helper classes ***/
+.no-wrap {
+  white-space: nowrap;
+}
+
+.disabled {
+ color:#aaa;
+}
+
+table.oebl-table th a svg.feather
+{
+ width:inherit;
+}
+
+
+p {
+  font-size: 1em;
+  line-height: 1.7em;
+}
+
+.bio-outer{
+  background: white;
+}
+
+.bio {
+
+}
+
+.inline-map{
+  overflow: hidden;
+  border-radius: 14px;
+  position: relative;
+  transform: translateZ(0); /* damn you safari */
+}
+
+.bio .profession-date-of-birth{
+  color: #444;
+}
+
+.bio p{
+  text-align: justify;
+  color: #626262;
 }
 
 p a {
@@ -32,7 +103,7 @@ h1 {
 }
 
 h2 {
-  font-size:1.4rem;
+  font-size: 2em;
 }
 
 h3 {
@@ -85,12 +156,23 @@ h6 {
   stroke:#CD2324;
 }
 
-.btn {
+.btn-primary {
   background-color:#CD2324;
+  border-color: #CD2324;
   color:white;
   text-transform:uppercase;
   font-size:0.7rem !important;
   font-weight:bold;
+}
+
+.btn-primary:hover {
+  background-color:#A51010;
+  border-color: #A51010;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color:#CD2324;
+  border-color: #CD2324;
 }
 
 .panel-heading h4 {
@@ -210,7 +292,6 @@ abbr[title] {
   font-size: 18px;
 }
 nav.navbar {
-  background-color: #CD2324;
   padding:0.5rem;
   border-bottom:none;
   text-transform:uppercase;
@@ -365,15 +446,7 @@ li.facet-item.active {
 .specificPaddingBody {
   padding: 15px 15px 0 15px;
 }
-.bioartikel {
-  /*h4 {
-    margin-top: 20px;
-    margin-bottom: 5px;
-  }*/
-}
-.bioartikel p {
-  line-height: 23px;
-}
+
 .treffer-liste-elem {
   margin-top: 0;
   padding: 10px;
@@ -414,6 +487,7 @@ li.facet-item.active {
   font-size: 14px;
   line-height: 1.428571429;
   color: #888;
+  /* FIXME: vertical align doesn’t work with "display: block". */
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #AEC8EA;
@@ -430,6 +504,7 @@ li.facet-item.active {
   font-size: 14px;
   line-height: 1.428571429;
   /*color: #999;*/
+  /* FIXME: see above */
   vertical-align: middle;
   background-color: #ffffff;
   border: 1px solid #AEC8EA;
@@ -625,9 +700,11 @@ h4.subHeading {
 .tab-content {
   padding: 10px;
 }
-.subHeading,
-h4 {
+.subHeading, h4 {
   color: #333;
+  letter-spacing: 0.25em;
+  font-size: .9em;
+  text-transform: uppercase;
 }
 h4.subHeading {
   font-size: 20px;
@@ -662,6 +739,7 @@ h4.subHeading {
 .smaller {
   font-size: 90%;
 }
+/* FIXME: #F1 is not a color */
 .pb {
   color: #F1;
 }
@@ -716,15 +794,6 @@ h4.subHeading {
   font-size: 11px;
   color: #999;
   cursor: default;
-}
-
-.footer {
-  background:#CD2324;
-  color:white;
-}
-
-.footer a {
-  color:white;
 }
 
 .footermenu {
@@ -797,11 +866,15 @@ footer .logocaption {
   list-style: none;
 }
 .footer_links {
+  /* FIXME:
+    "width" and "float" props have no effect on inline elements
+  */
   width: 49%;
   float: left;
   display: inline;
 }
 .footer_rechts {
+  /* FIXME: see above */
   width: 49%;
   float: right;
   display: inline;
@@ -809,6 +882,7 @@ footer .logocaption {
 
 #oeawfooter {
   background:#333;
+  color:white
 }
 
 #oeawfooter p {
@@ -876,6 +950,8 @@ ul.dropdown-menu-form {
 
 #contentDetails .preventity, #contentDetails .nextentity {
  width:24px;
+ font-size: .9em;
+ opacity: .7;
 }
 
 
@@ -1090,6 +1166,14 @@ ul.relentities  {
   font-size:0.6rem;
 }
 
+.feather-12 {
+  width:12px;height:12px;
+}
+
+.feather-14 {
+  width:14px;height:14px;
+}
+
 .feather-16 {
   width:16px;height:16px;
 }
@@ -1105,3 +1189,99 @@ ul.relentities  {
 .dwnld-btn {
   padding:0.3rem;
 }
+
+
+.badge-custom:hover {
+  text-decoration: none;
+  color:white;
+} 
+
+svg.remove-badge {
+  width:1em;height:1em;
+}
+
+.facet-group {
+  list-style-type: none;
+}
+
+.facet-group-item {
+  list-style-type:none;
+  font-weight: 500;
+}
+
+.facet-group-item .btn {
+  font-size:0.8rem;
+}
+
+.facet-group-item, .facet-group-item a {
+  color:#212529;
+}
+
+.facet .card-header {
+  background-color:#CD2324;
+}
+
+.facet-group-item a.badge {
+  color:white;
+}
+
+.collapsebtn, .collapsebtn:hover 
+{
+  color:white;
+  text-decoration: none !important;
+}
+
+ul li.page-item {
+  padding:0;
+}
+
+.card-header:first-child {
+  border-radius:0;
+}
+
+.table .thead-dark th {
+    color: white;
+    background-color: #CD2324;
+    border-color: #CD2324;
+  }
+
+  .table .thead-dark th a {
+    color:white
+  }
+  
+  
+
+  .page-item {font-size:14px;}
+
+  .page-link {
+    background:#CD2324;
+  }
+
+  .page-link  {
+    color:white;
+    border-color:#de3b3b;
+  }
+
+  .page-item.active .page-link {
+    z-index: 1;
+    background-color: #de3b3b;
+    border-color: white;
+    border-radius:0
+}
+
+.facet-group li
+
+{
+  display:inline
+}
+
+.more-facetitems-link
+{
+ font-size:0.8rem
+}
+
+.background_none {
+  background:none;
+}
+  
+

@@ -4,243 +4,163 @@
 {% block header %}
 {% endblock %}
 {% block content %}
+{% load staticfiles %}
+{% load render_table from django_tables2 %}
 
 <div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <form action="" method="get">
+                <div class="input-group mb-3">
+                    <input type="text" name="q" class="form-control form-suche-input" id="suche" placeholder="Suche"
+                        {% if query %}value="{{form.cleaned_data.q}}" {% endif %}>
+                    <input type="hidden" name="sort" value="name" {% if query %}value="{{form.cleaned_data.sort}}"
+                        {% endif %}>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i data-feather="search" style="width: 20px; height: 20px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 offset-md-3">
+            {% if form.data.selected_facets|length > 0 %}
+            <ul class="facet-group pl-0 mb-0">
+                {% for fac in form.selected_facets %}
+                <li class="facet-group-item pl-0">
+                    <a href="{% normalize_facet fac 'filter' request.get_full_path %}" type="button"
+                        class="badge badge-custom badge-pill p-1 oebl-inverted">
+                        {% normalize_facet fac 'name' %}<i class="remove-badge ml-1" data-feather="x"></i>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <!-- <a href="{% remove_facets request.get_full_path %}" type="button"
+                  class="btn btn-link btn-sm btn-right">Filter zurücksetzen<span
+                      class="icon-remove"></span></a>-->
+            {% else %}
+            <br />
+            {% endif %}
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-    <h2>Search</h2>
-
-<form action="" method="get">
-    <div class="form-suche form-group">
-        <label class="sr-only" for="suche">Suche</label>
-        <input type="text" name="q" class="form-suche-input" id="suche" placeholder="Suche" {% if query %}value="{{form.cleaned_data.q}}"{% endif %}>
-    </div>
-        <h4>Lebensdaten</h4>
-    <div class="form-group">
-    <label for="start_date_form">von</label>
-        <input type="range" oninput="start_date_form_out.value=start_date_form.value" name="start_date_form" id="start_date_form" value={% if query %}"{{form.cleaned_data.start_date_form|default:1740}}"{% else %}1740{% endif %} min="1700" max="1990">
-        <output for="start_date_form" id="start_date_form_out">{% if query %}{{form.cleaned_data.start_date_form|default:1740}}{% else %}1740{% endif %}</output>
-    </div>
-    <div class="form-group">
-        <label for="end_date_form">bis</label>
-        <input type="range" oninput="end_date_form_out.value=end_date_form.value" class="multi-range" name="end_date_form" id="end_date_form"  value={% if query %}"{{form.cleaned_data.end_date_form|default:1955}}"{% else %}1955{% endif %} min="1700" max="1990">
-        <output for="end_date_form" id="end_date_form_out">{% if query %}{{form.cleaned_data.end_date_form|default:1955}}{% else %}1955{% endif %}</output>
-    </div>
-        <button type="submit" class="btn btn-primary" value="Search">Suche</button>
-    <br/>
-</form>
-        {% if query %}
-    <!-- Begin faceting. -->
-                    {% if form.data.selected_facets|length > 0 %}
-                    <section class="facet facet-highlighted">
-                        <div class="facet-header">
-                            <p class="facet-title"><strong>Deine Auswahl</strong></p>
-                            <a href="{% remove_facets request.get_full_path %}" type="button" class="btn btn-link btn-sm btn-right">Alle löschen <span class="icon-remove"></span></a>
-                        </div>
-                        <div class="facet-body">
-                            <ul class="facet-group">
-                                {% for fac in form.selected_facets %}
-                                <li class="facet-group-item">
-                                    <div class="facet-selected">
-                                        <a href="{% normalize_facet fac 'filter' request.get_full_path %}" type="button" class="btn btn-primary btn-facet">
-                                            {% normalize_facet fac 'name' %}
-                                        </a>
+            <div class="card mt-3 border-0 rounded-0 background_none">
+                <div class="card-body p-0">
+                    {% if query %}
+                    <!-- Begin faceting. -->
+                    <div class="facet">
+                        <form>
+                            {% for param_name, value in request.GET.items %}
+                                {% filter_params request param_name as param_list %}
+                                {% for param_value in param_list  %}
+                                    {%if param_name == 'q' or param_name == 'selected_facets'%}
+                                        <input type="hidden" name="{{param_name}}" class="form-suche-input" id="suche" placeholder="Suche" {% if query %}value="{{param_value}}" {% endif %}>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endfor%}
+                            <div class="card rounded-0">
+                                <div class="card-header p-0" id="heading_lebensdaten">
+                                    <h5 class="mb-0">
+                                        <button type="button" class="btn btn-link collapsebtn w-100 text-left" data-toggle="collapse"
+                                            data-target="#lebensdaten" aria-expanded="true" aria-controls="lebensdaten">
+                                            Lebensdaten <i data-feather="chevron-up"></i>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="lebensdaten" class="collapse show" aria-labelledby="heading_lebensdaten">
+                                    <div class="card-body p-2">
+                                        <div class="form-group mb-0">
+                                            <label for="start_date_form">von</label>
+                                            <input type="range"
+                                                onchange="start_date_form_out.value=start_date_form.value;this.form.submit()"
+                                                name="start_date_form" id="start_date_form"
+                                                value={% if query %}"{{form.cleaned_data.start_date_form|default:1740}}"{% else %}1740{% endif %}
+                                                min="1700" max="1990">
+                                            <output for="start_date_form"
+                                                id="start_date_form_out">{% if query %}{{form.cleaned_data.start_date_form|default:1740}}{% else %}1740{% endif %}</output>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <label for="end_date_form">bis</label>
+                                            <input type="range"
+                                                onchange="end_date_form_out.value=end_date_form.value;this.form.submit()"
+                                                class="multi-range" name="end_date_form" id="end_date_form"
+                                                value={% if query %}"{{form.cleaned_data.end_date_form|default:1955}}"{% else %}1955{% endif %}
+                                                min="1700" max="1990">
+                                            <output for="end_date_form"
+                                                id="end_date_form_out">{% if query %}{{form.cleaned_data.end_date_form|default:1955}}{% else %}1955{% endif %}</output>
+                                        </div>
                                     </div>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </section>
-                    {% endif %}
-<section class="facet">
-    <div class="facet-header">
-        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetPlaceOfDeath" aria-expanded="true" aria-controls="collapseExample">
-            <strong class="facet-title">Geburtsort</strong>
-        </button>
-    </div>
-    <div class="facet-body collapse show" id="facetPlaceOfBirth">
-        <ul class="facet-group">
-            {% for pb in facets.fields.place_of_birth|slice:":5" %}
-            <li class="facet-group-item">
-                <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_birth_exact:{{ pb.0|urlencode }}" class="facet-group-link">{{ pb.0 }}</a> ({{ pb.1 }})
-            </li>
-            {% endfor %}
-            <div class="collapse" id="facetPlaceOfBirthCollapseItem">
-                <ul class="facet-group">
-                    {% for pb in facets.fields.place_of_birth|slice:"5:" %}
-                    <li class="facet-group-item">
-                        <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_birth_exact:{{ pb.0|urlencode }}" class="facet-group-link">{{ pb.0 }}</a> ({{ pb.1 }})
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetPlaceOfBirthCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
-    </div>
-</section>
-<section class="facet">
-    <div class="facet-header">
-        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetPlaceOfDeath" aria-expanded="true" aria-controls="collapseExample">
-            <strong class="facet-title">Sterbeort</strong>
-        </button>
-    </div>
-    <div class="facet-body collapse show" id="facetPlaceOfDeath">
-        <ul class="facet-group">
-            {% for pd in facets.fields.place_of_death|slice:":5" %}
-            <li class="facet-group-item">
-                <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_death_exact:{{ pd.0|urlencode }}" class="facet-group-link">{{ pd.0 }}</a> ({{ pd.1 }})
-            </li>
-            {% endfor %}
-            <div class="collapse" id="facetPlaceOfDeathCollapseItem">
-                <ul class="facet-group">
-                    {% for pd in facets.fields.place_of_death|slice:"5:" %}
-                    <li class="facet-group-item">
-                        <a href="{{ request.get_full_path }}&amp;selected_facets=place_of_death_exact:{{ pd.0|urlencode }}" class="facet-group-link">{{ pd.0 }}</a> ({{ pd.1 }})
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetPlaceOfDeathCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
-    </div>
-</section>
-<section class="facet">
-    <div class="facet-header">
-        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetProfession" aria-expanded="true" aria-controls="collapseExample">
-            <strong class="facet-title">Beruf</strong>
-        </button>
-    </div>
-    <div class="facet-body collapse show" id="facetProfession">
-        <ul class="facet-group">
-            {% for profession in facets.fields.profession|slice:":5" %}
-            <li class="facet-group-item">
-                <a href="{{ request.get_full_path }}&amp;selected_facets=profession_exact:{{ profession.0|urlencode }}" class="facet-group-link">{{ profession.0 }}</a> ({{ profession.1 }})
-            </li>
-            {% endfor %}
-            <div class="collapse" id="facetProfessionCollapseItem">
-                <ul class="facet-group">
-                    {% for profession in facets.fields.profession|slice:"5:" %}
-                    <li class="facet-group-item">
-                        <a href="{{ request.get_full_path }}&amp;selected_facets=profession_exact:{{ profession.0|urlencode }}" class="facet-group-link">{{ profession.0 }}</a> ({{ profession.1 }})
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetProfessionCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
-    </div>
-</section>
-<section class="facet">
-    <div class="facet-header">
-        <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetEducation" aria-expanded="true" aria-controls="collapseExample">
-            <strong class="facet-title">Ausbildung</strong>
-        </button>
-    </div>
-    <div class="facet-body collapse show" id="facetEducation">
-        <ul class="facet-group">
-            {% for education in facets.fields.education|slice:":5" %}
-            {% if not '(Dummy)' in education.0 %}
-            <li class="facet-group-item">
-                <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
-            </li>
-            {% endif %}
-            {% endfor %}
-            <div class="collapse" id="facetEducationCollapseItem">
-                <ul class="facet-group">
-                    {% for education in facets.fields.education|slice:"5:" %}
-                    {% if not '(Dummy)' in education.0 %}
-                    <li class="facet-group-item">
-                        <a href="{{ request.get_full_path }}&amp;selected_facets=education_exact:{{ education.0|urlencode }}" class="facet-group-link">{{ education.0 }}</a> ({{ education.1 }})
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetEducationCollapseItem" aria-expanded="false" aria-controls="collapseExample">Mehr</a>
-    </div>
-</section>
-<section class="facet">
-  <div class="facet-header">
-    <button type="button" class="btn btn-link facet-toggle" data-toggle="collapse" href="#facetCareer" aria-expanded="true" aria-controls="collapseExample">
-      <strong class="facet-title">Karriere</strong>
-    </button>
-  </div>
-  <div class="facet-body collapse show" id="facetCareer">
-    <ul class="facet-group">
-        {% for career in facets.fields.career|slice:":5" %}
-        {% if not '(Dummy)' in career.0 %}
-      <li class="facet-group-item">
-          <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
-      </li>
-        {% endif %}
-        {% endfor %}
-    <div class="collapse" id="facetCareerCollapseItem">
-      <ul class="facet-group">
-          {% for career in facets.fields.career|slice:"5:" %}
-          {% if not '(Dummy)' in career.0 %}
-        <li class="facet-group-item">
-            <a href="{{ request.get_full_path }}&amp;selected_facets=career_exact:{{ career.0|urlencode }}" class="facet-group-link">{{ career.0 }}</a> ({{ career.1 }})
-        </li>
-          {% endif %}
-          {% endfor %}
-      </ul>
-    </div>
-    <a type="button" class="btn btn-link facet-toggle facet-toggle-more" data-toggle="collapse" href="#facetCareerCollapseItem" aria-expanded="false" aria-controls="collapseExample">Show more</a>
-  </div>
-</section>
+                                </div>
+                            </div>
+                            {% for field in facets.fields %}
+                            {% filter_facetfields facets.fields field as filtered_vals %}
+                            {% if filtered_vals|length > 0 %}
+                            <div class="card mt-1 rounded-0">
+                                <div class="card-header p-0" id="heading{{field}}">
+                                    <h5 class="mb-0">
+                                        <button type="button" class="btn btn-link collapsebtn w-100 text-left" data-toggle="collapse"
+                                            data-target="#{{field}}" aria-expanded="true" aria-controls="{{field}}">
+                                            {%normalize_facet field 'simple'%}  <i data-feather="chevron-up"></i>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="{{field}}" class="collapse show" aria-labelledby="heading{{field}}">
+                                    <div class="card-body p-2">
+                                        <ul class="pl-0 mb-0">
+                                            {% for fv in filtered_vals|slice:":5" %}
+                                            {% if fv.1 > 0 %}
+                                            <li class="facet-group-item pl-0">
+                                                {% check_facet_selection field fv.0 form.selected_facets as facet_selected %}
+                                                {% if facet_selected %}
+                                                <span class="disabled">{{ fv.0 }} ({{ fv.1 }})</span>
+                                                {%else%}
+                                                <a href="{{ request.get_full_path }}&amp;selected_facets={{field}}_exact:{{ fv.0|urlencode }}"
+                                                class="facet-group-link">{{ fv.0 }} ({{ fv.1 }})</a>
+                                                {%endif%}
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                        <a href="#" class="oebl-font-red more-facetitems-link">mehr...</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {%endif%}
+                            {%endfor%}
+                        </form>
+                    </div>
                 </div>
             </div>
+            <script>
+                 $(document).ready(function() {
+                    $(".collapse").on('show.bs.collapse', function (){
+                        var id = $(this).attr("id");
+                        $(this).parent().find("svg.feather.feather-chevron-down").replaceWith(feather.icons['chevron-up'].toSvg());
+                    })
+                    $(".collapse").on('hide.bs.collapse', function (){
+                        var id = $(this).attr("id");
+                        $(this).parent().find("svg.feather.feather-chevron-up").replaceWith(feather.icons['chevron-down'].toSvg());
+                    })
+                 });
+            </script>
         </div>
 
         <div class="col-md-9" id="results">
-            <div class="card">
-                <div class="card-body">
-
-    <!-- End faceting -->
-            <h2>{{paginator.count}} Ergebnisse für Suche '{{query}}'</h2>
-           <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">geboren</th>
-      <th scope="col">gestorben</th>
-        <th scope="col">Beruf</th>
-        <th scope="col">Ausbildung</th>
-        <th scope="col">Karriere</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for result in page_obj.object_list %}
-                <tr>
-                    <th scope="row">{{ result.pk }}</th>
-                    <td><a href="/person/{{ result.pk }}">{{ result.name }}</a></td>
-                    <td>{{ result.birth_date_show|default_if_none:"-" }} / {{ result.place_of_birth|default_if_none:"-" }}</td>
-                    <td>{{ result.death_date_show|default_if_none:"-" }} / {{ result.place_of_death|default_if_none:"-" }}</td>
-                    <td>{{ result.profession|join:", "|default_if_none:"-" }}</td>
-                    <td>{{ result.education_show|join:", "|default_if_none:"-" }}</td>
-                    <td>{{ result.career_show|join:", "|default_if_none:"-" }}</td>
-                </tr>
-  {% empty %}
-  <p>No results found.</p>
-  {% endfor %}
-  </tbody>
-           </table>
-
-            {% if is_paginated %}
-                <div>
-                    {% if page_obj.has_previous %}<a href="?{% url_replace request 'page' page_obj.previous_page_number %}">{% endif %}&laquo; vorherige Seite{% if page_obj.has_previous %}</a>{% endif %}
-                    | Seite {{ page_obj.number }} von {{ paginator.num_pages }} |
-                    {% if page_obj.has_next %}<a href="?{% url_replace request 'page' page_obj.next_page_number %}">{% endif %}nächste Seite &raquo;{% if page_obj.has_next %}</a>{% endif %}
+            <div class="card mt-3 rounded-0">
+                <div class="card-body p-0">
+                    {% render_table table %}
+                    <!-- End faceting -->
+                    {% else %}
+                    {# Show some example queries to run, maybe query syntax, something else? #}
+                    {% endif %}
                 </div>
-            {% endif %}
-        {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
+            </div>
         </div>
     </div>
 </div>
-    </div>
-</div>
 
-            {% endblock %}
-
+{% endblock %}
