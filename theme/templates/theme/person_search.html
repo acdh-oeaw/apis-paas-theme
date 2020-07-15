@@ -9,23 +9,6 @@
 
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-md-12">
-            <form action="" method="get">
-                <div class="input-group mb-3">
-                    <input type="text" name="q" class="form-control form-suche-input" id="suche" placeholder="Suche"
-                        {% if query %}value="{{form.cleaned_data.q}}" {% endif %}>
-                    <input type="hidden" name="sort" value="name" {% if query %}value="{{form.cleaned_data.sort}}"
-                        {% endif %}>
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <i data-feather="search" style="width: 20px; height: 20px;"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-12 offset-md-3">
             {% if form.data.selected_facets|length > 0 %}
             <ul class="facet-group pl-0 mb-0">
@@ -50,6 +33,19 @@
         <div class="col-md-3">
             <div class="card mt-3 border-0 rounded-0 background_none">
                 <div class="card-body p-0">
+                    <form action="" method="get">
+                        <div class="input-group mb-3">
+                            <input type="text" name="q" class="form-control form-suche-input rounded-0" id="suche" placeholder="Suche"
+                                {% if query %}value="{{form.cleaned_data.q}}" {% endif %}>
+                            <input type="hidden" name="sort" value="name" {% if query %}value="{{form.cleaned_data.sort}}"
+                                {% endif %}>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary rounded-0" type="submit">
+                                    <i data-feather="search" style="width: 20px; height: 20px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     {% if query %}
                     <!-- Begin faceting. -->
                     <div class="facet">
@@ -109,9 +105,9 @@
                                     </h5>
                                 </div>
                                 <div id="{{field}}" class="collapse show" aria-labelledby="heading{{field}}">
-                                    <div class="card-body p-2">
+                                    <div class="card-body p-2 show-limited-number">
                                         <ul class="pl-0 mb-0">
-                                            {% for fv in filtered_vals|slice:":5" %}
+                                            {% for fv in filtered_vals %}
                                             {% if fv.1 > 0 %}
                                             <li class="facet-group-item pl-0">
                                                 {% check_facet_selection field fv.0 form.selected_facets as facet_selected %}
@@ -125,7 +121,7 @@
                                             {% endif %}
                                             {% endfor %}
                                         </ul>
-                                        <a href="#" class="oebl-font-red more-facetitems-link">mehr...</a>
+                                        <button type="button" class="pl-0 btn btn-link btn-sm load-more-less" class="oebl-font-red more-facetitems-link">mehr...</a>
                                     </div>
                                 </div>
                             </div>
@@ -137,6 +133,15 @@
             </div>
             <script>
                  $(document).ready(function() {
+                    $(".load-more-less").on("click",this,function() {
+                        $(this).parent().toggleClass("show-limited-number");
+                        if ($(this).parent().hasClass("show-limited-number")) {
+                            $(this).text("mehr...");
+                        } else {
+                            $(this).text("weniger...");
+                        }
+                        
+                    });
                     $(".collapse").on('show.bs.collapse', function (){
                         var id = $(this).attr("id");
                         $(this).parent().find("svg.feather.feather-chevron-down").replaceWith(feather.icons['chevron-up'].toSvg());

@@ -1283,5 +1283,17 @@ ul li.page-item {
 .background_none {
   background:none;
 }
-  
 
+
+.facet-group-item:nth-child(n+6) {
+  display:block;
+}
+
+.show-limited-number .facet-group-item:nth-child(n+6) {
+  display:none;
+}
+
+.load-more-less {
+  font-size:0.8em;
+  color:#CD2324;
+}
