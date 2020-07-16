@@ -40,10 +40,10 @@
               <div class="entry-header">
                   <div class="row">
                       <div class="col">
-                          <h2>{{ object.name}}{%if object.first_name %}, {{ object.first_name}}{% endif %}</h2>
+                          <h2>{{ object.name }}{%if object.first_name %}, {{ object.first_name }}{% endif %}</h2>
                           <p class="profession-date-of-birth">{{ profession }}, <abbr
-                            title='geboren'>geb.</abbr> {{object.start_date_written }}{% if place_of_birth is not None %} in {{place_of_birth}}{% endif %}, <abbr
-                            title='gestorben'>gest.</abbr> {{object.end_date_written }} {% if place_of_death is not None %} in {{place_of_death}} {% endif %}
+                            title='geboren'>geb.</abbr> {% if place_of_birth is not None %} {{place_of_birth}}, {% endif %}{{object.start_date_written }}; <abbr
+                            title='gestorben'>gest.</abbr> {% if place_of_death is not None %} {{place_of_death}}, {% endif %}{{object.end_date_written }}
                           </p>
                       </div>
                   </div>
@@ -109,85 +109,85 @@
 {% endblock content %}
 {% block scripts %}
     <script>
-        const getNetworkViz = (pers_id, relationtype, t1) => {
-           document.getElementById("visualization").style.height = "400px";
-            const basePath = 'http://127.0.0.1:8000'
+      const getNetworkViz = (pers_id, relationtype, t1) => {
+      document.getElementById("visualization").style.height = "400px";
+      const basePath = 'http://127.0.0.1:8000'
       const endpoint = '/apis/api/relations/'+relationtype
       const query = {
         format: 'json+net',
-          related_person__id: pers_id,
+        related_person__id: pers_id,
       };
-            if (relationtype == "personperson") {
-                query['related_personA__id'] = pers_id
-            }
+      if (relationtype == "personperson") {
+        query['related_personA__id'] = pers_id
+      }
       const url = new URL(endpoint, basePath)
       Object.keys(query).forEach(key => {
         url.searchParams.set(key, query[key])
       })
-          fetch(url)
-              .then(response => {
-                  if (!response.ok) {
-                      throw new Error(response.statusText)
-                  }
-                  return response.json()
-              })
-              .then(data => {
-                  const edges = {}
-                  const nodes = {}
-                  const types = {edges: {}, nodes: {}}
-                  data.results.forEach(relation => {
-                      const {id, source, target, relation_type: relationType} = relation
-                      edges[id] = {
-                          id,
-                          source: source.id,
-                          target: target.id,
-                          type: relationType.id,
-                      }
-                      nodes[source.id] = {
-                          id: source.id,
-                          label: source.label,
-                          type: 'Person',
-                      }
-                      nodes[target.id] = {
-                          id: target.id,
-                          label: target.label,
-                          type: t1,
-                      }
-                      types.edges[relationType.id] = {
-                          id: relationType.id,
-                          label: relationType.label,
-                      }
-                      types.nodes['Person'] = {
-                          id: 'Person',
-                          label: 'Person',
-                          color: 'hotpink',
-                      }
-                      types.nodes['Place'] = {
-                          id: 'Place',
-                          label: 'Place',
-                          color: 'rebeccapurple',
-                      }
-                      types.nodes['Institution'] = {
-                          id: 'Institution',
-                          label: 'Institution',
-                          color: 'green',
-                      }
-                  })
-                  ReactDOM.render(
-                      React.createElement(NetworkVisualization.Visualization, {
-                          graph: {
-                              edges,
-                              nodes,
-                              types,
-                          },
-                      }),
-                      document.getElementById('visualization')
-                  )
-              })
-              .catch(error => {
-                  console.error(error)
-              })
-      }
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .then(data => {
+          const edges = {}
+          const nodes = {}
+          const types = {edges: {}, nodes: {}}
+          data.results.forEach(relation => {
+            const {id, source, target, relation_type: relationType} = relation
+            edges[id] = {
+              id,
+              source: source.id,
+              target: target.id,
+              type: relationType.id,
+            }
+            nodes[source.id] = {
+              id: source.id,
+              label: source.label,
+              type: 'Person',
+            }
+            nodes[target.id] = {
+              id: target.id,
+              label: target.label,
+              type: t1,
+            }
+            types.edges[relationType.id] = {
+              id: relationType.id,
+              label: relationType.label,
+            }
+          types.nodes['Person'] = {
+              id: 'Person',
+              label: 'Person',
+              color: 'hotpink',
+            }
+            types.nodes['Place'] = {
+              id: 'Place',
+              label: 'Place',
+              color: 'rebeccapurple',
+            }
+            types.nodes['Institution'] = {
+              id: 'Institution',
+              label: 'Institution',
+              color: 'green',
+            }
+          })
+          ReactDOM.render(
+            React.createElement(NetworkVisualization.Visualization, {
+                graph: {
+                    edges,
+                    nodes,
+                    types,
+                },
+            }),
+            document.getElementById('visualization')
+          )
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    }
     </script>
     <script type="text/javascript">
       var dataurl = "{% url 'apis:apis_api2:GetRelatedPlaces' %}?person_id={{object.pk}}";
