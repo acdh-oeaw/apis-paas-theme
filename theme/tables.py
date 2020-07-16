@@ -16,7 +16,6 @@ class PersonTable(tables.Table):
         args=[A('id')], verbose_name='Name'
     )
 
-
     class Meta:
         model = Person
         sequence = ('name', 'first_name', )
@@ -27,9 +26,9 @@ class SearchResultTable(tables.Table):
 
     name = tables.LinkColumn(
         'theme:person-detail',
-        args=[A('pk')], 
+        args=[A('pk')],
         verbose_name='Name',
-        attrs={'a':{'class':'oebl-font-red'}}   
+        attrs={'a': {'class': 'oebl-font-red semi-bold'}}
     )
 
     profession = tables.Column(
@@ -41,14 +40,14 @@ class SearchResultTable(tables.Table):
         accessor='birth_date',
         format='d. m. Y',
         verbose_name='geboren am',
-        attrs={'td':{'class':'no-wrap'}}   
+        attrs={'td': {'class': 'no-wrap'}}
     )
 
     death_date = tables.DateColumn(
         accessor='death_date',
         format='d. m. Y',
         verbose_name='gestorben am',
-        attrs={'td':{'class':'no-wrap'}}
+        attrs={'td': {'class': 'no-wrap'}}
     )
 
     birth_place = tables.Column(
@@ -59,7 +58,7 @@ class SearchResultTable(tables.Table):
     death_place = tables.Column(
         accessor='place_of_death',
         verbose_name='gestorben in'
-    ) 
+    )
 
     def render_profession(self, value):
         separator = ', '
@@ -67,8 +66,9 @@ class SearchResultTable(tables.Table):
 
     class Meta:
         model = CustomPersonSearchResult
-        fields = ('name','birth_date','birth_place','death_date','death_place','profession')
+        fields = ('name', 'birth_date', 'birth_place',
+                  'death_date', 'death_place', 'profession')
         attrs = {'class': 'table table-hover oebl-table',
-                 'thead' : {'class': 'thead-dark'}
+                 'thead': {}
                  }
         template_name = "theme/custom_table.html"
