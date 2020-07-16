@@ -87,7 +87,7 @@
                     </li>
                   </ul>
                 </li>-->
-                <li class="nav-item"><a title="Suche" href="{% url 'theme:expert-search' %}" class="nav-link">Suche</a></li>
+                <li class="nav-item"><a title="Suche" href="{% url 'theme:search' %}" class="nav-link">Suche</a></li>
                 <li class="nav-item"><a title="UeberOEBL" href="{% url 'theme:about' %}" class="nav-link">Über das ÖBL</a></li>
                 <li class="nav-item"><a title="Kontakt" href="{% url 'theme:contact' %}" class="nav-link">Kontakt</a></li>
               </ul>
@@ -105,8 +105,10 @@
         <!-- .site-navigation -->
       </div>
       <!-- .wrapper-navbar end -->
+      <div class="h-100">
     {% block content %}{% endblock %}
-
+      </div>
+<div>
     <div class="footer oebl-inverted">
         <div>
             <div class="container">
@@ -121,6 +123,7 @@
                     <div class="col-sm-4 col-md-4 col-lg-4 col-12 footermenu">
                     <ul class="mb-0 pl-0">
                       <li class="pb-1 pl-0"><a title="Impressum" href="{% url 'theme:imprint' %}" class="nav-link">Impressum</a></li>
+                      <li class=" pl-0"><small>&#xa9; Österreichische Akademie der Wissenschaften</small></li>
                     </ul>
                   </div>
                   <div class="col-sm-4 col-md-4 col-lg-4 col-12" style="text-align:right">
@@ -130,17 +133,8 @@
                 </footer>
             </div>
         </div>
-    </div>
-    <div class="footer mt-0 p-2"  id="oeawfooter">
-      <div class="container">
-        <div class="row">
-            <div class="col">
-              <p class="mb-0">&#xa9; Österreichische Akademie der Wissenschaften</p>
-            </div>
-          </div>
-        </div>
-    </div>
-
+    </div>   
+  </div>
     <!-- Bootstrap core JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{% static 'theme/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
