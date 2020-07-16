@@ -41,15 +41,22 @@
           <div class="row">
             <div class="col">
               <h2>{{ object.name }}{%if object.first_name %}, {{ object.first_name }}{% endif %}</h2>
-              <p class="profession-date-of-birth">{{ profession }}, <abbr
-              title='geboren'>geb.</abbr> {% if place_of_birth is not None %} {{place_of_birth}}, {% endif %}{{object.start_date_written }}; <abbr
-              title='gestorben'>gest.</abbr> {% if place_of_death is not None %} {{place_of_death}}, {% endif %}{{object.end_date_written }}
+              <p class="profession-date-of-birth">
+                {{ profession }}, <abbr
+                title='geboren'>geb.</abbr> {% if place_of_birth is not None %} {{place_of_birth}}, {% endif %}{{object.start_date_written }}; <abbr
+                title='gestorben'>gest.</abbr> {% if place_of_death is not None %} {{place_of_death}}, {% endif %}{{object.end_date_written }}
               </p>
             </div>
           </div>
         </div>
         <div class="card-body p-0 pt-3">
           <p class="p-0">{{ main_text }}</p>
+        </div>
+        <div class="mt-5 text-secondary">
+          <hr class="m-5" />
+          {{ object.source.pubinfo }}<br>
+          {{ object.source.author }}<br>
+          {{ object.references }}
         </div>
       </article>
     </div>

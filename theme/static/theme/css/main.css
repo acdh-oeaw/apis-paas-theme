@@ -1,3 +1,7 @@
+body {
+  font-weight: 500;
+}
+
 * {
   font-family: 'Montserrat', sans-serif !important;
 }
@@ -28,7 +32,12 @@
   background: #de3b3b;
   color: white;
 }
-
+.entry-content {
+  text-align: justify;
+}
+.oebl-table {
+  margin-bottom: 0;
+}
 .oebl-table td,
 .oebl-table th {
   /* font-size: 0.8rem; */
@@ -49,6 +58,10 @@
   top: -0.4em;
 }
 
+.oebl-table th a svg.feather {
+  width: inherit;
+}
+
 .collapsebtn svg {
   float: right;
 }
@@ -60,10 +73,6 @@
 
 .disabled {
   color: #aaa;
-}
-
-table.oebl-table th a svg.feather {
-  width: inherit;
 }
 
 p {
@@ -91,7 +100,6 @@ p {
 
 .bio p {
   text-align: justify;
-  color: #626262;
 }
 
 p a {
@@ -757,12 +765,14 @@ h4.subHeading {
 .smaller {
   font-size: 90%;
 }
-/* FIXME: #F1 is not a color */
 .pb {
-  color: #F1;
+  color: #f1f1ff;
 }
 .bold {
-  font-weight: bold;
+  font-weight: 600;
+}
+.semi-bold {
+  font-weight: 500;
 }
 .line {
   display: block;
@@ -962,7 +972,7 @@ ul.dropdown-menu-form {
 }
 
 #contentDetails {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #contentDetails .preventity,
