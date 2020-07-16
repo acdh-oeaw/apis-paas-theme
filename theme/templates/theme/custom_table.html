@@ -4,7 +4,7 @@
 <div class="table-container">
     {% block pagination_top %}
   
-    <div class="d-flex justify-content-end table_meta p-1 oebl-inverted-lighter">
+    <div class="d-flex justify-content-end table_meta p-1">
         <span class="my-auto mr-1">{{table.rows | length}} {% if table.rows|length > 1 %}Ergebnisse{%else%}Ergebnis{%endif%}</span>
         
         <nav aria-label="Table navigation" class="d-inline-block">
@@ -75,7 +75,7 @@
             {% block table.tbody.row %}
             <tr {{ row.attrs.as_html }}>
                 {% for column, cell in row.items %}
-                <td {{ column.attrs.td.as_html }}>
+                <td class="pl-3 pr-3" {{ column.attrs.td.as_html }}>
                     {% if column.localize == None %}{{ cell }}{% else %}{% if column.localize %}{{ cell|localize }}{% else %}{{ cell|unlocalize }}{% endif %}{% endif %}
                 </td>
                 {% endfor %}
@@ -109,7 +109,7 @@
 
     {% block pagination %}
     {% if table.page and table.paginator.num_pages > 1 %}
-    <div class="d-flex justify-content-end table_meta p-1 oebl-inverted-lighter">
+    <div class="d-flex justify-content-end table_meta p-1">
         <span class="my-auto mr-1">{{table.rows | length}} Ergebnisse</span>
         <nav aria-label="Table navigation" class="d-inline-block">
             <ul class="pagination mb-0">
@@ -117,7 +117,7 @@
                 {% block pagination.previous %}
                 <li class="previous page-item">
                     <a href="{% querystring table.prefixed_page_field=table.page.previous_page_number %}"
-                        class="page-link  rounded-0">
+                        class="page-link rounded-0">
                         <i class="feather-14" data-feather="chevron-left"></i>
                     </a>
                 </li>
