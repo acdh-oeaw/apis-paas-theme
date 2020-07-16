@@ -69,6 +69,6 @@ class SearchResultTable(tables.Table):
         model = CustomPersonSearchResult
         fields = ('name','birth_date','birth_place','death_date','death_place','profession')
         attrs = {'class': 'table table-hover oebl-table',
-                 'thead' : {'class': 'thead-dark'}
+                 'thead' : {}
                  }
         template_name = "theme/custom_table.html"
