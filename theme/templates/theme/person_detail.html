@@ -74,9 +74,9 @@
             </ul>
             <h4>Download</h4>
             <ul class="uris pl-0">
-              <li class="p-0"><a href="#" download>XML/TEI</a></li>
-              <li class="p-0"><a href="#" download>RDF</a></li>
-              <li class="p-0"><a href="#" download>JSON</a></li>
+              <li class="p-0"><a href="{% url 'apis:apis_api2:GetEntityGeneric' pk=object.pk %}?format=tei" download>XML/TEI</a></li>
+              <li class="p-0"><a href="{% url 'apis:apis_api2:GetEntityGeneric' pk=object.pk %}?format=rdf%2Bturtle" download>RDF/Turtle</a></li>
+              <li class="p-0"><a href="{% url 'apis:apis_api2:GetEntityGeneric' pk=object.pk %}?format=json" download>JSON</a></li>
             </ul>
             {% if related_persons %}
             <h4>Personen</h4>
