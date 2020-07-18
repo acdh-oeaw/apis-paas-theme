@@ -76,11 +76,11 @@ def enrich_person_context(person_object, context):
         context['related_institutions'] = person_object.personinstitution_set.all().filter_for_user()
     except AttributeError:
         context['related_institutions'] = None
+    context['name_oebl'] = None
     lbl_orig_name = Label.objects.filter(label_type_id=598, temp_entity_id=person_object.pk)
     if lbl_orig_name.count() == 1:
-        context['name_oebl'] = lbl_orig_name.first().label
-    else:
-        context['name_oebl'] = None
+        if lbl_orig_name.label != f"{person_object.name}, {person_object.first_name}":
+            context['name_oebl'] = lbl_orig_name.first().label
     if get_main_text(MAIN_TEXT) is not None:
         txt = person_object.text.filter(
             kind__name__icontains=MAIN_TEXT)
