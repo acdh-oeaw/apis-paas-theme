@@ -11,7 +11,16 @@ class PersonFacetedSearchForm(FacetedSearchForm):
     end_date_form = forms.CharField(required=False)
 
     def search(self):
-        sqs = super(PersonFacetedSearchForm, self).search()
+        if self.cleaned_data['q'] == '':
+            sqs = self.searchqueryset.load_all()
+            for facet in self.selected_facets:
+                if ":" not in facet:
+                    continue
+                field, value = facet.split(":", 1)
+                if value:
+                    sqs = sqs.narrow('%s:"%s"' % (field, sqs.query.clean(value)))
+        else:
+            sqs = super(PersonFacetedSearchForm, self).search()
         if not self.is_valid():
             return self.no_query_found()
         if self.cleaned_data['start_date_form']:

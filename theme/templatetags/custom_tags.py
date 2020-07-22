@@ -52,7 +52,9 @@ def normalize_facet(facet, kind, url=None):
     if kind == "name":
         return f"{norm_kind[fac[0].lower()]}: '{fac[1]}'"
     elif kind == "filter":
-        return re.sub(f"(\&selected_facets={fac[0]}_exact)(:|%3A)({urllib.parse.quote(fac[1])})", '',url)
+        url2 = re.sub(f"([\&\?]selected_facets={fac[0]}_exact)(:|%3A)({urllib.parse.quote(fac[1])})", '',url)
+        url2 = url2.replace('search&', 'search?')
+        return url2
 
 
 @register.simple_tag
