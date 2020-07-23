@@ -243,12 +243,6 @@ h6 {
   font-weight: bold;
 }
 
-.card-wrapper .card .card-inner .entry-content p {
-  color: black;
-  font-weight: bold;
-  /* font-size: 0.8rem; */
-}
-
 .card-wrapper .oeblredcard.card .card-inner .entry-content p {
   color: white;
 }
@@ -1158,9 +1152,12 @@ ul.relentities {
   padding-left: 0;
 }
 
-.partnercard {
-  text-align: center;
+.partnercard p{
+  text-align: left;
+  font-size: .9em !important;
 }
+
+
 
 .partnercard img {
   height: 60px;
