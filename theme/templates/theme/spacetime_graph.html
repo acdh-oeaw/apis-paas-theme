@@ -1,0 +1,157 @@
+{% block scriptHeader %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+{% endblock %}
+{% load custom_tags %}
+<h4>Lifeline</h4>
+<div id="spacetime-graph_person_{{ object.pk }}" class="spacetime-graph"></div>
+
+<script type="module">
+  
+  import 'https://cdn.jsdelivr.net/npm/geolib@3.3.1/lib/index.min.js'
+
+  const width = 250
+  const height = 600
+  const margin = 0
+  const padding = 0
+  const adj = 50
+
+  const data = [
+    {
+      coords: [48.3173028, 16.1479834],
+      name: 'Wien',
+      year: 1820,
+      relation_type: 'asd'
+    },
+    {
+      coords: [48.2952079, 14.1869777],
+      name: 'Linz',
+      year: 1845,
+      relation_type: 'asd'
+    },
+    {
+      coords: [47.3775498,8.4665034],
+      name: 'Zürich',
+      year: 1846,
+      relation_type: 'asd'
+    },
+    {
+      coords: [48.2952079, 14.1869777],
+      name: 'Linz',
+      year: 1849,
+      relation_type: 'asd'
+    },
+    {
+      coords: [53.4122997,-3.0564852],
+      name: 'Liverpool',
+      year: 1870,
+      relation_type: 'asd'
+    },
+    {
+      coords: [48.3173028, 16.1479834],
+      name: 'Wien',
+      year: 1879,
+      relation_type: 'asd'
+    }
+  ]
+
+  const b = data.reduce((m, e, i, l) => {
+    if (i === 0) {
+      return m.concat({ ...e, distance: 0, x: 0 })
+    } else {
+      const distance = geolib.getDistance(
+        {
+          latitude: e.coords[0],
+          longitude: e.coords[1]
+        },
+        {
+          latitude: l[i -1].coords[0],
+          longitude: l[i - 1].coords[1]
+        }
+      )
+      return m.concat({
+        ...e, 
+        distance,
+        x: m[i - 1].x + distance * (i % 2 === 0 ? 1 : -1)
+      })
+    }
+  }, [])
+  
+  const xs = b.map(x => x.x)
+  const years = b.map(x => x.year)
+
+  const [ minX, maxX ] = [Math.min(...xs), Math.max(...xs)]
+  const [ minY, maxY ] = [Math.min(...years), Math.max(...years)]
+
+  const yScale = d3.scaleLinear().domain([minY, maxY]).rangeRound([ 0, height ])
+  const xScale = d3.scaleLinear().domain([minX, maxX]).rangeRound([ 0, width ])
+
+  const yAxis = d3.axisLeft().scale(yScale).tickFormat(x => x)
+
+  const line = d3.line()
+    .x(d => xScale(d.x))
+    .y(d => yScale(d.year))(b)
+
+  const tooltip = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0)
+
+  const svg = d3
+    .select('#spacetime-graph_person_{{ object.pk }}')
+    .append('svg')
+    .attr('preserveAspectRatio', 'xMinYMin meet')
+    .attr('viewBox', `-${ adj } -${ adj } ${ width + adj * 3 } ${ height + adj * 3 }`)
+    .style('padding', padding)
+    .style('margin', margin)
+    .classed('svg-content', true)
+  
+  svg.append("g")
+    .style('font', '16px Montserrat')
+    .attr('class', 'axis')
+    .call(yAxis)
+
+  svg.append('g')
+    .append('path')
+    .attr('class', 'lifeline')
+    .attr('d', line)
+
+  svg.append('g')
+    .selectAll("dot")
+    .data(b) // the .filter part is just to keep a few dots on the chart, not all of them
+    .enter()
+    .append("circle")
+      .attr('data-tooltip', d => d.name)
+      .attr("cx", d => xScale(d.x))
+      .attr("cy", d => yScale(d.year))
+      .attr("r", 12)
+      .style("fill", "#69b3a2")
+      .style("opacity", 0.3)
+      .style("stroke", "white")
+      .on("mouseover", (d) => {		
+        tooltip.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+        tooltip.html(d.year+ "<br/>"  + d.name)	
+            .style("left", (d3.event.pageX + 20) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px");	
+        })
+      .on("mouseout", function(d) {		
+          div.transition()		
+              .duration(500)		
+              .style("opacity", 0);	
+      })
+
+</script>
+
+<style>
+  .spacetime-graph path.lifeline {
+    fill: none;
+    stroke: #ed3700;
+    stroke-width: 4px;
+  }
+
+  .tooltip {
+    padding: 5px;
+    background: rgba(0,0,0,.9);
+    border-radius: 5px;
+  }
+</style>
