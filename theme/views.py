@@ -84,22 +84,14 @@ class PersonSearchView(FacetedSearchView):
     queryset = SearchQuerySet()
     form_class = PersonFacetedSearchForm
     facet_fields = ['place_of_birth', 'place_of_death', 'profession', 'education', 'career']
-    
-    def get(self, request, *args, **kwargs):
-        r = super(PersonSearchView, self).get(self, request, *args, **kwargs)
-        print('get')
-        #print(r['context_data']['form']['data']['selected_facets'])
-        return r
 
-class SearchView(SingleTableMixin,PersonSearchView): 
+
+class SearchView(SingleTableMixin, PersonSearchView):
     table_class = SearchResultTable
     template_name = 'theme/person_search.html'
 
     def get_table_data(self):
-        #result = SearchResult()
-        return [result for result in self.queryset.all()]
-    
-
+        return self.queryset
 
 
 class PersonDetailView(DetailView):

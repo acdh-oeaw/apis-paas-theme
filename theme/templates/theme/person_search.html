@@ -25,7 +25,7 @@
               </div>
             </div>
           </form>
-          {% if query %}
+
             <!-- Begin faceting. -->
             <div class="facet">
               <form>
@@ -61,7 +61,7 @@
                         <h5 class="mb-0">
                           <button type="button" class="btn btn-link collapsebtn w-100 text-left" data-toggle="collapse"
                             data-target="#{{field}}" aria-expanded="true" aria-controls="{{field}}">
-                            {%normalize_facet field 'simple'%}
+                            {% normalize_facet field 'simple' %}
                             <i class="chevron-down" data-feather="chevron-down"></i>
                           </button>
                         </h5>
@@ -75,15 +75,22 @@
                                   {% check_facet_selection field fv.0 form.selected_facets as facet_selected %}
                                   {% if facet_selected %}
                                     <span class="disabled">{{ fv.0 }} ({{ fv.1 }})</span>
-                                  {%else%}
-                                    <a href="{{ request.get_full_path }}&amp;selected_facets={{field}}_exact:{{ fv.0|urlencode }}"
+                                  {% else %}
+                                    {% if query or request.GET|length > 0 %}
+                                  <a href="{{ request.get_full_path }}&amp;selected_facets={{field}}_exact:{{ fv.0|urlencode }}"
                                       class="facet-group-link">{{ fv.0 }} ({{ fv.1 }})</a>
-                                  {%endif%}
+                                    {% else %}
+                                    <a href="{{ request.get_full_path }}?selected_facets={{field}}_exact:{{ fv.0|urlencode }}"
+                                      class="facet-group-link">{{ fv.0 }} ({{ fv.1 }})</a>
+                                    {% endif %}
+                                  {% endif %}
                                 </li>
                               {% endif %}
                             {% endfor %}
                           </ul>
+                          {% if filtered_vals.5.1 > 0 %}
                           <button type="button" class="pl-0 btn btn-link btn-sm load-more-less" class="oebl-font-red more-facetitems-link">mehr...</a>
+                            {% endif %}
                         </div>
                       </div>
                     </div>
@@ -115,9 +122,7 @@
       <div>
         {% render_table table %}
         <!-- End faceting -->
-        {% else %}
-        {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
+
       </div>
     </div>
   </div>
