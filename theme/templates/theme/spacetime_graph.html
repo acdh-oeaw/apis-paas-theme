@@ -165,7 +165,7 @@
           .text(d => d.name)
           .select(function() { return this.parentNode })
         .select(function() { return this.parentNode })
-      .call(function(e) {
+      .call((e) => {
         const gs = e._groups[0]
         gs.reduce((m, g, i, l) => {
           const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
