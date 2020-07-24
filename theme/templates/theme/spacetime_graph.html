@@ -168,7 +168,7 @@
         const gs = e._groups[0]
         gs.reduce((m, g, i, l) => {
           const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-          const bb = g.getBBox())
+          const bb = g.getBBox()
           if (hasOverlap(bb, m)) {
             g.setAttribute('data-overlapping', 'true')
           }
