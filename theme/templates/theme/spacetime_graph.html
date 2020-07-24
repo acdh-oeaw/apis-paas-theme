@@ -1,12 +1,9 @@
-{% block scriptHeader %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
-{% endblock %}
 {% load custom_tags %}
 <h4>Lifeline</h4>
 <div id="spacetime-graph_person_{{ object.pk }}" class="spacetime-graph"></div>
 
 <script type="module">
-  
+  import 'https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js'  
   import 'https://cdn.jsdelivr.net/npm/geolib@3.3.1/lib/index.min.js'
 
   const width = 250
@@ -54,6 +51,12 @@
     }
   ]
 
+  function getBB(sel) {
+    sel.each(function(d){
+      d.bbox = this.getBBox()
+    })
+  }
+
   const b = data.reduce((m, e, i, l) => {
     if (i === 0) {
       return m.concat({ ...e, distance: 0, x: 0 })
@@ -91,9 +94,11 @@
     .x(d => xScale(d.x))
     .y(d => yScale(d.year))(b)
 
-  const tooltip = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
-    .style("opacity", 0)
+  const tooltip = d3
+    .select('body')
+    .append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0)
 
   const svg = d3
     .select('#spacetime-graph_person_{{ object.pk }}')
@@ -104,7 +109,7 @@
     .style('margin', margin)
     .classed('svg-content', true)
   
-  svg.append("g")
+  svg.append('g')
     .style('font', '16px Montserrat')
     .attr('class', 'axis')
     .call(yAxis)
@@ -115,31 +120,51 @@
     .attr('d', line)
 
   svg.append('g')
-    .selectAll("dot")
-    .data(b) // the .filter part is just to keep a few dots on the chart, not all of them
+    .selectAll('dot')
+    .data(b)
     .enter()
-    .append("circle")
-      .attr('data-tooltip', d => d.name)
-      .attr("cx", d => xScale(d.x))
-      .attr("cy", d => yScale(d.year))
-      .attr("r", 12)
-      .style("fill", "#69b3a2")
-      .style("opacity", 0.3)
-      .style("stroke", "white")
-      .on("mouseover", (d) => {		
-        tooltip.transition()		
-            .duration(200)		
-            .style("opacity", .9);		
-        tooltip.html(d.year+ "<br/>"  + d.name)	
-            .style("left", (d3.event.pageX + 20) + "px")		
-            .style("top", (d3.event.pageY - 28) + "px");	
-        })
-      .on("mouseout", function(d) {		
-          div.transition()		
-              .duration(500)		
-              .style("opacity", 0);	
-      })
+    .append('circle')
+      .attr('cx', d => xScale(d.x))
+      .attr('cy', d => yScale(d.year))
+      .attr('r', 12)
+      .style('fill', '#69b3a2')
+      .style('opacity', 0.3)
+      .style('stroke', 'white')
+      .select(function() { return this.parentNode })
 
+  svg.append('g')
+    .selectAll('labels')
+    .data(b)
+    .enter()
+    .append('g')
+      .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('x', d => xScale(d.x))
+        .attr('y', d => yScale(d.year))
+        .attr('dx', '2em')
+        .attr('dy', '-2em')
+        .append('tspan')
+          .text(d => d.year)
+          .select(function() { return this.parentNode })
+        .append('tspan')
+          .attr('x', d => xScale(d.x))
+          .attr('dx', '2em')
+          .attr('dy', '1.1em')
+          .text(d => d.name)
+          .select(function() { return this.parentNode })
+        .select(function() { return this.parentNode })
+      .call(function(e) {
+        e._groups[0].map((f) => {
+          const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+          const bb = f.getBBox()
+          r.setAttribute('x', bb.x)
+          r.setAttribute('y', bb.y)
+          r.setAttribute('width', bb.width)
+          r.setAttribute('height', bb.height)
+          r.style.fill = 'rgba(255,255,255,.9)'
+          f.prepend(r)
+        })
+      })
 </script>
 
 <style>
@@ -148,7 +173,6 @@
     stroke: #ed3700;
     stroke-width: 4px;
   }
-
   .tooltip {
     padding: 5px;
     background: rgba(0,0,0,.9);
