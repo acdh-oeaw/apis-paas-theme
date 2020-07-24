@@ -57,6 +57,17 @@
     })
   }
 
+  function hasOverlap(bbA, bbs) {
+    return bbs.find((bbB) => {
+      return !(
+        ((bbA.y + bbA.height) < (bbB.y)) ||
+        (bbA.y > (bbB.y + bbB.height)) ||
+        ((bbA.x + bbA.width) < bbB.x) ||
+        (bbA.x > (bbB.x + bbB.width))
+      )
+    }) !== undefined
+  }
+
   const b = data.reduce((m, e, i, l) => {
     if (i === 0) {
       return m.concat({ ...e, distance: 0, x: 0 })
@@ -132,16 +143,6 @@
       .style('stroke', 'white')
       .select(function() { return this.parentNode })
 
-  function hasOverlap(bbA, bbs) {
-    return bbs.find((bbB) => {
-      return !(
-        ((bbA.y + bbA.height) < (bbB.y)) ||
-        (bbA.y > (bbB.y + bbB.height)) ||
-        ((bbA.x + bbA.width) < bbB.x) ||
-        (bbA.x > (bbB.x + bbB.width))
-      )
-    }) !== undefined
-  }
 
   svg.append('g')
     .selectAll('labels')
