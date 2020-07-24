@@ -22,13 +22,13 @@
     {
       coords: [48.2952079, 14.1869777],
       name: 'Linz',
-      year: 1845,
+      year: 1847,
       relation_type: 'asd'
     },
     {
       coords: [47.3775498,8.4665034],
       name: 'Zürich',
-      year: 1846,
+      year: 1848,
       relation_type: 'asd'
     },
     {
@@ -132,6 +132,17 @@
       .style('stroke', 'white')
       .select(function() { return this.parentNode })
 
+  function hasOverlap(bbA, bbs) {
+    return bbs.find((bbB) => {
+      return !(
+        ((bbA.y + bbA.height) < (bbB.y)) ||
+        (bbA.y > (bbB.y + bbB.height)) ||
+        ((bbA.x + bbA.width) < bbB.x) ||
+        (bbA.x > (bbB.x + bbB.width))
+      )
+    }) !== undefined
+  }
+
   svg.append('g')
     .selectAll('labels')
     .data(b)
@@ -154,16 +165,21 @@
           .select(function() { return this.parentNode })
         .select(function() { return this.parentNode })
       .call(function(e) {
-        e._groups[0].map((f) => {
+        const gs = e._groups[0]
+        gs.reduce((m, g, i, l) => {
           const r = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-          const bb = f.getBBox()
+          const bb = g.getBBox())
+          if (hasOverlap(bb, m)) {
+            g.setAttribute('data-overlapping', 'true')
+          }
           r.setAttribute('x', bb.x)
           r.setAttribute('y', bb.y)
           r.setAttribute('width', bb.width)
           r.setAttribute('height', bb.height)
           r.style.fill = 'rgba(255,255,255,.9)'
-          f.prepend(r)
-        })
+          g.prepend(r)
+          return m.concat(bb)
+        }, [])
       })
 </script>
 
@@ -177,5 +193,11 @@
     padding: 5px;
     background: rgba(0,0,0,.9);
     border-radius: 5px;
+  }
+  [data-overlapping] {
+    opacity: 0;
+  }
+  [data-overlapping]:hover {
+    opacity: 1;
   }
 </style>
