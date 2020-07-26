@@ -12,44 +12,13 @@
   const padding = 0
   const adj = 50
 
-  const data = [
-    {
-      coords: [48.3173028, 16.1479834],
-      name: 'Wien',
-      year: 1820,
-      relation_type: 'asd'
-    },
-    {
-      coords: [48.2952079, 14.1869777],
-      name: 'Linz',
-      year: 1847,
-      relation_type: 'asd'
-    },
-    {
-      coords: [47.3775498,8.4665034],
-      name: 'Zürich',
-      year: 1848,
-      relation_type: 'asd'
-    },
-    {
-      coords: [48.2952079, 14.1869777],
-      name: 'Linz',
-      year: 1849,
-      relation_type: 'asd'
-    },
-    {
-      coords: [53.4122997,-3.0564852],
-      name: 'Liverpool',
-      year: 1870,
-      relation_type: 'asd'
-    },
-    {
-      coords: [48.3173028, 16.1479834],
-      name: 'Wien',
-      year: 1879,
-      relation_type: 'asd'
-    }
-  ]
+const data = fetch('/apis/api2/lifepath/{{object.pk}}/')
+    .then(response => {
+            return response.json();
+        })
+    .then(data => drawLifepath(data))
+
+console.log(data)
 
   function getBB(sel) {
     sel.each(function(d){
@@ -68,6 +37,8 @@
     }) !== undefined
   }
 
+function drawLifepath(data) {
+console.log(data)
   const b = data.reduce((m, e, i, l) => {
     if (i === 0) {
       return m.concat({ ...e, distance: 0, x: 0 })
@@ -89,7 +60,7 @@
       })
     }
   }, [])
-  
+
   const xs = b.map(x => x.x)
   const years = b.map(x => x.year)
 
@@ -119,7 +90,7 @@
     .style('padding', padding)
     .style('margin', margin)
     .classed('svg-content', true)
-  
+
   svg.append('g')
     .style('font', '16px Montserrat')
     .attr('class', 'axis')
@@ -182,6 +153,7 @@
           return m.concat(bb)
         }, [])
       })
+}
 </script>
 
 <style>
