@@ -1358,3 +1358,8 @@ ul li.page-item {
   font-size: 0.8em;
   color: #cd2324;
 }
+
+ul.maps-list li {
+    padding-left: 0px;
+    font-weight: normal
+}

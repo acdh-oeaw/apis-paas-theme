@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <div class="card-body p-0 pt-3">
+        <div id="main-bio-text" class="card-body p-0 pt-3">
           <p class="p-0">{{ main_text }}</p>
         </div>
         <div class="mt-5 text-secondary">
@@ -61,9 +61,12 @@
         </div>
       </article>
     </div>
-    <div class="col-md-4">
+    <div id="right-pane" class="col-md-4">
       <article>
         <div class="inline-map card-inner relentitiescard card-vertical d-flex flex-column justify-content-between">
+        <a style="position: absolute; right: 10px; top: 10px; z-index: 1000; cursor: pointer" class="leaflet-control-zoom-in" role="button" onClick="move_map()">
+            <i data-feather="maximize-2"></i>
+        </a>
           {% leaflet_map "main" %}
         </div>
         <div class="card-inner relentitiescard card-vertical  d-flex flex-column justify-content-between">
@@ -206,19 +209,38 @@
   </script>
   <script type="text/javascript">
     var dataurl = "{% url 'apis:apis_api2:GetRelatedPlaces' %}?person_id={{object.pk}}";
+    let lst_dates = []
+    let lst_long_lat = []
+    var map;
+    var date;
     window.addEventListener("map:init", function (event) {
-    var map = event.detail.map;
+    map = event.detail.map;
     // Download GeoJSON data with Ajax
     fetch(dataurl)
       .then(function(resp) {
       return resp.json();
       })
       .then(function(data) {
+        console.log(data);
+        return data;
+      })
+      .then(function(data) {
       var jsonLayer = L.geoJson(data, {
         onEachFeature: function onEachFeature(feature, layer) {
-          console.log(feature)
           var props = feature.properties;
-        var content = `<div><h3><a href=${props.url}>${props.name}</a></h3><p>${props.kind}<br/>${props.relation_kind}</p></div>`;
+          let relations = "";
+          props.relations.forEach(function(element){relations += `<li>${element[0]}</li>`;
+              if (!lst_dates.includes(element[1]) && element[1] != null) {
+                lst_dates.push(element[1])
+              };
+              if (!lst_dates.includes(element[2]) && element[2] != null) {
+                lst_dates.push(element[2])
+              };
+              if (!lst_long_lat.includes(feature.geometry.coordinates)){
+                lst_long_lat.push(feature.geometry.coordinates)
+              }
+          });
+        var content = `<div><h3><a href=${props.url}>${props.name}</a></h3><p>${props.kind}<br/><ul class="maps-list">${relations}<ul></p></div>`;
         layer.bindPopup(content);
       }});
       jsonLayer.addTo(map);
@@ -231,5 +253,125 @@
       
       });
     });
+
+    function add_histogis_shape(){
+      let list_permalinks = [];
+      let histogis_url = new URL('https://histogis.acdh-dev.oeaw.ac.at/api/where-was')
+      const parsed_dates = lst_dates.map(d => Date.parse(d))
+      const min_date = Math.min(...parsed_dates)
+      const max_date = Math.max(...parsed_dates)
+      const ts = (max_date + min_date)/2
+      date = new Date(ts)
+      const listHistoGIS = []
+      const preList1 = []
+      const preList1_ids = []
+      const preList2 = []
+      const preList3 = []
+      let count_runs = 0
+      lst_long_lat.forEach(function(coords) {
+        histogis_url.search = new URLSearchParams({
+        lat: coords[1],
+        lng: coords[0],
+        when:  date.toLocaleDateString('en-UK'),
+        page_size: 15
+    });
+      fetch(histogis_url)
+        .then(res => res.json())
+        .then(function(res) {
+          
+          res.features.forEach(function(ft) {
+            let subst = ft['@id'].replace(/^.*\/\/[^\/]+/, '')
+            if (ft.properties.parents.length === 0 && !list_permalinks.includes(subst)) {
+              preList1.push(ft)
+              preList1_ids.push(subst)
+              list_permalinks.push(subst)
+            }
+          })
+          res.features.forEach(function(ft) {
+            let subst = ft['@id'].replace(/^.*\/\/[^\/]+/, '')
+            if (ft.properties.parents.length > 0 && !list_permalinks.includes(subst)) {
+              ft.properties.parents.forEach(function(par) {
+                if (preList1_ids.includes(par.permalink)) {
+                  preList2.push(ft)
+                  list_permalinks.push(subst)
+                } else if (!list_permalinks.includes(subst)) {
+                  preList3.push(ft)
+                  list_permalinks.push(subst)
+                }
+              })
+            }
+          })
+ 
+        })
+        .then(function() {
+          count_runs += 1
+          if (count_runs === lst_long_lat.length) {
+          map.createPane('histogis1');
+          map.createPane('histogis2');
+          map.createPane('histogis3');
+          map.getPane('histogis1').style.zIndex = 410;
+          map.getPane('histogis2').style.zIndex = 420;
+          map.getPane('histogis3').style.zIndex = 430;
+          let index = 0;
+          let pre_fin = [preList1, preList2, preList3]
+          let colors_shapes = ['#3388ff', '#229c41', '#d1c847']
+          pre_fin.forEach(function(res) {
+            index += 1
+            res.forEach(
+              function(ft) {
+                var jsonLayer = L.geoJson(ft, {
+                  pane: `histogis${index}`,
+                  style: {
+                    'color': colors_shapes[index-1]
+                  }
+                  });
+                jsonLayer.bindTooltip(
+                  `${ft.properties.name} (${ft.properties.start_date} - ${ft.properties.end_date})`,
+                      {
+                      permanent:false,
+                      direction:'center',
+                      className: 'countryLabel'
+                      }
+);
+                listHistoGIS.push(jsonLayer)    
+              }
+            )
+          })
+          const featHistoGIS = L.featureGroup(listHistoGIS).addTo(map)
+          featHistoGIS.eachLayer(function (layer) {
+            
+            });
+          const bounds =  featHistoGIS.getBounds();
+            if (JSON.stringify(bounds['_northEast']) === JSON.stringify(bounds['_southWest'])) {
+              map.setView(bounds['_northEast'], 12);
+            } else {
+              map.fitBounds(featHistoGIS.getBounds());
+            }
+          }
+        })
+        
+      })
+
+    }
+
+  function move_map() {
+    const map_element = document.querySelector('div.inline-map')
+    const bio = document.querySelector('article.bio')
+    const biotext = document.querySelector('#main-bio-text')
+    const spacetime = document.querySelector('div#spacetime-graph-content')
+    const rightpane = document.querySelector('#right-pane > article')
+    const mapleaflet = map_element.querySelector('#main')
+    rightpane.insertBefore(spacetime, map_element)
+    spacetime.style.paddingTop = `${document.querySelector('div.entry-header').offsetHeight}px`
+    mapleaflet.style.height = "500px"
+    bio.insertBefore(map_element, biotext)
+    add_histogis_shape()
+    map.invalidateSize()
+    const caption = document.createElement("p")
+    const tnode = document.createTextNode(`Die Polygone werden dynamisch aus HistoGIS erstellt. 
+    Es werden die administrativen Einheiten für die Position aller Marker zum Zeitpunkt ${date.toLocaleDateString('de-DE')} geladen.`)
+    caption.appendChild(tnode)
+    bio.insertBefore(caption, biotext)
+  }
   </script>
 {% endblock %}
