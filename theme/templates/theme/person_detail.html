@@ -362,14 +362,23 @@
     const rightpane = document.querySelector('#right-pane > article')
     const mapleaflet = map_element.querySelector('#main')
     rightpane.insertBefore(spacetime, map_element)
+    let height_space_time = spacetime.offsetHeight
+    if (height_space_time > 500){
+      mapleaflet.style.height = `${height_space_time}px`
+    } else {
+      mapleaflet.style.height = "500px"
+    }
     spacetime.style.paddingTop = `${document.querySelector('div.entry-header').offsetHeight}px`
-    mapleaflet.style.height = "500px"
+    
     bio.insertBefore(map_element, biotext)
     add_histogis_shape()
     map.invalidateSize()
     const caption = document.createElement("p")
+    caption.style.fontSize = '0.8em'
+    caption.style.fontStyle = 'italic'
     const tnode = document.createTextNode(`Die Polygone werden dynamisch aus HistoGIS erstellt. 
-    Es werden die administrativen Einheiten für die Position aller Marker zum Zeitpunkt ${date.toLocaleDateString('de-DE')} geladen.`)
+    Es werden die administrativen Einheiten für die Position aller Marker zum Zeitpunkt ${date.toLocaleDateString('de-DE')} 
+    (Mitte der bekannten Lebensspanne) geladen.`)
     caption.appendChild(tnode)
     bio.insertBefore(caption, biotext)
   }
