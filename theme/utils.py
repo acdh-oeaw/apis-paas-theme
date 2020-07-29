@@ -76,21 +76,16 @@ def enrich_person_context(person_object, context):
         context['related_institutions'] = person_object.personinstitution_set.all().filter_for_user()
     except AttributeError:
         context['related_institutions'] = None
-    context['name_oebl'] = None
-    lbl_orig_name = Label.objects.filter(label_type_id=598, temp_entity_id=person_object.pk)
-    if lbl_orig_name.count() == 1:
-        if lbl_orig_name.first().label != f"{person_object.name}, {person_object.first_name}":
-            context['name_oebl'] = lbl_orig_name.first().label
-    if get_main_text(MAIN_TEXT) is not None:
-        txt = person_object.text.filter(
-            kind__name__icontains=MAIN_TEXT)
-        if txt.count() > 0:
-            context['main_text'] = txt.first().text
-        else:
-            context['main_text'] = 'Not specified'
+    kurzinfo = person_object.text.filter(kind__name=getattr(settings, 'KURZINFO_TEXT_NAME', 'ÖBL Kurzinfo'))
+    if kurzinfo.count() == 1:
+        context['kurzinfo'] = kurzinfo[0].text
     else:
-        context['main_text'] = None
-        print(context)
+        context['kurzinfo'] = '-'
+    wv = person_object.text.filter(kind__name=getattr(settings, 'WERKVERZEICHNIS_TEXT_NAME', 'ÖBL Werkverzeichnis'))
+    if wv.count() == 1:
+        context['werkverzeichnis'] = wv[0].text
+    else:
+        context['werkverzeichnis'] = '-'
     return context
 
 
