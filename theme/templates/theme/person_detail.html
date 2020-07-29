@@ -41,7 +41,7 @@
           <div class="row">
             <div class="col">
               <h2>{{ object.name }}{%if object.first_name %}, {{ object.first_name }}{% endif %}</h2>
-              {% if name_oebl %}<div class="mt-5 text-secondary">{{ name_oebl }}</div>{% endif %}
+              {% if kurzinfo %}<div class="mt-5 text-secondary">{{ kurzinfo }}</div>{% endif %}
               <p class="profession-date-of-birth">
                 {{ profession }}, <abbr
                 title='geboren'>geb.</abbr> {% if place_of_birth is not None %} {{place_of_birth}}, {% endif %}{{object.start_date_written }}; <abbr
@@ -55,9 +55,10 @@
         </div>
         <div class="mt-5 text-secondary">
           <hr class="m-5" />
-          {{ object.source.pubinfo }}<br>
+          {{ werkverzeichnis}}<br>
+          {{ object.references }}<br>
           {{ object.source.author }}<br>
-          {{ object.references }}
+          {{ object.source.pubinfo }}<br>
         </div>
       </article>
     </div>
@@ -254,7 +255,9 @@
       });
     });
 
-    function add_histogis_shape(){
+   async function add_histogis_shape(){
+      let colors_shapes = ['#302f2f', '#3388ff', '#229c41', '#b8252c', '#d1c847']
+      const featHistoGIS = []
       let list_permalinks = [];
       let histogis_url = new URL('https://histogis.acdh-dev.oeaw.ac.at/api/where-was')
       const parsed_dates = lst_dates.map(d => Date.parse(d))
@@ -263,94 +266,72 @@
       const ts = (max_date + min_date)/2
       date = new Date(ts)
       const listHistoGIS = []
-      const preList1 = []
-      const preList1_ids = []
-      const preList2 = []
-      const preList3 = []
+      const preList = {}
       let count_runs = 0
-      lst_long_lat.forEach(function(coords) {
+      
+      const hgis_requests = lst_long_lat.map(function(coords){
         histogis_url.search = new URLSearchParams({
-        lat: coords[1],
-        lng: coords[0],
-        when:  date.toLocaleDateString('en-UK'),
-        page_size: 15
-    });
-      fetch(histogis_url)
-        .then(res => res.json())
-        .then(function(res) {
-          
-          res.features.forEach(function(ft) {
-            let subst = ft['@id'].replace(/^.*\/\/[^\/]+/, '')
-            if (ft.properties.parents.length === 0 && !list_permalinks.includes(subst)) {
-              preList1.push(ft)
-              preList1_ids.push(subst)
-              list_permalinks.push(subst)
+          lat: coords[1],
+          lng: coords[0],
+          when:  date.toLocaleDateString('en-UK'),
+          page_size: 15
+        });
+        return fetch(histogis_url)
+          .then(res => res.json())
+          .then(res => listHistoGIS.push(...res.features))
+      })
+      await Promise.all(hgis_requests)
+      console.log(listHistoGIS) 
+      listHistoGIS.forEach(ft => {
+        var count = 0
+        let lst_perm = []
+        ft.properties.parents.forEach(pr => {       
+          listHistoGIS.forEach(ft2 => {
+            let subst = ft2['@id'].replace(/^.*\/\/[^\/]+/, '')
+            if (pr.permalink === subst && !lst_perm.includes(subst)) {
+              count += 1
+              lst_perm.push(subst)
+              console.log(subst, pr.permalink, count)
             }
-          })
-          res.features.forEach(function(ft) {
-            let subst = ft['@id'].replace(/^.*\/\/[^\/]+/, '')
-            if (ft.properties.parents.length > 0 && !list_permalinks.includes(subst)) {
-              ft.properties.parents.forEach(function(par) {
-                if (preList1_ids.includes(par.permalink)) {
-                  preList2.push(ft)
-                  list_permalinks.push(subst)
-                } else if (!list_permalinks.includes(subst)) {
-                  preList3.push(ft)
-                  list_permalinks.push(subst)
-                }
-              })
-            }
-          })
- 
+          })         
         })
-        .then(function() {
-          count_runs += 1
-          if (count_runs === lst_long_lat.length) {
-          map.createPane('histogis1');
-          map.createPane('histogis2');
-          map.createPane('histogis3');
-          map.getPane('histogis1').style.zIndex = 410;
-          map.getPane('histogis2').style.zIndex = 420;
-          map.getPane('histogis3').style.zIndex = 430;
-          let index = 0;
-          let pre_fin = [preList1, preList2, preList3]
-          let colors_shapes = ['#3388ff', '#229c41', '#d1c847']
-          pre_fin.forEach(function(res) {
-            index += 1
-            res.forEach(
-              function(ft) {
-                var jsonLayer = L.geoJson(ft, {
-                  pane: `histogis${index}`,
-                  style: {
-                    'color': colors_shapes[index-1]
-                  }
-                  });
-                jsonLayer.bindTooltip(
-                  `${ft.properties.name} (${ft.properties.start_date} - ${ft.properties.end_date})`,
+        if (count in preList) {
+            if (!preList[count].some(ft3 => ft3['@id'] === ft['@id'])) {
+            preList[count].push(ft)
+            }
+          } else {
+            preList[count] = [ft,]
+          }
+      })
+      console.log(preList)
+      for (var idx in preList) {
+        let pn = `histogis${idx}`
+        map.createPane(pn);
+        map.getPane(pn).style.zIndex = parseInt(`4${idx}0`)
+
+        preList[idx].forEach(ft3 => {
+          let jsonLayer = L.geoJson(ft3, {
+            'pane': `histogis${idx}`,
+            'color': colors_shapes[idx]
+          })
+          jsonLayer.bindTooltip(
+            `${ft3.properties.name} (${ft3.properties.start_date} - ${ft3.properties.end_date})`,
                       {
-                      permanent:false,
-                      direction:'center',
+                      permanent: false,
+                      direction: 'center',
                       className: 'countryLabel'
                       }
 );
-                listHistoGIS.push(jsonLayer)    
-              }
-            )
-          })
-          const featHistoGIS = L.featureGroup(listHistoGIS).addTo(map)
-          featHistoGIS.eachLayer(function (layer) {
-            
-            });
-          const bounds =  featHistoGIS.getBounds();
+        featHistoGIS.push(jsonLayer)
+        })
+        const featGroupHistogis = L.featureGroup(featHistoGIS).addTo(map)
+        const bounds =  featGroupHistogis.getBounds();
             if (JSON.stringify(bounds['_northEast']) === JSON.stringify(bounds['_southWest'])) {
               map.setView(bounds['_northEast'], 12);
             } else {
-              map.fitBounds(featHistoGIS.getBounds());
+              map.fitBounds(featGroupHistogis.getBounds());
             }
-          }
-        })
-        
-      })
+      }
 
     }
 
