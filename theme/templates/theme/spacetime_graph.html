@@ -36,8 +36,16 @@
     }) !== undefined
   }
 
-  function onCircleHover(...e) {
-    console.log({e})
+  function onCircleMouseOver(...e) {
+    if (window.eventBus) {
+      window.eventBus.emit('spacetime.mouseover', e)
+    }
+  }
+
+  function onCircleMouseOut(...e) {
+    if (window.eventBus) {
+      window.eventBus.emit('spacetime.mouseout', e)
+    }
   }
 
   function drawLifepath(data) {
@@ -132,10 +140,12 @@
           .style('fill', '#69b3a2')
           .style('opacity', 0.3)
           .style('stroke', 'white')
-          .on('mouseover', () => {
+          .on('mouseover', (e) => {
+            onCircleMouseOver(e)
             document.querySelector('.spacetime-graph').classList.add('dot-hover')
           })
-          .on('mouseout', () => {
+          .on('mouseout', (e) => {
+            onCircleMouseOut(e)
             document.querySelector('.spacetime-graph').classList.remove('dot-hover')
           })
           .select(function() { return this.parentNode })
