@@ -16,8 +16,8 @@
     <!-- Fundament -->
     <link href="https://shared.acdh.oeaw.ac.at/fundament/dist/fundament/css/fundament.min.css" rel="stylesheet">
 
-   <!-- Google Fonts -->
-   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.0/nouislider.min.js"></script>
@@ -26,33 +26,54 @@
     <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
     <link rel="stylesheet" href="{%static 'theme/css/main.css' %}" />
 
+    <!--
+      this global event bus is used as a means
+      of communication between components.
+    -->
+    <script type="text/javascript">
+    class EventBus {
+      constructor() {
+        this.bus = document.createElement('fakeelement');
+      }
+      on(event, callback) {
+        this.bus.addEventListener(event, callback)
+      }
+      off(event, callback) {
+        this.bus.removeEventListener(event, callback);
+      }
+      emit(event, detail = {}) {
+        this.bus.dispatchEvent(new CustomEvent(event, { detail }));
+      }
+    }
+    window.eventBus = new EventBus()
+    </script>
 
-<!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
-<script type="text/javascript">
-  window.cookieconsent_options = {
-      "message":"This website uses cookies to ensure you get the best experience on our website",
-      "dismiss":"Got it!",
-      "learnMore":"More info",
-      "link":"{% projects_metadata 'imprint' %}",
-      "theme":"dark-bottom"};
-</script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
-<!-- End Cookie Consent plugin -->
-    <!-- Matomo -->
-<script type="text/javascript">
-  var _paq = window._paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="{% projects_metadata 'matomo_url' %}";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '{% projects_metadata "matomo_id" %}']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<!-- End Matomo Code -->
+    <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+    <script type="text/javascript">
+      window.cookieconsent_options = {
+          "message":"This website uses cookies to ensure you get the best experience on our website",
+          "dismiss":"Got it!",
+          "learnMore":"More info",
+          "link":"{% projects_metadata 'imprint' %}",
+          "theme":"dark-bottom"};
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/1.0.9/cookieconsent.min.js"></script>
+    <!-- End Cookie Consent plugin -->
+        <!-- Matomo -->
+    <script type="text/javascript">
+      var _paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="{% projects_metadata 'matomo_url' %}";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '{% projects_metadata "matomo_id" %}']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
 
 
     {% block scriptHeader %}
