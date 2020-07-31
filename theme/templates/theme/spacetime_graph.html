@@ -140,8 +140,9 @@
           .style('fill', '#69b3a2')
           .style('opacity', 0.3)
           .style('stroke', 'white')
-          .on('mouseover', (e) => {
+          .on('mouseover', (...e) => {
             onCircleMouseOver(e)
+            console.log(e)
             document.querySelector('.spacetime-graph').classList.add('dot-hover')
           })
           .on('mouseout', (e) => {
@@ -195,52 +196,27 @@
     background: rgba(0,0,0,.9);
     border-radius: 5px;
   }
-  [data-overlapping] {
-    opacity: 0;
-  }
-  [data-overlapping]:hover {
-    opacity: 1;
-  }
   .label-text{
     pointer-events: none;
     transition: .15s;
-    transform-box: initial;
+    transform-box: fill-box;
     transform-origin: left bottom;
   }
   .dot-hover .circle-label .label-text{
     opacity: .1;
   }
-  .dot-hover .circle-label:hover .label-text{
+  .circle-label:hover .label-text{
     transform: scale(1.3);
     opacity: 1;
   }
-  /* .circle-label{
-    transition: .15s;
-  }
-  .circle-label .label-text{
-    transition: .15s;
-    transform-origin: center center;
-    transform-box: initial;
-  }
-  .circle-label ~ .circle-label:hover{
-    opacity: 1;
-  }
-  .circle-label:hover ~ .circle-label{
-    opacity: .2;
-  }
-  .circle-label:hover .label-text{
-    transform: scale(1.2)
-  } */
-  
-
-  circle{
-    transition: .15s;
-    transform-origin: center center;
-    transform-box: initial;
-  }
-  circle:hover{
+  .circle-label:hover circle {
     fill: red !important;
     transform: scale(2);
     opacity: 1;
+  }
+  circle{
+    transition: .15s;
+    transform-origin: center center;
+    transform-box: fill-box;
   }
 </style>
