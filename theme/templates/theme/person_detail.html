@@ -225,17 +225,17 @@
     divIcon = L.divIcon({
         className: "leaflet-data-marker",
         html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
-        iconAnchor: [12, 32],
-        iconSize: [40, 40],
-        popupAnchor: [0, -30]
+        iconAnchor: [12, 24],
+        iconSize: [24,24],
+        popupAnchor: [0, -24]
     }),
 
     // icon active state
     divIconActive = L.divIcon({
         className: "leaflet-data-marker",
         html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
-        iconAnchor: [18, 42],
-        iconSize: [36, 42],
+        iconAnchor: [0, 0],
+        //iconSize: [36, 42],
         popupAnchor: [0, -30]
     }),
     window.addEventListener("map:init", function (event) {
@@ -383,7 +383,7 @@
     const caption = document.createElement("p")
     caption.style.fontSize = '0.8em'
     caption.style.fontStyle = 'italic'
-    const tnode = document.createTextNode(`Die Polygone werden dynamisch aus HistoGIS erstellt. 
+    const tnode = document.createTextNode(`Die Polygone werden dynamisch aus <a href="https://histogis.acdh.oeaw.ac.at">HistoGIS</a> erstellt. 
     Es werden die administrativen Einheiten für die Position aller Marker zum Zeitpunkt ${date.toLocaleDateString('de-DE')} 
     (Mitte der bekannten Lebensspanne) geladen.`)
     caption.appendChild(tnode)

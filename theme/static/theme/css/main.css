@@ -1363,3 +1363,21 @@ ul.maps-list li {
     padding-left: 0px;
     font-weight: normal
 }
+
+div.leaflet-pane svg.feather {
+  width: unset;
+}
+
+div.leaflet-marker-icon path {
+  fill: #326ba8;
+  fill-opacity: 70%;
+}
+
+div.leaflet-marker-icon circle {
+  fill: white;
+  fill-opacity: 100%;
+}
+
+div.leaflet-marker-icon path.activated {
+  fill: darkred;
+}
