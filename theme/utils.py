@@ -76,6 +76,11 @@ def enrich_person_context(person_object, context):
         context['related_institutions'] = person_object.personinstitution_set.all().filter_for_user()
     except AttributeError:
         context['related_institutions'] = None
+    haupttext = person_object.text.filter(kind__name=getattr(settings, 'HAUPTTEXT_TEXT_NAME', 'ÖBL Haupttext'))
+    if haupttext.count() == 1:
+        context['haupttext'] = haupttext[0].text
+    else:
+        context['haupttext'] = '-'
     kurzinfo = person_object.text.filter(kind__name=getattr(settings, 'KURZINFO_TEXT_NAME', 'ÖBL Kurzinfo'))
     if kurzinfo.count() == 1:
         context['kurzinfo'] = kurzinfo[0].text
@@ -85,7 +90,7 @@ def enrich_person_context(person_object, context):
     if wv.count() == 1:
         context['werkverzeichnis'] = wv[0].text
     else:
-        context['werkverzeichnis'] = '-'
+        context['werkverzeichnis'] = False
     return context
 
 

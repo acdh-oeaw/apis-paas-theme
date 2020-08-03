@@ -51,14 +51,14 @@
           </div>
         </div>
         <div id="main-bio-text" class="card-body p-0 pt-3">
-          <p class="p-0">{{ main_text }}</p>
+          <p class="p-0">{{ haupttext }}</p>
         </div>
         <div class="mt-5 text-secondary">
           <hr class="m-5" />
-          {{ werkverzeichnis}}<br>
-          {{ object.references }}<br>
-          {{ object.source.author }}<br>
-          {{ object.source.pubinfo }}<br>
+          {% if werkverzeichnis %}<i>Werke:</i> {{ werkverzeichnis}}<br>{% endif %}
+          {% if object.references %}<i>Literatur:</i> {{ object.references }}<br>{% endif %}
+          {% if object.source.author %}<i>Autor:</i> {{ object.source.author }}<br>{% endif %}
+          {% if object.source.pubinfo %}<i>Referenz:</i> {{ object.source.pubinfo }}<br>{% endif %}
         </div>
       </article>
     </div>
@@ -214,6 +214,30 @@
     let lst_long_lat = []
     var map;
     var date;
+    iconSettings = {
+        mapIconUrl: '<svg xmlns="http://www.w3.org/2000/svg"  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+        mapIconColor: '#cc756b',
+       // mapIconColorInnerCircle: '#fff',
+        //pinInnerCircleRadius: 48
+    },
+
+    // icon normal state
+    divIcon = L.divIcon({
+        className: "leaflet-data-marker",
+        html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
+        iconAnchor: [12, 32],
+        iconSize: [40, 40],
+        popupAnchor: [0, -30]
+    }),
+
+    // icon active state
+    divIconActive = L.divIcon({
+        className: "leaflet-data-marker",
+        html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
+        iconAnchor: [18, 42],
+        iconSize: [36, 42],
+        popupAnchor: [0, -30]
+    }),
     window.addEventListener("map:init", function (event) {
     map = event.detail.map;
     // Download GeoJSON data with Ajax
@@ -227,6 +251,8 @@
       })
       .then(function(data) {
       var jsonLayer = L.geoJson(data, {
+        pointToLayer: function(feature, latlng) {
+                return L.marker(latlng, {icon: divIcon}); },
         onEachFeature: function onEachFeature(feature, layer) {
           var props = feature.properties;
           let relations = "";
