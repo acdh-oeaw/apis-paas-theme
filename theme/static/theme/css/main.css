@@ -1378,6 +1378,10 @@ div.leaflet-marker-icon circle {
   fill-opacity: 100%;
 }
 
-div.leaflet-marker-icon path.activated {
+div.leaflet-marker-icon.activated path {
   fill: darkred;
+}
+
+div.leaflet-marker-icon svg.feather-map-pin {
+  height: 100%;
 }

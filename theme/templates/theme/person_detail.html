@@ -256,12 +256,12 @@
         onEachFeature: function onEachFeature(feature, layer) {
           var props = feature.properties;
           let relations = "";
-          props.relations.forEach(function(element){relations += `<li>${element[0]}</li>`;
-              if (!lst_dates.includes(element[1]) && element[1] != null) {
-                lst_dates.push(element[1])
+          props.relations.forEach(function(element){relations += `<li>${element.relation}</li>`;
+              if (!lst_dates.includes(element.start_date) && element.start_date != null) {
+                lst_dates.push(element.start_date)
               };
-              if (!lst_dates.includes(element[2]) && element[2] != null) {
-                lst_dates.push(element[2])
+              if (!lst_dates.includes(element.end_date) && element.end_date != null) {
+                lst_dates.push(element.end_date)
               };
               if (!lst_long_lat.includes(feature.geometry.coordinates)){
                 lst_long_lat.push(feature.geometry.coordinates)
@@ -269,6 +269,19 @@
           });
         var content = `<div><h3><a href=${props.url}>${props.name}</a></h3><p>${props.kind}<br/><ul class="maps-list">${relations}<ul></p></div>`;
         layer.bindPopup(content);
+        layer.on('mouseover', e => {
+          window.eventBus.emit('apismap.mouseover', e);
+          e.target._icon.classList.add('activated')
+        console.log(e)
+      for (f in e.target.feature.properties.relations){
+        console.log(f)
+        let rel = e.target.feature.properties.relations[f]
+        document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).closest('div').classList.add('dot-hover')
+      }
+        });
+        layer.on('mouseout', e => {
+          e.target._icon.classList.remove('activated');
+          window.eventBus.emit('apismap.mouseout', e)})
       }});
       jsonLayer.addTo(map);
       var bounds =  jsonLayer.getBounds();
@@ -389,5 +402,30 @@
     //caption.appendChild(tnode)
     bio.insertBefore(caption, biotext)
   }
+window.eventBus.on('spacetime.mouseover', e => {
+  let nm = e.detail[0][0].data.id
+  for (l in map._layers) {
+    if (!("feature" in map._layers[l])) {
+      continue
+    }
+    let lst_rels = map._layers[l].feature.properties.relations.map(x => ( x.id ))
+    if (map._layers[l].feature.geometry.type === "Point" && lst_rels.includes(nm)){
+      console.log(`hit: ${nm}`)
+      map._layers[l]._icon.classList.add("activated")
+    }
+  }
+})
+
+window.eventBus.on('spacetime.mouseout', e => {
+  for (l in map._layers) {
+    if (!("feature" in map._layers[l])) {
+      continue
+    }
+    if (map._layers[l]._icon.classList.contains("activated")){
+      map._layers[l]._icon.classList.remove("activated")
+    }
+  }
+
+})
   </script>
 {% endblock %}

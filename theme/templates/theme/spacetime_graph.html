@@ -136,6 +136,7 @@
         .append('circle')
           .attr('cx', d => xScale(d.data.x))
           .attr('cy', d => yScale(d.data.year))
+          .attr('apis:relid', d => d.data.id)
           .attr('r', 15)
           .style('fill', '#69b3a2')
           .style('opacity', 0.3)
