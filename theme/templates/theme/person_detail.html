@@ -289,7 +289,9 @@
         map.fitBounds(jsonLayer.getBounds());
       }
       
-      });
+      })
+      .then(function(){console.log('event issued');
+        window.eventBus.emit('apismap.marker.loaded')})
     });
 
    async function add_histogis_shape(){
@@ -369,6 +371,10 @@
 
     }
 
+  function minimize_map(){
+    window.location.href = window.location.origin + window.location.pathname
+  }
+
   function move_map() {
     const map_element = document.querySelector('div.inline-map')
     const bio = document.querySelector('article.bio')
@@ -396,6 +402,13 @@
     (Mitte der bekannten Lebensspanne) geladen.`
     //caption.appendChild(tnode)
     bio.insertBefore(caption, biotext)
+    let max_icon = document.querySelector('div.inline-map > a')
+    max_icon.setAttribute('onclick', 'minimize_map()')
+    max_icon.innerHTML = '<i data-feather="minimize-2"></i>'
+    feather.replace()
+    let url = new URL(window.location.href)
+    url.searchParams.set('mapview', 'true')
+    history.replaceState(null, '{{object}}', [url])
   }
 window.eventBus.on('spacetime.mouseover', e => {
   let nm = e.detail[0][0].data.id
@@ -425,5 +438,16 @@ window.eventBus.on('spacetime.mouseout', e => {
   }
 
 })
+
+document.addEventListener("DOMContentLoaded", function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mapview = urlParams.get('mapview', false);
+    window.eventBus.on('apismap.marker.loaded', function(){
+      if (mapview){
+      move_map();
+      }
+    }
+    )
+});
   </script>
 {% endblock %}
