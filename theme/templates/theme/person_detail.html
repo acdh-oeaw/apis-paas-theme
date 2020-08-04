@@ -230,14 +230,6 @@
         popupAnchor: [0, -24]
     }),
 
-    // icon active state
-    divIconActive = L.divIcon({
-        className: "leaflet-data-marker",
-        html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
-        iconAnchor: [0, 0],
-        //iconSize: [36, 42],
-        popupAnchor: [0, -30]
-    }),
     window.addEventListener("map:init", function (event) {
     map = event.detail.map;
     // Download GeoJSON data with Ajax
@@ -246,7 +238,6 @@
       return resp.json();
       })
       .then(function(data) {
-        console.log(data);
         return data;
       })
       .then(function(data) {
@@ -272,14 +263,14 @@
         layer.on('mouseover', e => {
           window.eventBus.emit('apismap.mouseover', e);
           e.target._icon.classList.add('activated')
-        console.log(e)
       for (f in e.target.feature.properties.relations){
-        console.log(f)
         let rel = e.target.feature.properties.relations[f]
-        document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).closest('div').classList.add('dot-hover')
-        document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).classList.add('hover')
+        let d_obj = document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`)
+        if (d_obj){
+        d_obj.closest('div').classList.add('dot-hover')
+        d_obj.classList.add('hover')
         document.querySelector(`.spacetime-graph circle[relid='${rel.id}'] + g.label-text`).classList.add('hover')
-        }});
+        }}});
         layer.on('mouseout', e => {
           e.target._icon.classList.remove('activated');
           window.eventBus.emit('apismap.mouseout', e)
@@ -327,7 +318,6 @@
           .then(res => listHistoGIS.push(...res.features))
       })
       await Promise.all(hgis_requests)
-      console.log(listHistoGIS) 
       listHistoGIS.forEach(ft => {
         var count = 0
         let lst_perm = []
@@ -337,7 +327,6 @@
             if (pr.permalink === subst && !lst_perm.includes(subst)) {
               count += 1
               lst_perm.push(subst)
-              console.log(subst, pr.permalink, count)
             }
           })         
         })
@@ -349,7 +338,6 @@
             preList[count] = [ft,]
           }
       })
-      console.log(preList)
       for (var idx in preList) {
         let pn = `histogis${idx}`
         map.createPane(pn);
@@ -415,10 +403,11 @@ window.eventBus.on('spacetime.mouseover', e => {
     if (!("feature" in map._layers[l])) {
       continue
     }
+    if (map._layers[l].feature.geometry.type === "Point"){
     let lst_rels = map._layers[l].feature.properties.relations.map(x => ( x.id ))
     if (map._layers[l].feature.geometry.type === "Point" && lst_rels.includes(nm)){
-      console.log(`hit: ${nm}`)
       map._layers[l]._icon.classList.add("activated")
+    }
     }
   }
 })
@@ -428,8 +417,10 @@ window.eventBus.on('spacetime.mouseout', e => {
     if (!("feature" in map._layers[l])) {
       continue
     }
+    if (map._layers[l].feature.geometry.type === "Point"){
     if (map._layers[l]._icon.classList.contains("activated")){
       map._layers[l]._icon.classList.remove("activated")
+    }
     }
   }
 

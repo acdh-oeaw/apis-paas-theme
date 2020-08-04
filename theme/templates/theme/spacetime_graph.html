@@ -17,7 +17,6 @@
     .then(response => response.json())
     .then(drawLifepath)
 
-  console.log(data)
 
   function getBB(sel) {
     sel.each(function(d){
@@ -49,7 +48,6 @@
   }
 
   function drawLifepath(data) {
-    console.log(data)
     const b = data.reduce((m, e, i, l) => {
       if (i === 0) {
         return m.concat({ ...e, distance: 0, x: 0 })
@@ -143,7 +141,6 @@
           .style('stroke', 'white')
           .on('mouseover', (...e) => {
             onCircleMouseOver(e)
-            console.log(e)
             document.querySelector('.spacetime-graph').classList.add('dot-hover')
           })
           .on('mouseout', (e) => {
