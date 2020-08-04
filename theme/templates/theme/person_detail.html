@@ -277,13 +277,14 @@
         console.log(f)
         let rel = e.target.feature.properties.relations[f]
         document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).closest('div').classList.add('dot-hover')
-        document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).classList.add('hover')}
-
-        });
+        document.querySelector(`.spacetime-graph circle[relid='${rel.id}']`).classList.add('hover')
+        document.querySelector(`.spacetime-graph circle[relid='${rel.id}'] + g.label-text`).classList.add('hover')
+        }});
         layer.on('mouseout', e => {
           e.target._icon.classList.remove('activated');
           window.eventBus.emit('apismap.mouseout', e)
           document.querySelectorAll('.spacetime-graph circle').forEach(c => {c.classList.remove('hover')})
+          document.querySelectorAll('.spacetime-graph g.label-text').forEach(c => {c.classList.remove('hover')})
           document.querySelector('div.spacetime-graph').classList.remove('dot-hover')
           }
 
