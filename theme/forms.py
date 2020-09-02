@@ -3,6 +3,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Fieldset
 from django import forms
 from haystack.forms import FacetedSearchForm, SearchForm
+from haystack.query import SQ, AutoQuery
 from apis_core.helper_functions.DateParser import parse_date
 
 
@@ -20,7 +21,9 @@ class PersonFacetedSearchForm(FacetedSearchForm):
                 if value:
                     sqs = sqs.narrow('%s:"%s"' % (field, sqs.query.clean(value)))
         else:
-            sqs = super(PersonFacetedSearchForm, self).search()
+            #sqs = super(PersonFacetedSearchForm, self).search()
+            q = self.cleaned_data['q']
+            sqs = self.searchqueryset.filter(SQ(content=AutoQuery(q)) | SQ(name=AutoQuery(q)) | SQ(place_of_birth=AutoQuery(q)) | SQ(place_of_death=AutoQuery(q)))
         if not self.is_valid():
             return self.no_query_found()
         if self.cleaned_data['start_date_form']:

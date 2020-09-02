@@ -15,8 +15,7 @@
             <div class="input-group mb-3">
               <input type="text" name="q" class="form-control form-suche-input rounded-0" id="suche" placeholder="Suche"
                 {% if query %}value="{{form.cleaned_data.q}}" {% endif %}>
-              <input type="hidden" name="sort" value="name"
-                {% if query %}value="{{form.cleaned_data.sort}}" {% endif %}>
+                {% if query %}<input type="hidden" name="sort" value="{{form.cleaned_data.sort}}">{% endif %}
               <div class="input-group-append">
                 <button class="btn btn-primary rounded-0" type="submit">
                   <i data-feather="search" style="width: 20px; height: 20px;"></i>

@@ -11,13 +11,13 @@ from apis_core.apis_entities.models import Person
 
 class PersonIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    name = indexes.CharField()
+    name = indexes.CharField(boost=2)
     birth_date = indexes.DateField(model_attr='start_date', null=True, faceted=True)
     death_date = indexes.DateField(model_attr='end_date', null=True, faceted=True)
     birth_date_show = indexes.CharField(model_attr='start_date_written', null=True)
     death_date_show = indexes.CharField(model_attr='end_date_written', null=True)
-    place_of_birth = indexes.CharField(null=True, faceted=True)
-    place_of_death = indexes.CharField(null=True, faceted=True)
+    place_of_birth = indexes.CharField(null=True, faceted=True, boost=1.5)
+    place_of_death = indexes.CharField(null=True, faceted=True, boost=1.5)
     gender = indexes.CharField(null=True, model_attr="gender", faceted=True)
     profession = indexes.MultiValueField(null=True, faceted=True)
     education = indexes.MultiValueField(null=True, faceted=True)
