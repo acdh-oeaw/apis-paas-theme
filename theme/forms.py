@@ -12,6 +12,7 @@ class PersonFacetedSearchForm(FacetedSearchForm):
     end_date_form = forms.CharField(required=False)
 
     def search(self):
+        super().search()
         if self.cleaned_data['q'] == '':
             sqs = self.searchqueryset.load_all()
         else:
@@ -32,6 +33,9 @@ class PersonFacetedSearchForm(FacetedSearchForm):
         if self.cleaned_data['end_date_form']:
             sqs = sqs.filter(birth_date__lte=parse_date(self.cleaned_data['end_date_form'])[0])
         return sqs
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 
 

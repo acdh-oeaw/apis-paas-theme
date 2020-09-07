@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from . import dal_views
 from . import views
+from . import api_views
 
 app_name = 'theme'
 
@@ -13,6 +14,8 @@ urlpatterns = [
     url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^expert-search/$', views.PersonListView.as_view(), name='expert-search'),
     url(r'search/?$', views.SearchView.as_view(), name="search"),
+    url(r'^network/?$', views.network_viz),
+    url(r'^api/network/$', api_views.NetVizTheme.as_view()),
     url(
         r'^person/(?P<pk>[0-9]+)$',
         views.PersonDetailView.as_view(),

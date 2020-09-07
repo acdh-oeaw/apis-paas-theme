@@ -16,6 +16,7 @@ from haystack.forms import FacetedSearchForm
 from haystack.query import SearchQuerySet
 from haystack.query import RelatedSearchQuerySet
 from haystack.models import SearchResult
+from django.shortcuts import render_to_response
 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
@@ -114,3 +115,7 @@ class PersonDetailView(DetailView):
         enriched_context = enrich_person_context(self.object, context)
 
         return enriched_context
+
+
+def network_viz(request):
+    return render_to_response('theme/network.html')

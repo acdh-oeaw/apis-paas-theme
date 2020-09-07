@@ -1,0 +1,102 @@
+{% extends "theme/base.html" %}
+{% block scriptHeader %}
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/three@latest/build/three.min.js"></script>
+<script src="https://unpkg.com/@acdh/network-visualization@0/lib/network-visualization.umd.js"></script>
+{% endblock scriptHeader %}
+{% block content %}
+<div id="visualization"></div>
+{% endblock content %}
+{% block scripts %}
+<script>
+        const getNetworkViz = (rel_type) => {
+           document.getElementById("visualization").style.height = "400px";
+            const basePath = 'http://127.0.0.1:8000';
+            const urlParams = new URLSearchParams(window.location.search);
+            const endpoint = '/api/network/';
+            console.log(urlParams);
+            console.log(window.location);
+      
+        urlParams['format'] = 'json+net';
+    
+      const url = new URL(endpoint, basePath)
+      Object.keys(urlParams).forEach(key => {
+          console.log(key);
+        url.searchParams.set(key, urlParams[key])
+      });
+      console.log(url);
+          fetch('http://127.0.0.1:8000/api/network/?q=Franz&selected_facets=education_exact%3AAkademie+der+bildenden+Künste+Wien&limit=1000')
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error(response.statusText)
+                  }
+                  return response.json()
+              })
+              .then(data => {
+                  const edges = {}
+                  const nodes = {}
+                  const types = {edges: {}, nodes: {}}
+                  data.results.forEach(relation => {
+                      const {id, source, target, relation_type: relationType} = relation
+                      edges[id] = {
+                          id,
+                          source: source.id,
+                          target: target.id,
+                          type: relationType.id,
+                      }
+                      nodes[source.id] = {
+                          id: source.id,
+                          label: source.label,
+                          type: 'Person',
+                      }
+                      nodes[target.id] = {
+                          id: target.id,
+                          label: target.label,
+                          type: 'Institution',
+                      }
+                      types.edges[relationType.id] = {
+                          id: relationType.id,
+                          label: relationType.label,
+                      }
+                      types.nodes['Person'] = {
+                          id: 'Person',
+                          label: 'Person',
+                          color: 'hotpink',
+                      }
+                      types.nodes['Place'] = {
+                          id: 'Place',
+                          label: 'Place',
+                          color: 'rebeccapurple',
+                      }
+                      types.nodes['Institution'] = {
+                          id: 'Institution',
+                          label: 'Institution',
+                          color: 'green',
+                      }
+                  })
+                  ReactDOM.render(
+                      React.createElement(NetworkVisualization.Visualization, {
+                          graph: {
+                              edges,
+                              nodes,
+                              types,
+                          },
+                      }),
+                      document.getElementById('visualization')
+                  )
+              })
+              .catch(error => {
+                  console.error(error)
+              })
+      };
+
+    </script>
+<script>
+
+(function() {
+    console.log('found')
+    getNetworkViz('relation');
+})
+</script>
+{% endblock scripts %}
