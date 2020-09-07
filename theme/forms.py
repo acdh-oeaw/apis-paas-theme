@@ -14,16 +14,17 @@ class PersonFacetedSearchForm(FacetedSearchForm):
     def search(self):
         if self.cleaned_data['q'] == '':
             sqs = self.searchqueryset.load_all()
-            for facet in self.selected_facets:
-                if ":" not in facet:
-                    continue
-                field, value = facet.split(":", 1)
-                if value:
-                    sqs = sqs.narrow('%s:"%s"' % (field, sqs.query.clean(value)))
         else:
             #sqs = super(PersonFacetedSearchForm, self).search()
             q = self.cleaned_data['q']
             sqs = self.searchqueryset.filter(SQ(content=AutoQuery(q)) | SQ(name=AutoQuery(q)) | SQ(place_of_birth=AutoQuery(q)) | SQ(place_of_death=AutoQuery(q)))
+        
+        for facet in self.selected_facets:
+            if ":" not in facet:
+                continue
+            field, value = facet.split(":", 1)
+            if value:
+                sqs = sqs.narrow('%s:"%s"' % (field, sqs.query.clean(value)))
         if not self.is_valid():
             return self.no_query_found()
         if self.cleaned_data['start_date_form']:
