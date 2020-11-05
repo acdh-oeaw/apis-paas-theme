@@ -85,6 +85,8 @@
     
     <field name="name" type="text_de" indexed="true" stored="true" multiValued="false" />
     
+    <field name="academy_member" type="boolean" indexed="true" stored="true" multiValued="false" />
+    
     <field name="birth_date" type="date" indexed="true" stored="true" multiValued="false" />
     
     <field name="birth_date_exact" type="date" indexed="true" stored="true" multiValued="false" />
@@ -113,6 +115,10 @@
     
     <field name="profession_exact" type="string" indexed="true" stored="true" multiValued="true" />
     
+    <field name="comissions" type="text_de" indexed="true" stored="true" multiValued="true" />
+    
+    <field name="comissions_exact" type="string" indexed="true" stored="true" multiValued="true" />
+    
     <field name="education" type="text_de" indexed="true" stored="true" multiValued="true" />
     
     <field name="education_exact" type="string" indexed="true" stored="true" multiValued="true" />
@@ -120,6 +126,8 @@
     <field name="career" type="text_de" indexed="true" stored="true" multiValued="true" />
     
     <field name="career_exact" type="string" indexed="true" stored="true" multiValued="true" />
+    
+    <field name="comissions_show" type="text_de" indexed="true" stored="true" multiValued="true" />
     
     <field name="education_show" type="text_de" indexed="true" stored="true" multiValued="true" />
     
@@ -479,7 +487,8 @@
         <analyzer type="query">
             <tokenizer class="solr.StandardTokenizerFactory"/>
             <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt"
-             format="solr" ignoreCase="false" expand="true"/>
+             format="solr" ignoreCase="false" expand="true"
+             tokenizerFactory="solr.WhitespaceTokenizerFactory"/>
             <filter class="solr.StopFilterFactory"
                     ignoreCase="true"
                     words="lang/stopwords_en.txt"
