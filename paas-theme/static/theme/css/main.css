@@ -11,11 +11,11 @@ body {
 }
 
 .oebl-font-red {
-  color: #cd2324;
+  color: #125794;
 }
 
 .oebl-inverted {
-  background: #cd2324;
+  background: #125794;
   color: white;
 }
 
@@ -24,12 +24,12 @@ body {
 }
 
 .oebl-inverted {
-  background: #cd2324;
+  background: #125794;
   color: white;
 }
 
 .oebl-inverted-lighter {
-  background: #de3b3b;
+  background: #125794;
   color: white;
 }
 .entry-content {
@@ -46,11 +46,15 @@ body {
 }
 .oebl-table th {
   white-space: nowrap;
-  background: #ead4d4;
+  background: #a8bfdd;
   line-height: 1.7em;
 }
 .oebl-table tr {
   line-height: 1.2em;
+}
+
+[data-member="True"] {
+  background-color: #1c77c75b;
 }
 
 .oebl-table .order-indicator {
@@ -103,7 +107,7 @@ p {
 }
 
 p a {
-  color: #cd2324;
+  color: #125794;
 }
 
 ul li {
@@ -177,12 +181,12 @@ h6 {
   padding-top: 10px;
   width: 36px;
   height: 36px;
-  stroke: #cd2324;
+  stroke: #125794;
 }
 
 .btn-primary {
-  background-color: #cd2324;
-  border-color: #cd2324;
+  background-color: #125794;
+  border-color: #125794;
   color: white;
   text-transform: uppercase;
   font-size: 0.7rem !important;
@@ -190,13 +194,13 @@ h6 {
 }
 
 .btn-primary:hover {
-  background-color: #a51010;
-  border-color: #a51010;
+  background-color: #093b66;
+  border-color: #093b66;
 }
 
 .btn-primary:not(:disabled):not(.disabled):active {
-  background-color: #cd2324;
-  border-color: #cd2324;
+  background-color: #125794;
+  border-color: #125794;
 }
 
 .panel-heading h4 {
@@ -224,7 +228,7 @@ h6 {
 
 .oeblredcard.card .card-inner {
   color: white;
-  background-color: #cd2324;
+  background-color: #125794;
 }
 
 .oeblredcard .btn {
@@ -1082,7 +1086,7 @@ ul.dropdown-menu-form {
   vertical-align: bottom;
 }
 .panel-today.peopleBorn .panel-heading {
-  background-color: #e65473;
+  background-color: #4575dd;
 }
 .panel-today.peopleDied .panel-heading {
   background-color: #5999d0;
@@ -1173,7 +1177,7 @@ ul.relentities {
 }
 
 .uris a {
-  color: #cd2324;
+  color: #125794;
 }
 
 .uris {
@@ -1185,7 +1189,7 @@ ul.relentities {
 }
 
 .professioncat.badge {
-  background: #cd2324;
+  background: #125794;
   font-weight: normal;
   font-size: 0.6rem;
 }
@@ -1210,7 +1214,7 @@ ul.relentities {
   font-size: 0.8em;
 }
 .noUi-connect {
-  background-color: #cd2324;
+  background-color: #125794;
 }
 .noUi-horizontal .noUi-handle {
   width: 25px;
@@ -1270,7 +1274,7 @@ svg.remove-badge {
 
 .facet .card-header {
   /* background-color: #e2e2e2; */
-  background-color: #ead4d4;
+  background-color: #a8bfdd;
 }
 
 .facet-group-item a.badge {
@@ -1280,7 +1284,7 @@ svg.remove-badge {
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0.5em !important;
-  background: #ebd4d5;
+  background: #1c77c75b;
 }
 
 .collapsebtn,
@@ -1307,8 +1311,8 @@ ul li.page-item {
 
 .table .thead-dark th {
   color: white;
-  background-color: #cd2324;
-  border-color: #cd2324;
+  background-color: #125794;
+  border-color: #125794;
 }
 
 .table .thead-dark th a {
@@ -1321,7 +1325,7 @@ ul li.page-item {
 
 .page-link {
   padding-top: 12px;
-  color: #de3b3b;
+  color: #125794;
   background: transparent;
   border: 0;
   height: 38px;
@@ -1329,7 +1333,7 @@ ul li.page-item {
 
 .page-item.active .page-link {
   z-index: 1;
-  background-color: #de3b3b;
+  background-color: #125794;
   border-color: white;
   border-radius: 0;
 }
@@ -1356,7 +1360,7 @@ ul li.page-item {
 
 .load-more-less {
   font-size: 0.8em;
-  color: #cd2324;
+  color: #125794;
 }
 
 ul.maps-list li {

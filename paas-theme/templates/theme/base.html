@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %} ÖBL {% endblock %}</title>
+    <title>{% block title %} Geschichte der Akademie {% endblock %}</title>
 
     <!-- Fundament -->
     <link href="https://shared.acdh.oeaw.ac.at/fundament/dist/fundament/css/fundament.min.css" rel="stylesheet">
@@ -89,7 +89,7 @@
         <a class="skip-link screen-reader-text sr-only" href="#content">Skip to content</a>
         <nav class="navbar navbar-expand-lg navbar-dark oebl-inverted">
           <div class="container" >
-            <a href="/" class="navbar-brand custom-logo-link" rel="home" itemprop="url"><img src="{%static 'theme/img/logo.svg' %}" class="img-fluid" alt="Oebl Logo" itemprop="logo" /></a><!-- end custom logo -->
+            <a href="/" class="navbar-brand custom-logo-link" rel="home" itemprop="url"><h3>PAAS</h3></a><!-- end custom logo -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -108,7 +108,7 @@
                   </ul>
                 </li>-->
                 <li class="nav-item"><a title="Suche" href="{% url 'theme:search' %}" class="nav-link">Suche</a></li>
-                <li class="nav-item"><a title="UeberOEBL" href="{% url 'theme:about' %}" class="nav-link">Über das ÖBL</a></li>
+                <li class="nav-item"><a title="UeberOEBL" href="{% url 'theme:about' %}" class="nav-link">Über</a></li>
                 <li class="nav-item"><a title="Kontakt" href="{% url 'theme:contact' %}" class="nav-link">Kontakt</a></li>
               </ul>
               <form class="form-inline my-2 my-lg-0 navbar-search-form" method="get" action="/search" role="search">
@@ -134,12 +134,6 @@
             <div class="container">
                 <footer>
                   <div class="row pt-3 pb-3 align-items-center">
-                    <div class="col-sm-4 col-md-4 col-lg-4 col-12">
-                      <img src="{%static 'theme/img/logo.svg' %}" class="img-fluid" alt="Oebl Logo" itemprop="logo" /><br/>
-                      <p class="m-0 mt-1 logocaption"><small>Österreichisches<br/>
-                      Biographisches<br/>
-                      Lexikon</small></p>
-                    </div>
                     <div class="col-sm-4 col-md-4 col-lg-4 col-12 footermenu">
                     <ul class="mb-0 pl-0">
                       <li class="pb-1 pl-0"><a title="Impressum" href="{% url 'theme:imprint' %}" class="nav-link">Impressum</a></li>

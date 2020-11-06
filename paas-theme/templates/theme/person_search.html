@@ -13,6 +13,12 @@
         <div class="card-body p-0">
           <form action="" method="get">
             <div class="input-group mb-3">
+              <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="checkbox" id="academy_member">
+                <label for="academy_member" style="margin-left: 0.375rem;margin-bottom: 0">nur WM</label>
+              </div>
+              </div>
               <input type="text" name="q" class="form-control form-suche-input rounded-0" id="suche" placeholder="Suche"
                 {% if query %}value="{{form.cleaned_data.q}}" {% endif %}>
                 {% if query %}<input type="hidden" name="sort" value="{{form.cleaned_data.sort}}">{% endif %}
@@ -135,6 +141,20 @@
 
   if (window.location.search.length > 0) {
     const table_h = document.querySelector('div.table-container > div:first-of-type')
+    const html_raw = `<div class="dropdown show" style="float: left">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownNetworksLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    als Netzwerk
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownNetworksLink">
+    <a class="dropdown-item" href="/network/${window.location.search}&network_type=kommissionen">Kommissionen</a>
+    <a class="dropdown-item" href="/network/${window.location.search}&network_type=universitaeten">Universitäten</a>
+    <a class="dropdown-item" href="/network/${window.location.search}&network_type=andere_akademien">andere Akademien</a>
+    <a class="dropdown-item" href="/network/${window.location.search}&network_type=ausbildung">Ausbildung</a>
+    <a class="dropdown-item" href="/network/${window.location.search}&network_type=karierre">Karierre</a>
+  </div>
+</div>`
+    
     let bt = document.createElement('A')
     let ft = document.createElement('I')
     ft.style = 'margin-right: 5px;'
@@ -145,7 +165,8 @@
     bt.href = '/network/' + window.location.search
     //bt.innerHTML = 'als Netzwerk'
     bt.style = "margin-top: auto; margin-right: auto;"
-    table_h.prepend(bt)
+    //table_h.prepend(bt)
+    table_h.insertAdjacentHTML("beforebegin", html_raw);
   }
 
   const s = noUiSlider.create(el, {
@@ -172,6 +193,19 @@
     window.location.search = qs.toString()
   })
 
+  document.getElementById("academy_member").addEventListener(
+    "click", e => {console.log(e);
+        console.log("event listener")
+        const qs = new URLSearchParams(window.location.search)
+        if (e.target.checked) {
+          qs.set("academy_member", true)
+        } else {
+          qs.set("academy_member", false)
+        }
+        window.location.search = qs.toString()
+    }
+  )
+
   $(".load-more-less").on("click",this,function() {
     $(this).parent().toggleClass("show-limited-number");
     if ($(this).parent().hasClass("show-limited-number")) {
@@ -180,7 +214,20 @@
         $(this).text("weniger...");
     }
   });
-
+window.onload = function() {
+  const qs = new URLSearchParams(window.location.search)
+  let wm = qs.get("academy_member")
+  console.log(wm)
+  if (!wm) {
+    document.getElementById("academy_member").checked = false
+  } else if (wm == "false") {
+    document.getElementById("academy_member").checked = false;
+    console.log("ran through check");
+    console.log(wm);
+  } else {
+    document.getElementById("academy_member").checked = true;
+  }
+}
 </script>
 
 {% endblock %}
