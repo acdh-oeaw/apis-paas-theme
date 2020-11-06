@@ -32,7 +32,11 @@ class PersonFacetedSearchForm(FacetedSearchForm):
         if wm:
             sqs = sqs.filter(academy_member=True)
         # self.cleaned_data["academy_member"] = wm
-
+        if len(self.selected_facets) == 0 and "selected_facets" in self.data.keys():
+            if len(self.data["selected_facets"]) > 0:
+                self.selected_facets = self.data["selected_facets"]
+                if isinstance(self.selected_facets, str):
+                    self.selected_facets = [self.selected_facets]
         for facet in self.selected_facets:
             if ":" not in facet:
                 continue
