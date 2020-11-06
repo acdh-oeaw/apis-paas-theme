@@ -27,9 +27,8 @@ class SearchResultTable(tables.Table):
         template_code='{% if record.academy_member %}<i data-feather="check-circle"></i>{% else %}<i data-feather="circle"></i>{% endif %}'
     )
 
-    name = tables.LinkColumn(
-        "theme:person-detail",
-        args=[A("pk")],
+    name = tables.TemplateColumn(
+        template_code='<a class="oebl-font-red semi-bold" href="person/{{record.pk}}?mapview=true">{{record.name}}</a>',
         verbose_name="Name",
         attrs={"a": {"class": "oebl-font-red semi-bold"}},
     )
