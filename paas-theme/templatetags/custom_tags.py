@@ -44,7 +44,7 @@ def normalize_facet(facet, kind, url=None):
         "career": "Karriere",
         "education": "Ausbildung",
         "profession": "Beruf",
-        "comissions": "Komissionen",
+        "comissions": "Kommissionen",
     }
     fac = facet.split(":")
     fac[0] = fac[0].replace("_exact", "")
